@@ -3,35 +3,9 @@
 #### 介绍
 企业培训管理系统-后端代码
 
-#### 软件架构
-软件架构说明
+#### 2021年12月13日站会记录
 
-
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1、工作计划：分析企业培训管理系统核心功能，划分模块，预计分为6个模块，完成模块功能分析及数据库字段设计；
+2、工作安排：杨贵麟 -> 我的主页，李松 -> 培训实施、评估，漆玉 -> 培训管理，佘赛飞 -> 培训需求，张磊 -> 培训计划，赖勇 -> 后台基础管理
+            我的主页相关字段初步讨论已完成，今日上午继续完成培训实施及后续字段完善的讨论；
+3、注意：除必须字段外，每个表（中间表除外）需要添加"创建人、创建时间、修改人、修改时间"四个字段。

@@ -1,0 +1,48 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/
+    username:
+    password:
+  #??????????
+  mvc:
+    format:
+      date: yyyy-MM-dd'T'HH:mm:ss
+  #json????????
+  jackson:
+    date-format:
+      - yyyy-MM-dd'T'HH:mm:ss
+      - yyyy-MM-dd
+    time-zone: GMT+8 #?Asia/Shanghai??
+  #????????
+  main:
+    allow-circular-references: true
+  #??thymeleaf?????????
+  thymeleaf:
+    cache: false
+  #redis??
+  redis:
+    host: 127.0.0.1
+    database: 0
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 5
+        min-idle: 0
+        max-wait: -1ms
+#mybatis??
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.group8.entity
+
+#????
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  row-bounds-with-count: true
+
+#????
+logging:
+  level:
+    com.woniuxy.dao: debug
