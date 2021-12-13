@@ -4,23 +4,23 @@ spring:
     url: jdbc:mysql://localhost:3306/
     username:
     password:
-  #??????????
+  #表单传递日期转换格式
   mvc:
     format:
       date: yyyy-MM-dd'T'HH:mm:ss
-  #json????????
+  #json传递日期转换格式
   jackson:
     date-format:
       - yyyy-MM-dd'T'HH:mm:ss
       - yyyy-MM-dd
-    time-zone: GMT+8 #?Asia/Shanghai??
-  #????????
+    time-zone: GMT+8 #和Asia/Shanghai一样
+  #配置允许循环依赖
   main:
     allow-circular-references: true
-  #??thymeleaf?????????
+  #关闭thymeleaf缓存，默认是开启的
   thymeleaf:
     cache: false
-  #redis??
+  #redis配置
   redis:
     host: 127.0.0.1
     database: 0
@@ -31,18 +31,18 @@ spring:
         max-idle: 5
         min-idle: 0
         max-wait: -1ms
-#mybatis??
+#mybatis配置
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.group8.entity
 
-#????
+#分页配置
 pagehelper:
   helper-dialect: mysql
   reasonable: true
   row-bounds-with-count: true
 
-#????
+#日志配置
 logging:
   level:
     com.woniuxy.dao: debug
