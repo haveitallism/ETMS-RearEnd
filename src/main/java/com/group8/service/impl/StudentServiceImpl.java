@@ -1,6 +1,7 @@
 package com.group8.service.impl;
 
 import com.group8.dao.StudentDao;
+import com.group8.dto.ScheduleQueryCondition;
 import com.group8.entity.EtmsItemStudent;
 import com.group8.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,5 +18,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<EtmsItemStudent> findAll(int id) {
         return studentDao.findAll(id);
+    }
+
+    @Override
+    public List<EtmsItemStudent> findApplied(ScheduleQueryCondition scheduleQueryCondition) {
+        return studentDao.finApplied(scheduleQueryCondition);
     }
 }

@@ -3,6 +3,7 @@ package com.group8.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.group8.dto.FormInLine;
+import com.group8.dto.ScheduleQueryCondition;
 import com.group8.entity.EtmsItemStudent;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.StudentService;
@@ -25,10 +26,17 @@ public class StudentController {
     @RequestMapping("/findAll")
     public ResponseEntity<PageInfo<EtmsItemStudent>> findAllByItemId(@RequestBody FormInLine formInLine){
         PageHelper.startPage(formInLine.getPage(), formInLine.getLimit());
-        List<EtmsItemStudent> etmsItemStudentList = studentService.findAll(1);
+        List<EtmsItemStudent> etmsItemStudentList = studentService.findAll(2);
         PageInfo<EtmsItemStudent> etmsItemStudentPageInfo = new PageInfo<>(etmsItemStudentList);
         return new ResponseEntity<>(200, etmsItemStudentPageInfo);
     }
 
+    @RequestMapping("/findApplied")
+    public ResponseEntity<PageInfo<EtmsItemStudent>> findAppliedByItemId(@RequestBody ScheduleQueryCondition scheduleQueryCondition){
+        PageHelper.startPage(scheduleQueryCondition.getPage(), scheduleQueryCondition.getLimit());
+        List<EtmsItemStudent> etmsItemStudentList = studentService.findApplied(scheduleQueryCondition);
+        PageInfo<EtmsItemStudent> etmsItemStudentPageInfo = new PageInfo<>(etmsItemStudentList);
+        return new ResponseEntity<>(200, etmsItemStudentPageInfo);
+    }
 }
 
