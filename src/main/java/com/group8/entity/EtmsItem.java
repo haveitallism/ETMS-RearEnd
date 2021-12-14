@@ -11,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class EtmsItem {
 
-  private String itemId;
+  private long itemId;
   private String trainTitle;
   private String trainDescription;
   private String trainType;

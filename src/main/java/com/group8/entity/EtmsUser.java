@@ -12,7 +12,7 @@ import java.util.Date;
 public class EtmsUser {
 
   private String userId;
-  private String userUsername;
+  private String userName;
   private String userPassword;
   private String userDept;
   private String userPosition;
