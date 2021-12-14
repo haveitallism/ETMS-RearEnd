@@ -11,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class EtmsDemand {
 
-  private long demandTableId;
+  private int demandTableId;
   private String demandTitle;
   private String demandInstructions;
   private Date startTime;
@@ -22,7 +22,7 @@ public class EtmsDemand {
   private String demandReason;
   private String otherRequirements;
   private String status;
-  private long userId;
+  private int userId;
   private String createdBy;
   private Date createdTime;
   private String updatedBy;

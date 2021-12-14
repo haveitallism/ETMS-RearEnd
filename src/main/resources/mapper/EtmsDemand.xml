@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group8.dao.EtmsDemandDao">
+    <!--  查询所有发布的需求   -->
+    <select id="findAll" resultType="com.group8.entity.EtmsDemand">
+        select * from etms_demand order by demand_table_id desc
+    </select>
+    <!--  查询个人发布的需求  -->
+    <select id="findByuid" resultType="com.group8.entity.EtmsDemand">
+        select * from etms_demand where user_id = #{uid} order by demand_table_id desc
+    </select>
+    <!-- 根据查询具体发布的需求   -->
+    <select id="findByid" resultType="com.group8.entity.EtmsDemand">
+        select * from etms_demand where demand_table_id = #{id}
+    </select>
+    <!--  添加发布的需求  -->
+    <insert id="addOne" parameterType="com.group8.entity.EtmsDemand">
+        insert into etms_demand values(null,#{demandTitle},#{demandInstructions}
+                                       ,#{startTime},#{endTime},#{demandDept},#{peopleNumber}
+                                      ,#{trainingMethods},#{demandReason},#{otherRequirements}
+                                      ,#{status },#{userId},#{createdBy},#{createdTime},#{updatedBy}
+                                      ,#{updatedTime})
+    </insert>
+
+</mapper>
