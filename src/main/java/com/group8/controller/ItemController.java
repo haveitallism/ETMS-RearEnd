@@ -23,7 +23,11 @@ public class ItemController {
         return new ResponseEntity<>(200, item);
     }
 
-
+    /**
+     * 根据id修改培训项目
+     * @param etmsItem 封装的项目对象
+     * @return 返回1成功，0失败
+     */
     @PostMapping("/update")
     public ResponseEntity<String> update(@RequestBody EtmsItem etmsItem){
         int i = itemService.update(etmsItem);
