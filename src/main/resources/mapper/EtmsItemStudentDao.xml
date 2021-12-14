@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group8.dao.EtmsItemStudentDao">
+
+    <resultMap id="BaseResultMap" type="com.group8.entity.EtmsItemStudent">
+        <!--@Table etms_item_student-->
+        <result property="studentId" column="student_id" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="itemId" column="item_id" jdbcType="INTEGER"/>
+        <result property="applyStatus" column="apply_status" jdbcType="VARCHAR"/>
+        <result property="trainSchedule" column="train_schedule" jdbcType="VARCHAR"/>
+        <result property="trainTestid" column="train_testid" jdbcType="INTEGER"/>
+        <result property="trainCode" column="train_code" jdbcType="VARCHAR"/>
+        <result property="createdBy" column="created_by" jdbcType="VARCHAR"/>
+        <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
+        <result property="updatedBy" column="updated_by" jdbcType="VARCHAR"/>
+        <result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          student_id, user_id, item_id, apply_status, train_schedule, train_testid, train_code, created_by, created_time, updated_by, updated_time
+        from etms.etms_item_student
+        where student_id = #{studentId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          student_id, user_id, item_id, apply_status, train_schedule, train_testid, train_code, created_by, created_time, updated_by, updated_time
+        from etms.etms_item_student
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          student_id, user_id, item_id, apply_status, train_schedule, train_testid, train_code, created_by, created_time, updated_by, updated_time
+        from etms.etms_item_student
+        <where>
+            <if test="studentId != null and studentId != ''">
+                and student_id = #{studentId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="itemId != null">
+                and item_id = #{itemId}
+            </if>
+            <if test="applyStatus != null and applyStatus != ''">
+                and apply_status = #{applyStatus}
+            </if>
+            <if test="trainSchedule != null and trainSchedule != ''">
+                and train_schedule = #{trainSchedule}
+            </if>
+            <if test="trainTestid != null">
+                and train_testid = #{trainTestid}
+            </if>
+            <if test="trainCode != null and trainCode != ''">
+                and train_code = #{trainCode}
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                and created_by = #{createdBy}
+            </if>
+            <if test="createdTime != null">
+                and created_time = #{createdTime}
+            </if>
+            <if test="updatedBy != null and updatedBy != ''">
+                and updated_by = #{updatedBy}
+            </if>
+            <if test="updatedTime != null">
+                and updated_time = #{updatedTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="studentId" useGeneratedKeys="true">
+        insert into etms.etms_item_student(user_id, item_id, apply_status, train_schedule, train_testid, train_code, created_by, created_time, updated_by, updated_time)
+        values (#{userId}, #{itemId}, #{applyStatus}, #{trainSchedule}, #{trainTestid}, #{trainCode}, #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update etms.etms_item_student
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="itemId != null">
+                item_id = #{itemId},
+            </if>
+            <if test="applyStatus != null and applyStatus != ''">
+                apply_status = #{applyStatus},
+            </if>
+            <if test="trainSchedule != null and trainSchedule != ''">
+                train_schedule = #{trainSchedule},
+            </if>
+            <if test="trainTestid != null">
+                train_testid = #{trainTestid},
+            </if>
+            <if test="trainCode != null and trainCode != ''">
+                train_code = #{trainCode},
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                created_by = #{createdBy},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime},
+            </if>
+            <if test="updatedBy != null and updatedBy != ''">
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime},
+            </if>
+        </set>
+        where student_id = #{studentId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from etms.etms_item_student where student_id = #{studentId}
+    </delete>
+
+    <select id="findMyItemSum" parameterType="int">
+        select count(*) from etms_item_student where uid = #{uid}
+    </select>
+
+    <select id="findItemByType" >
+        select * from etms_item,etms_item_student where etms_item_student.uid = #{uid} and etms_item_student.itemid = etms_item.id
+        <where>
+            <if test="type != null and type != ''">
+                and etms_item.train_type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <select id="findItemSchedele" resultType="String">
+        select train_schedele from etms_item_student where user_id = #{user_id} and item_id = #{item_id}
+    </select>
+</mapper>
