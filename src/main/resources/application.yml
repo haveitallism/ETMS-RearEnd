@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/etms
-    username:
-    password:
+    url: jdbc:mysql://localhost:3306/etms?serverTimezone=Asia/Shanghai
+    username: root
+    password: "06170617"
   #表单传递日期转换格式
   mvc:
     format:
