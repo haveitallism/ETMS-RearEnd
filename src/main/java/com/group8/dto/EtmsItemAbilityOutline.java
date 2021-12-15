@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 public class EtmsItemAbilityOutline {
     EtmsItem etmsItem;
-    EtmsOutline etmsOutline;
-    List<EtmsItemAm> itemAmList;
+    List<EtmsOutline> etmsOutlines;
+    List<EtmsItemAm> itemAmLists;
 
 }

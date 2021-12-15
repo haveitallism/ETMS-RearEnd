@@ -34,29 +34,46 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public int addItem(EtmsItemAbilityOutline iao) {
-        int i3  = 0;
+
+        int i2 = 0;
+        int i3 = 0;
+
         //添加培训项目
         EtmsItem etmsItem = iao.getEtmsItem();
         int i1 = itemDao.addOne(etmsItem);
-        //添加大纲
-        EtmsOutline etmsOutline = iao.getEtmsOutline();
-        int i2 = outlineDao.addOne(etmsOutline);
-        //循环添加能力模型
-        List<EtmsItemAm> list = iao.getItemAmList();
-        for (EtmsItemAm eia:list) {
-            int i4 = abilityDao.addOne(eia);
-            i3 = 1 ;
+
+        List<EtmsOutline> etmsOutlines = iao.getEtmsOutlines();
+        for(EtmsOutline eoi:etmsOutlines) {
+            i2 = outlineDao.addOne(eoi);
             //如果中间添加失败 则中断循环
-            if(i4 < 0){
-                i3 = 0;
+            if (i2 < 0) {
                 break;
             }
         }
+
+        //循环添加能力模型
+        List<EtmsItemAm> list = iao.getItemAmLists();
+        for (EtmsItemAm eia:list) {
+            i3 = abilityDao.addOne(eia);
+            //如果中间添加失败 则中断循环
+            if(i3 < 0){
+                break;
+            }
+        }
+
         //如果其中一项不大于0 则添加失败
         if (i1 > 0 && i2 > 0 && i3 > 0){
             return 1;
         }else {
             return 0;
         }
+    }
+
+    @Override
+    public List<EtmsItem> findItem(EtmsItem etmsItem) {
+        System.out.println("123"+etmsItem);
+        List<EtmsItem> list = itemDao.findItem(etmsItem);
+        System.out.println(list);
+        return list;
     }
 }

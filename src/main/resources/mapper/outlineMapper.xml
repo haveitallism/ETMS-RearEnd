@@ -5,6 +5,8 @@
 
 
     <insert id="addOne">
-        insert into etms_outline value (null,#{itemId},#{catalog},#{trainClassfile},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime})
+        insert into etms_outline value (null,#{itemId},#{catalog},#{trainClassTitle},null,#{createdBy},#{createdTime},#{updatedBy},#{updatedTime})
     </insert>
+
+
 </mapper>

@@ -10,5 +10,25 @@
         (#{trainTitle},#{trainDescription},#{trainType},#{trainLevel},#{trainForm},#{trainStatus},#{trainPlan},#{trainBudget},#{trainPrinc},#{trainCover},#{applyNum},#{applyCuttime},#{applyCheck},#{applyForm},#{trainBetime},#{trainAddress},#{studyType},#{signIn},#{trainEndtime},#{trainTeacher},#{createdTime},#{createdBy},#{updatedBy},#{updatedTime})
     </insert>
 
+    <select id="findItem"  resultType="etmsItem" parameterType="etmsItem">
+        select i.train_title,i.train_status,i.train_princ
+        from etms_item i
+        <where>
+            <if test="!trainTitle.equals('')">
+                and i.train_title = #{trainTitle}
+            </if>
+            <if test="!trainStatus.equals('')">
+                and i.train_status = #{trainStatus}
+            </if>
+            <if test="!trainPrinc.equals('')">
+                and i.train_princ = #{trainPrinc}
+            </if>
+            <if test="!trainType.equals('')">
+                and i.train_type = #{trainType}
+            </if>
+
+        </where>
+    </select>
+
 
 </mapper>
