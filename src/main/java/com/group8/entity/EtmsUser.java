@@ -11,10 +11,11 @@ import java.util.Date;
 @NoArgsConstructor
 public class EtmsUser {
 
-  private String userId;
+  private long userId;
   private String userName;
   private String userPassword;
-  private String userDept;
+  private long deptId;
+  private EtmsDept dept;
   private String userPosition;
   private String userTelephone;
   private String userEmail;

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group8.dao.OutlineDao">
+    <resultMap id="outlineCatalog" type="com.group8.entity.EtmsCatalog">
+        <result property="catalogName" column="catalog"/>
+        <collection property="classFileList" column="train_class_title" ofType="com.group8.entity.EtmsClassFile">
+            <result property="classTitle" column="train_class_title"/>
+        </collection>
+    </resultMap>
+    <select id="findCatalog" parameterType="int" resultMap="outlineCatalog">
+        select distinct catalog, train_class_title from etms_outline where catalog in
+        (select distinct catalog from etms_outline where item_id = #{id})
+    </select>
+    <update id="uploadClassFile">
+        update etms_outline set train_class_file = #{filePath} where outline_id = #{id}
+    </update>
+
+</mapper>
