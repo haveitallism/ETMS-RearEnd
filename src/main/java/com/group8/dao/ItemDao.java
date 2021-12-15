@@ -11,5 +11,9 @@ public interface ItemDao {
 
     int addOne(EtmsItem etmsItem) ;
 
-    List findItem(EtmsItem etmsItem);
+    List<EtmsItem> findItem(EtmsItem etmsItem);
+
+    List<EtmsItem> findAllItem(int uid);
+
+    int findMyItemSum(int uid);
 }

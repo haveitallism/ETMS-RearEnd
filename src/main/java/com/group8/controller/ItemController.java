@@ -80,9 +80,9 @@ public class ItemController {
     /*
      * 我的培训中参加的培训项目根据类别展示
      * */
-    @RequestMapping("/findItemByType/{user_id}")
-    public ResponseEntity<EtmsItem> findItemByType(@PathVariable("user_id") int user_id){
-        List<EtmsItem> list = itemService.findItemByType(user_id);
+    @RequestMapping("/findAllItem/{user_id}")
+    public ResponseEntity<EtmsItem> findAllItem(@PathVariable("user_id") int user_id){
+        List<EtmsItem> list = itemService.findAllItem(user_id);
         if(!list.isEmpty()){
             return new ResponseEntity(200,"查询成功",list);
         }else{

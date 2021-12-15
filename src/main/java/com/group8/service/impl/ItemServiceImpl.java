@@ -78,5 +78,16 @@ public class ItemServiceImpl implements ItemService {
             System.out.println(list);
             return list;
         }
+
+    @Override
+    public int findMyItemSum(int uid) {
+        return itemDao.findMyItemSum(uid);
+    }
+
+    @Override
+    public List<EtmsItem> findAllItem(int uid) {
+        return itemDao.findAllItem(uid);
+    }
+
     }
 

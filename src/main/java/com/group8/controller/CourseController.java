@@ -1,9 +1,8 @@
 package com.group8.controller;
 
 import com.group8.entity.EtmsCourse;
-import com.group8.entity.EtmsItem;
 import com.group8.entity.ResponseEntity;
-import com.group8.service.EtmsCourseService;
+import com.group8.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,14 +14,14 @@ import java.util.List;
 @RequestMapping("/etmsCourse")
 public class CourseController {
     @Autowired
-    EtmsCourseService etmsCourseService;
+    CourseService courseService;
 
     /*
      * 选修课程中参加的培训总数
      * */
     @RequestMapping("/findMyCourseSum/{uid}")
     public int findMyCourseSum(@PathVariable int uid){
-        return etmsCourseService.findMyCourseSum(uid);
+        return courseService.findMyCourseSum(uid);
     }
 
     /*
@@ -30,7 +29,7 @@ public class CourseController {
      * */
     @RequestMapping("/findAllCourse/{user_id}")
     public ResponseEntity<EtmsCourse> findAllCourse(@PathVariable("user_id") int user_id){
-        List<EtmsCourse> list = etmsCourseService.findAllCourse(user_id);
+        List<EtmsCourse> list = courseService.findAllCourse(user_id);
         if(!list.isEmpty()){
             return new ResponseEntity(200,"查询成功",list);
         }else{

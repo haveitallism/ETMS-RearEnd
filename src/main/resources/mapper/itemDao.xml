@@ -63,5 +63,12 @@
         </where>
     </select>
 
+    <select id="findMyItemSum" resultType="int">
+        select count(*) from etms_item_student where user_id = #{uid}
+    </select>
+
+    <select id="findAllItem" resultType="com.group8.entity.EtmsItem">
+        select * from etms_item where item_id in (select item_id from etms_item_student where user_id = #{uid})
+    </select>
 
 </mapper>

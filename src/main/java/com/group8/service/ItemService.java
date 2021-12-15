@@ -13,4 +13,8 @@ public interface ItemService {
 
     List<EtmsItem> findItem(EtmsItem etmsItem);
 
+    int findMyItemSum(int uid);
+
+    List<EtmsItem> findAllItem(int uid);
+
 }

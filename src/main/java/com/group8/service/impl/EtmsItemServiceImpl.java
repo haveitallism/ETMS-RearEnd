@@ -1,6 +1,5 @@
 package com.group8.service.impl;
 
-import com.group8.dao.EtmsItemDao;
 import com.group8.service.EtmsItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
