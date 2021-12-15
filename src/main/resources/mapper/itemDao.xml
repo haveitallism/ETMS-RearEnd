@@ -31,7 +31,37 @@
             updated_time = #{updatedTime}
             where item_id = #{itemId}
     </update>
+
     <select id="findById" parameterType="int" resultType="com.group8.entity.EtmsItem">
         select * from etms_item where item_id = #{id}
     </select>
+
+    <insert id="addOne" >
+        insert into
+            etms_item (train_title,train_description,train_type,train_level,train_form,train_status,train_plan,train_budget,train_princ,train_cover,apply_num,apply_cuttime,apply_check,apply_form,train_betime,train_address,study_type,sign_in,train_endtime,train_teacher,created_time,created_by,updated_by,updated_time)
+            value
+            (#{trainTitle},#{trainDescription},#{trainType},#{trainLevel},#{trainForm},#{trainStatus},#{trainPlan},#{trainBudget},#{trainPrinc},#{trainCover},#{applyNum},#{applyCuttime},#{applyCheck},#{applyForm},#{trainBetime},#{trainAddress},#{studyType},#{signIn},#{trainEndtime},#{trainTeacher},#{createdTime},#{createdBy},#{updatedBy},#{updatedTime})
+    </insert>
+
+    <select id="findItem"  resultType="etmsItem" parameterType="etmsItem">
+        select i.train_title,i.train_status,i.train_princ
+        from etms_item i
+        <where>
+            <if test="!trainTitle.equals('')">
+                and i.train_title = #{trainTitle}
+            </if>
+            <if test="!trainStatus.equals('')">
+                and i.train_status = #{trainStatus}
+            </if>
+            <if test="!trainPrinc.equals('')">
+                and i.train_princ = #{trainPrinc}
+            </if>
+            <if test="!trainType.equals('')">
+                and i.train_type = #{trainType}
+            </if>
+
+        </where>
+    </select>
+
+
 </mapper>
