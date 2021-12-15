@@ -1,9 +1,16 @@
 spring:
   datasource:
+    #我自己的数据库
+    #    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    url: jdbc:mysql://localhost:3306/etnms_8?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    #    username: root
+    #    password: ssf123456
+
+    #项目的数据库
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/etnms_8?useUnicode=true&characterEncoding=utf-8&useSSL=false
-    username: root
-    password: ssf123456
+    url: jdbc:mysql://162.14.112.78:3306/etms?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    username: etms
+    password: 123456
   #表单传递日期转换格式
   mvc:
     format:
