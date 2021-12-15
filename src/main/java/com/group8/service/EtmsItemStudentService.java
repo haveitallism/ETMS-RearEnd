@@ -7,7 +7,7 @@ import java.util.List;
 public interface EtmsItemStudentService {
     int findMyItemSum(int uid);
 
-    List<EtmsItem> findItemByType(int uid, String type);
+    List<EtmsItem> findItemByType(int uid);
 
     String findItemSchedele(int uid, int itemid);
 }

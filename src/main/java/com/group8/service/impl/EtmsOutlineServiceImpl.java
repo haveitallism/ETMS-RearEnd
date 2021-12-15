@@ -17,4 +17,9 @@ public class EtmsOutlineServiceImpl implements EtmsOutlineService {
     public List<String> findAllCatalog(int itemid) {
         return etmsOutlineDao.findAllCatalog(itemid);
     }
+
+    @Override
+    public String findItemFile(int catalogid) {
+        return etmsOutlineDao.findItemFile(catalogid);
+    }
 }

@@ -8,4 +8,6 @@ import java.util.Set;
 public interface EtmsOutlineDao {
 
     List<String> findAllCatalog(@Param("item_id") int itemid);
+
+    String findItemFile(int catalogid);
 }

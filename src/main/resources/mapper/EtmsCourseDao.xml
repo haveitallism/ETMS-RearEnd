@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group8.dao.EtmsCourseDao">
+    <select id="findMyCourseSum" resultType="int">
+        select count(*) from etms_user_course where user_id = #{uid}
+    </select>
+
+    <select id="findAllCourse" resultType="com.group8.entity.EtmsCourse">
+        select * from etms_course where course_id in (select course_id from etms_user_course where user_id = #{user_id})
+    </select>
+</mapper>

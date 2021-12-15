@@ -5,4 +5,6 @@ import java.util.Set;
 
 public interface EtmsOutlineService {
     List<String> findAllCatalog(int itemid);
+
+    String findItemFile(int catalogid);
 }

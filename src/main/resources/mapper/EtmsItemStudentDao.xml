@@ -16,7 +16,6 @@
         <result property="updatedBy" column="updated_by" jdbcType="VARCHAR"/>
         <result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP"/>
     </resultMap>
-
     <!--查询单个-->
     <select id="queryById" resultMap="BaseResultMap">
         select
@@ -124,17 +123,12 @@
         delete from etms.etms_item_student where student_id = #{studentId}
     </delete>
 
-    <select id="findMyItemSum" parameterType="int">
-        select count(*) from etms_item_student where uid = #{uid}
+    <select id="findMyItemSum" resultType="int">
+        select count(*) from etms_item_student where user_id = #{uid}
     </select>
 
-    <select id="findItemByType" >
-        select * from etms_item,etms_item_student where etms_item_student.uid = #{uid} and etms_item_student.itemid = etms_item.id
-        <where>
-            <if test="type != null and type != ''">
-                and etms_item.train_type = #{type}
-            </if>
-        </where>
+    <select id="findItemByType" resultType="com.group8.entity.EtmsItem">
+        select * from etms_item where item_id in (select item_id from etms_item_student where user_id = #{uid})
     </select>
 
     <select id="findItemSchedele" resultType="String">

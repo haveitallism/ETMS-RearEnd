@@ -18,8 +18,8 @@ public class EtmsItemStudentServiceImpl implements EtmsItemStudentService {
     }
 
     @Override
-    public List<EtmsItem> findItemByType(int uid, String type) {
-        return etmsItemStudentDao.findItemByType(uid,type);
+    public List<EtmsItem> findItemByType(int uid) {
+        return etmsItemStudentDao.findItemByType(uid);
     }
 
     @Override
