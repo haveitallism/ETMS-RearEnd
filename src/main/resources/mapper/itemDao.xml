@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group8.dao.ItemDao">
+    <update id="update" parameterType="com.group8.entity.EtmsItem">
+        update etms_item set
+            train_title = #{trainTitle},
+            train_description = #{trainDescription},
+            train_type = #{trainType},
+            train_level = #{trainLevel},
+            train_form = #{trainForm},
+            train_status = #{trainStatus},
+            train_plan = #{trainPlan},
+            train_budget = #{trainBudget},
+            train_princ = #{trainPrinc},
+            train_cover = #{trainCover},
+            train_hour = #{trainHour},
+            apply_num = #{applyNum},
+            apply_cuttime = #{applyCuttime},
+            apply_check = #{applyCheck},
+            apply_form = #{applyForm},
+            train_betime = #{trainBetime},
+            train_endtime = #{trainEndtime},
+            train_address = #{trainAddress},
+            train_teacher = #{trainTeacher},
+            study_type = #{studyType},
+            sign_in = #{signIn},
+            created_by = #{createdBy},
+            created_time = #{createdTime},
+            updated_by = #{updatedBy},
+            updated_time = #{updatedTime}
+            where item_id = #{itemId}
+    </update>
+    <select id="findById" parameterType="int" resultType="com.group8.entity.EtmsItem">
+        select * from etms_item where item_id = #{id}
+    </select>
+</mapper>

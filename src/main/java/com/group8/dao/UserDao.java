@@ -11,12 +11,10 @@ import java.util.List;
  * @author acoffee
  * @create 2021-12-14 15:59
  */
-@Mapper
-@Repository
 public interface UserDao {
     List<EtmsUser> findAllUser();
 
-    EtmsUser findUserById(int id);
+    EtmsUser findUserById(@Param("id")int id);
 
     boolean updateUser(EtmsUser etmsUser);
 

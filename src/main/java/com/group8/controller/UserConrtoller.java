@@ -25,6 +25,7 @@ public class UserConrtoller {
     public ResponseEntity<List<EtmsUser>> findAllUser(){
         List<EtmsUser> allUser = userService.findAllUser();
         ResponseEntity<List<EtmsUser>> entity;
+        System.out.println(allUser);
         if(allUser != null){
             entity = new ResponseEntity<>(200,"查询成功！", allUser);
         }else{
