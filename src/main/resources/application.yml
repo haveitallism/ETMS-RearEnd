@@ -1,13 +1,9 @@
-server:
-  port: 8080
-
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/etms?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
-    username: root
-    password: 123
+    url: jdbc:mysql://162.14.112.78:3306/etms?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    username: etms
+    password: 123456
   #表单传递日期转换格式
   mvc:
     format:
@@ -41,6 +37,7 @@ mybatis:
   type-aliases-package: com.group8.entity
   configuration:
     map-underscore-to-camel-case: true
+
 
 #分页配置
 pagehelper:

@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -23,8 +22,7 @@ public class EtmsItemStudent {
   private Date createdTime;
   private String updatedBy;
   private Date updatedTime;
-  private List<EtmsItem> itemList;
-
+  private EtmsUser etmsUser;
 
 
 }
