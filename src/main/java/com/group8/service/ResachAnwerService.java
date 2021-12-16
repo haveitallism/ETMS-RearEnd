@@ -16,5 +16,5 @@ public interface ResachAnwerService {
     List<EtmsResachAnwer> findALL();
 
     //新增答案
-    Integer addEtmsResachAnwerOne(EtmsResachAnwer etmsResachAnwer);
+    Integer addEtmsResachAnwerOne(List<String> ansers);
 }

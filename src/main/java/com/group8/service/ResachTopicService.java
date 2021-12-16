@@ -14,4 +14,6 @@ public interface ResachTopicService {
     List<EtmsResachTopic> findALL();
 
     Integer EtmsResachTopicaddOne(EtmsResachTopic etmsResachTopic);
+
+    List<EtmsResachTopic> findALLTopic();
 }
