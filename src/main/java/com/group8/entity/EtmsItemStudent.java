@@ -11,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class EtmsItemStudent {
 
-  private long studentId;
+  private String studentId;
   private long userId;
   private long itemId;
   private String applyStatus;

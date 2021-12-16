@@ -38,6 +38,7 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+
 #分页配置
 pagehelper:
   helper-dialect: mysql
