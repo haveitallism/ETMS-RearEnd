@@ -6,17 +6,15 @@ import com.group8.service.UserService;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Arrays;
 import java.util.List;
+import com.group8.entity.EtmsUser;
+import com.group8.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-/**
- * @author acoffee
- * @create 2021-12-14 15:57
- */
 @Service
 public class UserServiceImpl implements UserService {
-
     @Autowired(required = false)
     UserDao userDao;
 
@@ -85,5 +83,9 @@ public class UserServiceImpl implements UserService {
         etmsUser.setItemList(itemById);
         etmsUser.setUserAmList(abilityById);
         return etmsUser;
+    }
+    @Override
+    public List<EtmsUser> findByDeptId(int deptId) {
+        return userDao.findByDeptId(deptId);
     }
 }

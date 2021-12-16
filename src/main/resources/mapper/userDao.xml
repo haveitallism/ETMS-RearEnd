@@ -3,17 +3,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.group8.dao.UserDao">
 
-    <select id="findAllUser" resultType="EtmsUser">
+    <select id="findAllUser" resultType="com.group8.entity.EtmsUser">
         select * from etms_user
     </select>
 
-    <select id="findUserById" resultType="EtmsUser" parameterType="int">
+    <select id="findUserById" resultType="com.group8.entity.EtmsUser" parameterType="int">
         select * from etms_user where user_id = #{id}
     </select>
 
-    <update id="updateUser" parameterType="EtmsUser">
+    <update id="updateUser" parameterType="com.group8.entity.EtmsUser">
         update etms_user set user_name = #{userName},
-        user_dept = #{userDept},user_position = #{userPosition},user_telephone = #{userTelephone},
+        dept_id = #{deptId},user_position = #{userPosition},user_telephone = #{userTelephone},
         user_email = #{userEmail},user_manager = #{userManager},user_role = #{userRole},
         user_company = #{userCompany},user_head_img = #{userHeadImg},updated_by = #{updatedBy},
         updated_time = #{updatedTime} where user_id = #{userId}
@@ -42,6 +42,10 @@
         left join etms_ability_model m on a.am_id = m.ability_id
         left join etms_user u on a.user_id = u.user_id
         where u.user_id = #{id}
+    </select>
+
+    <select id="findByDeptId" parameterType="int" resultType="com.group8.entity.EtmsUser">
+        select * from etms_user where dept_id = #{deptId}
     </select>
 
 

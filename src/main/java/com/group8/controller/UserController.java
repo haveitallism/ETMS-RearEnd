@@ -15,7 +15,7 @@ import java.util.List;
 
 @RequestMapping("/user")
 @RestController
-public class UserConrtoller {
+public class UserController {
 
     @Autowired
     UserService userService;
@@ -94,4 +94,14 @@ public class UserConrtoller {
         return new ResponseEntity<>(200,"展示成功",etmsUser);
     }
 
+    /**
+     * 根据部门id查询部门所有成员
+     * @param deptId
+     * @return
+     */
+    @RequestMapping("/findByDeptId/{deptId}")
+    public ResponseEntity<List<EtmsUser>> findByDeptId(@PathVariable int deptId){
+        List<EtmsUser> userList = userService.findByDeptId(deptId);
+        return new ResponseEntity<>(200, userList);
+    }
 }
