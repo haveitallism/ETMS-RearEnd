@@ -38,8 +38,9 @@ class EtmsRearEndApplicationTests {
     void etmsResachAnweraddone() {
         EtmsResachAnwer etmsResachAnwer = new EtmsResachAnwer();
 //        etmsResachAnwer.setAnswer_id(10);
-        etmsResachAnwer.setAnswer_content("4个月");
+        etmsResachAnwer.setAnswer_content("18个月");
         Integer integer = etmsResachAnwerDao.addEtmsResachAnwerOne(etmsResachAnwer);
+        System.out.println(etmsResachAnwer.getAnswer_id());
         System.out.println(integer);
     }
 

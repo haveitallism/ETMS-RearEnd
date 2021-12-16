@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.group8.dao.EtmsResachAnwerDao">
-    <insert id="addEtmsResachAnwerOne">
+    <insert id="addEtmsResachAnwerOne" useGeneratedKeys="true" keyProperty="answer_id">
         insert into etms_resach_answer(answer_id, answer_content)
-        values (NULL, #{answer_content});
+        values (NULL, #{answer_content})
     </insert>
     <select id="findALL" resultType="com.group8.entity.EtmsResachAnwer">
         SELECT *
