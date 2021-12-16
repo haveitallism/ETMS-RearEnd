@@ -20,11 +20,11 @@ import java.util.List;
 @ToString
 //答案表实体类
 public class EtmsResachAnwer {
-    private Integer answer_id;        //答案id
-    private String answer_content;   //答案内容
-    private String creatorid;        //创建人
-    private Date createtime;       //创建人时间
-    private String updated;          //修改人
-    private Date updatetime;       //修改人时间
-    List<EtmsResachTopic> etmsResachTopics;
+    private Integer answerId;        //答案id
+    private String  answerContent;   //答案内容
+    private String  creatorid;        //创建人
+    private Date    createtime;       //创建人时间
+    private String  updated;          //修改人
+    private Date    updatetime;       //修改人时间
+    List<EtmsResachTopic>etmsResachTopics;
 }

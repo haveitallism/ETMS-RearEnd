@@ -1,10 +1,5 @@
 package com.group8;
 
-import com.group8.dao.ResachAnwerDao;
-import com.group8.dao.ResarchTopicDao;
-import com.group8.entity.EtmsResachAnwer;
-import com.group8.entity.EtmsResachTopic;
-import com.group8.service.ResachAnwerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,11 +47,4 @@ class EtmsRearEndApplicationTests {
 
     }
 
-    @Test
-    void etmsResachTopicaddOne() {
-        EtmsResachTopic etmsResachTopic = new EtmsResachTopic();
-        etmsResachTopic.setTopic_name("要参加什么的类型的培训");
-        Integer integer = etmsResachTopicDao.EtmsResachTopicaddOne(etmsResachTopic);
-        System.out.println(integer);
-    }
 }

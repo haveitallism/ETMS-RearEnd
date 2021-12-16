@@ -42,6 +42,9 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.group8.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
 
 #分页配置
 pagehelper:
@@ -52,4 +55,4 @@ pagehelper:
 #日志配置
 logging:
   level:
-    com.woniuxy.dao: debug
+    com.group8.dao: debug

@@ -21,11 +21,11 @@ import java.util.List;
 
 //题目表的实体类
 public class EtmsResachTopic {
-    private Integer topic_id;    //题目id
-    private String topic_name;  //题目名字
-    private String creatorid;   //创建人
-    private Date createtime;  //创建人时间
-    private String updated;     //修改人
-    private Date updatetime;  //修改人时间
-    private List<EtmsResachAnwer> etmsResachAnwers;
+    private Integer topicId;    //题目id
+    private String  topicName;  //题目名字
+    private String  creatorid;   //创建人
+    private Date    createtime;  //创建人时间
+    private String  updated;     //修改人
+    private Date    updatetime;  //修改人时间
+    private List<EtmsResachAnwer>etmsResachAnwers;
 }

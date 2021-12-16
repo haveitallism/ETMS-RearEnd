@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group8.dao.StudentDao">
+    <resultMap id="studentUserMap" type="com.group8.entity.EtmsItemStudent">
+        <id property="studentId" column="student_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="itemId" column="item_id"/>
+        <result property="applyStatus" column="apply_status"/>
+        <result property="trainSchedule" column="train_schedule"/>
+        <result property="trainTestid" column="train_testid"/>
+        <result property="trainCode" column="train_code"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="updatedTime" column="updated_time"/>
+        <association property="etmsUser" column="user_id" javaType="com.group8.entity.EtmsUser">
+            <id property="userId" column="user_id"/>
+            <result property="userName" column="user_name"/>
+            <result property="userCompany" column="user_company"/>
+            <result property="userDept" column="user_dept"/>
+            <result property="userPosition" column="user_position"/>
+            <result property="userEmail" column="user_email"/>
+        </association>
+    </resultMap>
+    <select id="findAll" resultMap="studentUserMap" parameterType="int">
+        select u.user_name, u.user_company, u.user_dept, u.user_position, u.user_email, s.apply_status
+        from etms_user u left join etms_item_student s on u.user_id = s.user_id where s.item_id = #{id}
+    </select>
+
+    <select id="finApplied" resultMap="studentUserMap" parameterType="com.group8.dto.ScheduleQueryCondition">
+        select u.user_head_img, u.user_name, u.user_company, u.user_dept, u.user_position, s.train_schedule
+        from etms_user u left join etms_item_student s on u.user_id = s.user_id where s.apply_status = 1 and s.item_id = #{itemId}
+        <if test="!username.equals('')">
+            and u.user_name = #{username}
+        </if>
+        <if test="!position.equals('')">
+            and u.user_position = #{position}
+        </if>
+    </select>
+</mapper>
