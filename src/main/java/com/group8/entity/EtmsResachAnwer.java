@@ -27,4 +27,5 @@ public class EtmsResachAnwer {
     private String  updated;          //修改人
     private Date    updatetime;       //修改人时间
     List<EtmsResachTopic>etmsResachTopics;
+    private int nums;                  //选择这个答案的人数
 }
