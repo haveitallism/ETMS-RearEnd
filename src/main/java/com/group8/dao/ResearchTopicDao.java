@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface EtmsResearchTopicDao {
+public interface ResearchTopicDao {
     List<EtmsResachTopic> findTopic(@Param("sss") List topics);
     List<EtmsResachAnwer> findAnswer(List answers);
 }

@@ -2,16 +2,16 @@ package com.group8.controller;
 
 import com.group8.entity.EtmsDemand;
 import com.group8.entity.ResponseEntity;
-import com.group8.service.EtmsDemandService;
+import com.group8.service.DemandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class EtmsDemandController {
+public class DemandController {
     @Autowired
-    EtmsDemandService etmsDemandService;
+    DemandService etmsDemandService;
 
     //查找所有的需求
     @RequestMapping("/findAllDemand")

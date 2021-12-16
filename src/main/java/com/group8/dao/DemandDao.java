@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface EtmsDemandDao {
+public interface DemandDao {
     List<EtmsDemand> findAll();
 
     List<EtmsDemand> findByuid(int uid);

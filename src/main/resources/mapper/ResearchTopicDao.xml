@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.group8.dao.EtmsResearchTopicDao">
+<mapper namespace="com.group8.dao.ResearchTopicDao">
     <select id="findTopic"  resultType="com.group8.entity.EtmsResachTopic">
         select * from etms_reseach_topic where topic_id in(1)
 <!--    <foreach collection="sss" item="aaa"  open="(" close=")" separator=",">-->

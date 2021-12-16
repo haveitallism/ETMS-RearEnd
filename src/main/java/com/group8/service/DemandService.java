@@ -4,7 +4,7 @@ import com.group8.entity.EtmsDemand;
 
 import java.util.List;
 
-public interface EtmsDemandService {
+public interface DemandService {
     List<EtmsDemand> findAllDemand();
 
     List<EtmsDemand> findMyDemand(int uid);

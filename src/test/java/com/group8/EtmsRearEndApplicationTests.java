@@ -1,7 +1,6 @@
 package com.group8;
 
-import com.group8.dao.EtmsResearchAnswerDao;
-import com.group8.dao.EtmsResearchTopicDao;
+import com.group8.dao.ResearchTopicDao;
 import com.group8.entity.EtmsResachTopic;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +12,7 @@ import java.util.List;
 @SpringBootTest
 class EtmsRearEndApplicationTests {
 @Autowired
-EtmsResearchTopicDao etmsResearchTopic;
-@Autowired
-    EtmsResearchAnswerDao etmsResearchAnswerDao;
+ResearchTopicDao etmsResearchTopic;
     @Test
     void contextLoads() {
         List s = new ArrayList();

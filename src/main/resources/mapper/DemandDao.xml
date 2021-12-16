@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.group8.dao.EtmsDemandDao">
+<mapper namespace="com.group8.dao.DemandDao">
     <!--  查询所有发布的需求   -->
     <select id="findAll" resultType="com.group8.entity.EtmsDemand">
         select * from etms_demand order by demand_table_id desc
@@ -94,7 +94,7 @@
         <result property="updatedBy" column="updated_by" ></result>
         <result property="updatedTime" column="updated_time" ></result>
         <association property="etmsDemandResearch" javaType="com.group8.entity.EtmsDemandResearch"
-                     column="demand_table_id" select="com.group8.dao.EtmsDemanResearchDao.findById"></association>
+                     column="demand_table_id" select="com.group8.dao.DemanResearchDao.findById"></association>
     </resultMap>
     <!-- 根据id查询具体发布的需求   -->
     <select id="findByid"  resultMap="findbyid">

@@ -1,17 +1,17 @@
 package com.group8.service.impl;
 
-import com.group8.dao.EtmsDemandDao;
+import com.group8.dao.DemandDao;
 import com.group8.entity.EtmsDemand;
-import com.group8.service.EtmsDemandService;
+import com.group8.service.DemandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class EtmsDemandServiceImpl implements EtmsDemandService {
+public class DemandServiceImpl implements DemandService {
     @Autowired
-    EtmsDemandDao etmsDemandDao;
+    DemandDao etmsDemandDao;
     //查找所有的需求
     @Override
     public List<EtmsDemand> findAllDemand() {
