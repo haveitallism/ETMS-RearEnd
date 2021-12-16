@@ -83,4 +83,15 @@ public class UserConrtoller {
         return entity;
     }
 
+    /**
+     * 首页展示
+     * @param id
+     * @return
+     */
+    @GetMapping("/homePageDisplay/{id}")
+    public ResponseEntity<EtmsUser> homePageDisplay(@PathVariable int id){
+        EtmsUser etmsUser = userService.findUserIndexById(id);
+        return new ResponseEntity<>(200,"展示成功",etmsUser);
+    }
+
 }

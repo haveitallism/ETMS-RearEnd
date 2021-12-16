@@ -1,6 +1,6 @@
 package com.group8.dao;
 
-import com.group8.entity.EtmsUser;
+import com.group8.entity.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -19,4 +19,10 @@ public interface UserDao {
     boolean updateUser(EtmsUser etmsUser);
 
     boolean updatePassword(@Param("id") int id,@Param("newPassword") String newPassword);
+
+    List<EtmsCourse> findCoursesByid(@Param("id")int userid);
+
+    List<EtmsItem> findItemById(@Param("id")int userid);
+
+    List<EtmsUserAm> findAbilityById(@Param("id")int userid);
 }
