@@ -10,7 +10,7 @@ import java.util.List;
  * author: shesaifei <br>
  * version: 1.0 <br>
  */
-public interface EtmsResachTopicService {
+public interface ResachTopicService {
     List<EtmsResachTopic> findALL();
 
     Integer EtmsResachTopicaddOne(EtmsResachTopic etmsResachTopic);

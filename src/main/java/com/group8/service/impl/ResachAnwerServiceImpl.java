@@ -1,8 +1,8 @@
 package com.group8.service.impl;
 
-import com.group8.dao.EtmsResachAnwerDao;
+import com.group8.dao.ResachAnwerDao;
 import com.group8.entity.EtmsResachAnwer;
-import com.group8.service.EtmsResachAnwerService;
+import com.group8.service.ResachAnwerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +15,9 @@ import java.util.List;
  * version: 1.0 <br>
  */
 @Service
-public class EtmsResachAnwerServiceImpl implements EtmsResachAnwerService {
+public class ResachAnwerServiceImpl implements ResachAnwerService {
     @Autowired(required = false)
-    EtmsResachAnwerDao etmsResachAnwerDao;
+    ResachAnwerDao etmsResachAnwerDao;
 
     @Override
     public List<EtmsResachAnwer> findALL() {

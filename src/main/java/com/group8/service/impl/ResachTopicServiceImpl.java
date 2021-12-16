@@ -1,8 +1,8 @@
 package com.group8.service.impl;
 
-import com.group8.dao.EtmsResachTopicDao;
+import com.group8.dao.ResarchTopicDao;
 import com.group8.entity.EtmsResachTopic;
-import com.group8.service.EtmsResachTopicService;
+import com.group8.service.ResachTopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +15,9 @@ import java.util.List;
  * version: 1.0 <br>
  */
 @Service
-public class EtmsResachTopicServiceImpl implements EtmsResachTopicService {
+public class ResachTopicServiceImpl implements ResachTopicService {
     @Autowired
-    EtmsResachTopicDao etmsResachTopicDao;
+    ResarchTopicDao etmsResachTopicDao;
 
     @Override
     public List<EtmsResachTopic> findALL() {

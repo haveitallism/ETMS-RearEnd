@@ -2,7 +2,7 @@ package com.group8.controller;
 
 import com.group8.entity.EtmsResachAnwer;
 import com.group8.entity.ResponseEntity;
-import com.group8.service.EtmsResachAnwerService;
+import com.group8.service.ResachAnwerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +18,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/anwer")
-public class EtmsResachAnwerController {
+public class ResachAnwerController {
     @Autowired
-    EtmsResachAnwerService etmsResachAnwerService;
+    ResachAnwerService etmsResachAnwerService;
 
     @RequestMapping("/findAll")
     public ResponseEntity<List<EtmsResachAnwer>> findAll() {

@@ -2,7 +2,7 @@ package com.group8.controller;
 
 import com.group8.entity.EtmsResachTopic;
 import com.group8.entity.ResponseEntity;
-import com.group8.service.EtmsResachTopicService;
+import com.group8.service.ResachTopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +18,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/topic")
-public class EtmsResachTopicController {
+public class ResachTopicController {
     @Autowired
-    EtmsResachTopicService etmsResachTopicService;
+    ResachTopicService etmsResachTopicService;
 
     //查询所有题目
     @RequestMapping("/findAll")

@@ -1,10 +1,10 @@
 package com.group8;
 
-import com.group8.dao.EtmsResachAnwerDao;
-import com.group8.dao.EtmsResachTopicDao;
+import com.group8.dao.ResachAnwerDao;
+import com.group8.dao.ResarchTopicDao;
 import com.group8.entity.EtmsResachAnwer;
 import com.group8.entity.EtmsResachTopic;
-import com.group8.service.EtmsResachAnwerService;
+import com.group8.service.ResachAnwerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,12 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class EtmsRearEndApplicationTests {
     @Autowired
-    EtmsResachTopicDao etmsResachTopicDao;
+    ResarchTopicDao etmsResachTopicDao;
 
     @Autowired
-    EtmsResachAnwerDao etmsResachAnwerDao;
+    ResachAnwerDao etmsResachAnwerDao;
     @Autowired
-    EtmsResachAnwerService etmsResachAnwerService;
+    ResachAnwerService etmsResachAnwerService;
 
     @Test
     void test3() {

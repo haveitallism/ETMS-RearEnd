@@ -11,7 +11,7 @@ import java.util.List;
  * version: 1.0 <br>
  */
 
-public interface EtmsResachTopicDao {
+public interface ResarchTopicDao {
     //新增一条题目
     Integer EtmsResachTopicaddOne(EtmsResachTopic etmsResachTopic);
 
