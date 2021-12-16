@@ -61,9 +61,9 @@ public class ShiroConfig {
 
         Map<String, String> filterChainDefinitionMap = new HashMap<>();
         //设置对应路径是否需要过滤访问  anon代表可以匿名访问（不登陆也可以访问）
-        filterChainDefinitionMap.put("/**", "shiroFilter");
+        /*filterChainDefinitionMap.put("/**", "shiroFilter");
         filterChainDefinitionMap.put("/auth/login", "anon");
-        filterChainDefinitionMap.put("/401", "anon");
+        filterChainDefinitionMap.put("/401", "anon");*/
         //设置过滤器功能
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 

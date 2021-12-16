@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -12,7 +13,7 @@ import java.util.Date;
 public class EtmsUser {
 
   private String userId;
-  private String userUsername;
+  private String userName;
   private String userPassword;
   private String userDept;
   private String userPosition;
@@ -26,6 +27,12 @@ public class EtmsUser {
   private Date createdTime;
   private String updatedBy;
   private Date updatedTime;
+  //该用户课程集合
+  private List<EtmsCourse> courseList;
+  //该培训课程集合
+  private List<EtmsItem> itemList;
+  //该能力模型集合
+  private List<EtmsUserAm> userAmList;
 
 
 }
