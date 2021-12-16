@@ -4,9 +4,9 @@
 <mapper namespace="com.group8.dao.EtmsResearchTopicDao">
     <select id="findTopic"  resultType="com.group8.entity.EtmsResachTopic">
         select * from etms_reseach_topic where topic_id in(1)
-    <foreach collection="sss" item="aaa"  open="(" close=")" separator=",">
-        #{aaa}
-    </foreach>
+<!--    <foreach collection="sss" item="aaa"  open="(" close=")" separator=",">-->
+<!--        #{aaa}-->
+<!--    </foreach>-->
     </select>
     <select id="findAnswer" resultType="com.group8.entity.EtmsResachAnwer">
         select distinct topic_id from etms_resach_answerAndtopic
