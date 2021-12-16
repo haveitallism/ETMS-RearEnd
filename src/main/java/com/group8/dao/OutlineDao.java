@@ -1,6 +1,7 @@
 package com.group8.dao;
 
 import com.group8.entity.EtmsCatalog;
+import com.group8.entity.EtmsOutline;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

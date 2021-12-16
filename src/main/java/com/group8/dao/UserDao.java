@@ -1,6 +1,10 @@
 package com.group8.dao;
 
+import com.group8.entity.EtmsCourse;
+import com.group8.entity.EtmsItem;
 import com.group8.entity.EtmsUser;
+import com.group8.entity.EtmsUserAm;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

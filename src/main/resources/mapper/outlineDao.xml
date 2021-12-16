@@ -8,6 +8,11 @@
             <result property="classTitle" column="train_class_title"/>
         </collection>
     </resultMap>
+
+    <insert id="addOne" >
+        insert into  etms_item_am value (#{itemId},#{amId},#{itemAmScore})
+    </insert>
+
     <select id="findCatalog" parameterType="int" resultMap="outlineCatalog">
         select distinct catalog, train_class_title from etms_outline where catalog in
         (select distinct catalog from etms_outline where item_id = #{id})

@@ -2,7 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.group8.dao.UserDao">
+
+    <select id="findAllUser" resultType="com.group8.entity.EtmsUser">
+        select * from etms_user
+    </select>
+
+    <select id="findUserById" resultType="com.group8.entity.EtmsUser" parameterType="int">
+        select * from etms_user where user_id = #{id}
+    </select>
+
+    <update id="updateUser" parameterType="com.group8.entity.EtmsUser">
+        update etms_user set user_name = #{userName},
+        user_dept = #{userDept},user_position = #{userPosition},user_telephone = #{userTelephone},
+        user_email = #{userEmail},user_manager = #{userManager},user_role = #{userRole},
+        user_company = #{userCompany},user_head_img = #{userHeadImg},updated_by = #{updatedBy},
+        updated_time = #{updatedTime} where user_id = #{userId}
+    </update>
+
+    <update id="updatePassword">
+        update etms_user set user_password = #{newPassword} where user_id = #{id}
+    </update>
+
+    <select id="findCoursesByid" resultType="com.group8.entity.EtmsCourse">
+        select * from etms_course c
+        left join etms_user_course uc on uc.course_id = c.course_id
+        left join etms_user u on uc.user_id = u.user_id
+        where u.user_id = #{id}
+    </select>
+
+    <select id="findItemById" resultType="com.group8.entity.EtmsItem">
+        select * from etms_item i
+        left join etms_item_student si on i.item_id = si.item_id
+        left join etms_user u on si.user_id = u.user_id
+        where u.user_id = #{id}
+    </select>
+
+    <select id="findAbilityById" resultType="com.group8.entity.EtmsUserAm">
+        select * from etms_user_am a
+        left join etms_ability_model m on a.am_id = m.ability_id
+        left join etms_user u on a.user_id = u.user_id
+        where u.user_id = #{id}
+    </select>
+
     <select id="findByDeptId" parameterType="int" resultType="com.group8.entity.EtmsUser">
         select * from etms_user where dept_id = #{deptId}
     </select>
+
+
 </mapper>
