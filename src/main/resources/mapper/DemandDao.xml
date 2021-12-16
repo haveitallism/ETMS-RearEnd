@@ -77,22 +77,22 @@
     </select>
 
     <resultMap id="findbyid" type="com.group8.entity.EtmsDemand">
-        <id property="demandTableId" column="demand_table_id" ></id>
-        <result property="demandTitle" column="demand_title" ></result>
-        <result property="demandInstructions" column="demand_instructions" ></result>
-        <result property="startTime" column="start_time" ></result>
-        <result property="endTime" column="end_time" ></result>
-        <result property="demandDept" column="demand_dept" ></result>
-        <result property="peopleNumber" column="people_number" ></result>
-        <result property="trainingMethods" column="training_methods" ></result>
-        <result property="demandReason" column="demand_reason" ></result>
-        <result property="otherRequirements" column="other_requirements" ></result>
-        <result property="status" column="status" ></result>
-        <result property="userId" column="user_id" ></result>
-        <result property="createdBy" column="created_by" ></result>
-        <result property="createdTime" column="created_time" ></result>
-        <result property="updatedBy" column="updated_by" ></result>
-        <result property="updatedTime" column="updated_time" ></result>
+<!--        <id property="demandTableId" column="demand_table_id" ></id>-->
+<!--        <result property="demandTitle" column="demand_title" ></result>-->
+<!--        <result property="demandInstructions" column="demand_instructions" ></result>-->
+<!--        <result property="startTime" column="start_time" ></result>-->
+<!--        <result property="endTime" column="end_time" ></result>-->
+<!--        <result property="demandDept" column="demand_dept" ></result>-->
+<!--        <result property="peopleNumber" column="people_number" ></result>-->
+<!--        <result property="trainingMethods" column="training_methods" ></result>-->
+<!--        <result property="demandReason" column="demand_reason" ></result>-->
+<!--        <result property="otherRequirements" column="other_requirements" ></result>-->
+<!--        <result property="status" column="status" ></result>-->
+<!--        <result property="userId" column="user_id" ></result>-->
+<!--        <result property="createdBy" column="created_by" ></result>-->
+<!--        <result property="createdTime" column="created_time" ></result>-->
+<!--        <result property="updatedBy" column="updated_by" ></result>-->
+<!--        <result property="updatedTime" column="updated_time" ></result>-->
         <association property="etmsDemandResearch" javaType="com.group8.entity.EtmsDemandResearch"
                      column="demand_table_id" select="com.group8.dao.DemanResearchDao.findById"></association>
     </resultMap>
