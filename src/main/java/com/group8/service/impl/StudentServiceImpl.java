@@ -24,4 +24,15 @@ public class StudentServiceImpl implements StudentService {
     public List<EtmsItemStudent> findApplied(ScheduleQueryCondition scheduleQueryCondition) {
         return studentDao.finApplied(scheduleQueryCondition);
     }
+
+    @Override
+    public int deleteByItemIdAndUserId(int itemId, int userId) {
+        return studentDao.deleteByItemIdAndUserId(itemId, userId);
+    }
+
+    @Override
+    public int add(int itemId, int userId) {
+        return studentDao.add(itemId, userId);
+    }
+
 }

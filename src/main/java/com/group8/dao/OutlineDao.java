@@ -1,12 +1,14 @@
 package com.group8.dao;
 
-import com.group8.entity.EtmsItem;
-import com.group8.entity.EtmsOutline;
+import com.group8.entity.EtmsCatalog;
+import org.apache.ibatis.annotations.Param;
 
-/**
- * @author QY
- * @create 2021-12-14 17:55
- */
+import java.util.List;
+
 public interface OutlineDao {
+    List<EtmsCatalog> findCatalog(int id);
+
+    int uploadClassFile(@Param("id") int id, @Param("filePath") String filePath);
+
     int addOne(EtmsOutline outline) ;
 }

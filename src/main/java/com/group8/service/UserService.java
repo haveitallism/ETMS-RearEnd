@@ -20,4 +20,6 @@ public interface UserService {
     boolean validatePassword(int id,String oldPassword);
 
     EtmsUser findUserIndexById(int id);
+
+    List<EtmsUser> findByDeptId(int deptId);
 }

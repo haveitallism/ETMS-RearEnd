@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EtmsClassFile {
-  private String classTitle;
-  private String classFile;
+public class EtmsDept {
+    private long deptId;
+    private String deptName;
 }

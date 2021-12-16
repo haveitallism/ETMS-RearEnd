@@ -42,6 +42,7 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.group8.entity
+  #下划线转驼峰配置
   configuration:
     map-underscore-to-camel-case: true
 
