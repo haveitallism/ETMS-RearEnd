@@ -24,14 +24,19 @@ public class EtmsDemandServiceImpl implements EtmsDemandService {
         List<EtmsDemand> etmsDemandList = etmsDemandDao.findByuid(uid);
         return etmsDemandList;
     }
-    //新增需求发布
+    //新增需求
     @Override
     public int addDemand(EtmsDemand etmsDemand) {
         return etmsDemandDao.addOne(etmsDemand);
     }
-    //查询具体发布需求
+    //查询具体需求
     @Override
     public EtmsDemand findDemandByid(Integer did) {
         return etmsDemandDao.findByid(did);
+    }
+    //搜索需求
+    @Override
+    public List<EtmsDemand> findDemandByName(String title, Integer uid) {
+        return etmsDemandDao.findByName(title,uid);
     }
 }

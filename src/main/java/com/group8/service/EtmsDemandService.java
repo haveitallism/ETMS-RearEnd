@@ -12,4 +12,6 @@ public interface EtmsDemandService {
     int addDemand(EtmsDemand etmsDemand);
 
     EtmsDemand findDemandByid(Integer did);
+
+    List<EtmsDemand> findDemandByName(String title, Integer uid);
 }

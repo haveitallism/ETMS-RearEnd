@@ -6,14 +6,103 @@
     <select id="findAll" resultType="com.group8.entity.EtmsDemand">
         select * from etms_demand order by demand_table_id desc
     </select>
+
+    <resultMap id="demand"   type="com.group8.entity.EtmsDemand">
+        <id property="demandTableId" column="demand_table_id" ></id>
+        <result property="demandTitle" column="demand_title" ></result>
+        <result property="demandInstructions" column="demand_instructions" ></result>
+        <result property="startTime" column="start_time" ></result>
+        <result property="endTime" column="end_time" ></result>
+        <result property="demandDept" column="demand_dept" ></result>
+        <result property="peopleNumber" column="people_number" ></result>
+        <result property="trainingMethods" column="training_methods" ></result>
+        <result property="demandReason" column="demand_reason" ></result>
+        <result property="otherRequirements" column="other_requirements" ></result>
+        <result property="status" column="status" ></result>
+        <result property="userId" column="user_id" ></result>
+        <result property="createdBy" column="created_by" ></result>
+        <result property="createdTime" column="created_time" ></result>
+        <result property="updatedBy" column="updated_by" ></result>
+        <result property="updatedTime" column="updated_time" ></result>
+<!--        <collection property="etmsDemandResearch" ofType="com.group8.entity.EtmsDemandResearch">-->
+<!--                        <id property="researchId" column="research_id"></id>-->
+<!--                        <result property="startTime" column="start_time"></result>-->
+<!--                        <result property="endTime" column="end_time"></result>-->
+<!--                        <result property="demandId" column="demand_id"></result>-->
+<!--                        <result property="problemOne" column="problem_one"></result>-->
+<!--                        <result property="problemTwo" column="problem_two"></result>-->
+<!--                        <result property="problemThree" column="problem_three"></result>-->
+<!--                        <result property="problemFour" column="problem_four"></result>-->
+<!--                        <result property="userId" column="user_id"></result>-->
+<!--                        <result property="status" column="status"></result>-->
+<!--                        <result property="createdBy" column="created_by" ></result>-->
+<!--                        <result property="createdTime" column="created_time" ></result>-->
+<!--                        <result property="updatedBy" column="updated_by" ></result>-->
+<!--                        <result property="updatedTime" column="updated_time" ></result>-->
+
+<!--        </collection>-->
+        <association property="etmsDemandResearch" javaType="com.group8.entity.EtmsDemandResearch" resultMap="research">
+<!--                    <id property="researchId" column="research_id"></id>-->
+<!--                    <result property="startTime" column="start_time"></result>-->
+<!--                    <result property="endTime" column="end_time"></result>-->
+<!--                    <result property="demandId" column="demand_id"></result>-->
+<!--                    <result property="problemOne" column="problem_one"></result>-->
+<!--                    <result property="problemTwo" column="problem_two"></result>-->
+<!--                    <result property="problemThree" column="problem_three"></result>-->
+<!--                    <result property="problemFour" column="problem_four"></result>-->
+<!--                    <result property="userId" column="user_id"></result>-->
+<!--                    <result property="status" column="status"></result>-->
+<!--                    <result property="createdBy" column="created_by" ></result>-->
+<!--                    <result property="createdTime" column="created_time" ></result>-->
+<!--                    <result property="updatedBy" column="updated_by" ></result>-->
+<!--                    <result property="updatedTime" column="updated_time" ></result>-->
+                </association>
+    </resultMap>
+
+
+    <resultMap id="findbyuid" type="com.group8.entity.EtmsDemand">
+        <id property="demandTableId" column="did"></id>
+        <result property="demandTitle" column="dtitle"></result>
+        <result property="demandDept" column="dept"></result>
+        <result property="endTime" column="endtime"></result>
+        <result property="peopleNumber" column="pnums"></result>
+        <association property="etmsDemandResearch" javaType="com.group8.entity.EtmsDemandResearch">
+            <result property="peoplenums" column="peoplenums"></result>
+        </association>
+    </resultMap>
     <!--  查询个人发布的需求  -->
-    <select id="findByuid" resultType="com.group8.entity.EtmsDemand">
-        select * from etms_demand where user_id = #{uid} order by demand_table_id desc
+    <select id="findByuid" resultMap="findbyuid">
+        select d.demand_table_id did,d.demand_dept dept,d.demand_title dtitle,d.end_time endtime,d.people_number pnums,count(rr.research_id) peoplenums from etms_demand d,etms_demand_research r,etms_resach_results rr
+        where d.user_id = #{uid} and demand_id = d.demand_table_id and rr.research_id = r.research_id order by did desc
     </select>
-    <!-- 根据查询具体发布的需求   -->
-    <select id="findByid" resultType="com.group8.entity.EtmsDemand">
+
+    <resultMap id="findbyid" type="com.group8.entity.EtmsDemand">
+        <id property="demandTableId" column="demand_table_id" ></id>
+        <result property="demandTitle" column="demand_title" ></result>
+        <result property="demandInstructions" column="demand_instructions" ></result>
+        <result property="startTime" column="start_time" ></result>
+        <result property="endTime" column="end_time" ></result>
+        <result property="demandDept" column="demand_dept" ></result>
+        <result property="peopleNumber" column="people_number" ></result>
+        <result property="trainingMethods" column="training_methods" ></result>
+        <result property="demandReason" column="demand_reason" ></result>
+        <result property="otherRequirements" column="other_requirements" ></result>
+        <result property="status" column="status" ></result>
+        <result property="userId" column="user_id" ></result>
+        <result property="createdBy" column="created_by" ></result>
+        <result property="createdTime" column="created_time" ></result>
+        <result property="updatedBy" column="updated_by" ></result>
+        <result property="updatedTime" column="updated_time" ></result>
+        <association property="etmsDemandResearch" javaType="com.group8.entity.EtmsDemandResearch"
+                     column="demand_table_id" select="com.group8.dao.EtmsDemanResearchDao.findById"></association>
+    </resultMap>
+    <!-- 根据id查询具体发布的需求   -->
+    <select id="findByid"  resultMap="findbyid">
         select * from etms_demand where demand_table_id = #{id}
     </select>
+
+
+
     <!--  添加发布的需求  -->
     <insert id="addOne" parameterType="com.group8.entity.EtmsDemand">
         insert into etms_demand values(null,#{demandTitle},#{demandInstructions}
@@ -22,5 +111,16 @@
                                       ,#{status },#{userId},#{createdBy},#{createdTime},#{updatedBy}
                                       ,#{updatedTime})
     </insert>
-
+    <!-- 搜索需求   -->
+    <select id="findByName" resultType="com.group8.entity.EtmsDemand">
+        select * from etms_demand
+        <where>
+            <if test="uid == null or uid == ''">
+                and demand_title like concat('%',#{title},'%')
+            </if>
+            <if test="uid != null and uid != ''">
+                and demand_title like concat('%',#{title},'%') and user_id = #{uid}
+            </if>
+        </where>
+    </select>
 </mapper>

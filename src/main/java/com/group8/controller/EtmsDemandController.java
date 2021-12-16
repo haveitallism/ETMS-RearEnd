@@ -27,10 +27,17 @@ public class EtmsDemandController {
         return  new ResponseEntity(200,"查询成功",etmsDemandList);
     }
     //查询具体发布需求
-    @RequestMapping ("/findDemandByid/{did}")
+    @RequestMapping ("/findDemandById/{did}")
     public ResponseEntity findDemandByid(@PathVariable Integer did){
         EtmsDemand etmsDemand = etmsDemandService.findDemandByid(did);
         return  new ResponseEntity(200,"查询成功",etmsDemand);
+    }
+    //搜索发布需求
+    @RequestMapping ("/findDemandByName")
+    public ResponseEntity findDemandByName(@RequestBody EtmsDemand etmsDemand){
+
+        List<EtmsDemand> etmsDemandlist = etmsDemandService.findDemandByName(etmsDemand.getDemandTitle(), etmsDemand.getUserId());
+        return  new ResponseEntity(200,"查询成功",etmsDemandlist);
     }
     //新增需求发布
     @RequestMapping("/addDemand")
@@ -41,6 +48,7 @@ public class EtmsDemandController {
         } else {
             return  new ResponseEntity(401,"查询失败",i);
         }
-
     }
+
+
 }
