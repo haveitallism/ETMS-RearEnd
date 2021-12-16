@@ -34,4 +34,33 @@
     <select id="findById" parameterType="int" resultType="com.group8.entity.EtmsItem">
         select * from etms_item where item_id = #{id}
     </select>
+
+
+    <!--从etms_outline查出目录名字，返回为EtmsCatalog对象-->
+    <resultMap id="Catalogs" type="EtmsCatalog">
+        <id property="catalogName" column="catalog"></id>
+    </resultMap>
+    <select id="findCatalogByTid" parameterType="int" resultMap="Catalogs">
+        select * from etms_outline where item_id = #{id}
+    </select>
+
+    <!--从etms_outline通过培训id和目录id去查询具体的课程文件和课程名字-->
+    <resultMap id="ClassFiles" type="EtmsClassFile">
+        <id property="classTitle" column="train_class_title"></id>
+        <result property="classFile" column="train_class_file"></result>
+    </resultMap>
+    <select id="findClassFileByCid" resultMap="ClassFiles">
+        select * from etms_outline where catalog = #{catalogName} and item_id = #{id}
+    </select>
+
+    <!--通过培训课程的Id和学员Id去查培训课程的进度-->
+    <select id="findSchedule" resultType="String">
+        select train_schedule from etms_item_student where user_id = #{uid} and item_id = #{tid};
+    </select>
+
+    <select id="findClassNum" resultType="int">
+        select count(*) from etms_outline where item_id = #{id}
+    </select>
+
+
 </mapper>
