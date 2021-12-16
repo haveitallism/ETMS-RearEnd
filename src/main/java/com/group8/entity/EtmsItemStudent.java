@@ -22,6 +22,7 @@ public class EtmsItemStudent {
   private Date createdTime;
   private String updatedBy;
   private Date updatedTime;
+  private EtmsUser etmsUser;
 
 
 }

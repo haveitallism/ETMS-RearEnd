@@ -1,0 +1,16 @@
+package com.group8.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ScheduleQueryCondition {
+    private String username;
+    private String position;
+    private int page;
+    private int limit;
+    private int itemId;
+}
