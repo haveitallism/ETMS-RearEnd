@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group8.dao.EtmsDemanResearchDao">
+    <select id="findById" resultMap="research">
+        select * from etms_demand_research where research_id = #{id}
+    </select>
+    <resultMap id="research" type="com.group8.entity.EtmsDemandResearch">
+        <id property="researchId" column="research_id"></id>
+        <result property="startTime" column="start_time"></result>
+        <result property="endTime" column="end_time"></result>
+        <result property="demandId" column="demand_id"></result>
+        <result property="problemOne" column="problem_one"></result>
+        <result property="problemTwo" column="problem_two"></result>
+        <result property="problemThree" column="problem_three"></result>
+        <result property="problemFour" column="problem_four"></result>
+        <result property="userId" column="user_id"></result>
+        <result property="status" column="status"></result>
+        <result property="createdBy" column="created_by" ></result>
+        <result property="createdTime" column="created_time" ></result>
+        <result property="updatedBy" column="updated_by" ></result>
+        <result property="updatedTime" column="updated_time" ></result>
+    </resultMap>
+</mapper>

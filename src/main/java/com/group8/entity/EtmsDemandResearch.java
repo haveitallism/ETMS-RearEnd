@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -25,6 +26,6 @@ public class EtmsDemandResearch {
   private Date createdTime;
   private String updatedBy;
   private Date updatedTime;
-
-
+  private int peoplenums;
+  private List<EtmsResachTopic> etmsResachTopicList;
 }
