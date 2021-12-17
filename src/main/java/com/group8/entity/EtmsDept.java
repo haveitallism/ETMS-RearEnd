@@ -7,11 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EtmsItemAm {
-
-  private long itemId;
-  private long amId;
-  private long itemAmScore;
-
-
+public class EtmsDept {
+    private long deptId;
+    private String deptName;
 }

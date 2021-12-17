@@ -1,18 +1,15 @@
 package com.group8.service.impl;
 
-import com.group8.dao.AbilityDao;
+import com.group8.dao.AbilityModelDao;
 import com.group8.dao.ItemDao;
-import com.group8.entity.EtmsCatalog;
-import com.group8.entity.EtmsClassFile;
 import com.group8.dao.OutlineDao;
+import com.group8.dto.AbilityModelSubject;
 import com.group8.dto.EtmsItemAbilityOutline;
-import com.group8.entity.EtmsAbilityModel;
-import com.group8.entity.EtmsItem;
-import com.group8.entity.EtmsItemAm;
-import com.group8.entity.EtmsOutline;
+import com.group8.entity.*;
 import com.group8.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 
@@ -24,7 +21,7 @@ public class ItemServiceImpl implements ItemService {
     @Autowired(required = false)
     ItemDao itemDao;
     @Autowired(required = false)
-    AbilityDao abilityDao;
+    AbilityModelDao abilityModelDao;
     @Autowired(required = false)
     OutlineDao outlineDao;
 
@@ -76,6 +73,7 @@ public class ItemServiceImpl implements ItemService {
             EtmsItem etmsItem = iao.getEtmsItem();
             int i1 = itemDao.addOne(etmsItem);
 
+            //(不建议在service层循环调用sql语句)
             List<EtmsOutline> etmsOutlines = iao.getEtmsOutlines();
             for (EtmsOutline eoi : etmsOutlines) {
                 i2 = outlineDao.addOne(eoi);
@@ -85,10 +83,10 @@ public class ItemServiceImpl implements ItemService {
                 }
             }
 
-            //循环添加能力模型
-            List<EtmsItemAm> list = iao.getItemAmLists();
-            for (EtmsItemAm eia : list) {
-                i3 = abilityDao.addOne(eia);
+            //循环添加能力模型 (不建议在service层循环调用sql语句)
+            List<AbilityModelSubject> list = iao.getAmSubjectLists();
+            for (AbilityModelSubject ams : list) {
+                i3 = abilityModelDao.addOne(ams);
                 //如果中间添加失败 则中断循环
                 if (i3 < 0) {
                     break;

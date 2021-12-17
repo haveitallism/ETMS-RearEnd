@@ -7,8 +7,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-import java.util.List;
-
 public interface ItemDao {
     EtmsItem findById(int id);
 
@@ -29,4 +27,5 @@ public interface ItemDao {
     List<EtmsItem> findAllItem(int uid);
 
     int findMyItemSum(int uid);
+
 }

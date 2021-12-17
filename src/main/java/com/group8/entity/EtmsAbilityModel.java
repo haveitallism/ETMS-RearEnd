@@ -4,9 +4,9 @@ package com.group8.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,6 +20,9 @@ public class EtmsAbilityModel {
   private Date createdTime;
   private String updatedBy;
   private Date updatedTime;
+  private List<EtmsAbilityModel> childAbilityList;
+  private String score;
+  private Object subject;
 
 
 
