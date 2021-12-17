@@ -2,24 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.group8.dao.DemanResearchDao">
+    <insert id="sda">
+
+    </insert>
     <select id="findById" resultMap="research">
-        select * from etms_demand_research where research_id = #{id}
+        select * from etms_demand_research where demand_id = #{demand_table_id}
     </select>
     <resultMap id="research" type="com.group8.entity.EtmsDemandResearch">
-<!--        <id property="researchId" column="research_id"></id>-->
-<!--        <result property="startTime" column="start_time"></result>-->
-<!--        <result property="endTime" column="end_time"></result>-->
-<!--        <result property="demandId" column="demand_id"></result>-->
-<!--        <result property="problemOne" column="problem_one"></result>-->
-<!--        <result property="problemTwo" column="problem_two"></result>-->
-<!--        <result property="problemThree" column="problem_three"></result>-->
-<!--        <result property="problemFour" column="problem_four"></result>-->
-<!--        <result property="userId" column="user_id"></result>-->
-<!--        <result property="status" column="status"></result>-->
-<!--        <result property="createdBy" column="created_by" ></result>-->
-<!--        <result property="createdTime" column="created_time" ></result>-->
-<!--        <result property="updatedBy" column="updated_by" ></result>-->
-<!--        <result property="updatedTime" column="updated_time" ></result>-->
+        <id property="researchId" column="research_id"></id>
+        <result property="startTime" column="start_time"></result>
+        <result property="endTime" column="end_time"></result>
+        <result property="demandId" column="demand_id"></result>
+        <result property="problemOne" column="problem_one"></result>
+        <result property="problemTwo" column="problem_two"></result>
+        <result property="problemThree" column="problem_three"></result>
+        <result property="problemFour" column="problem_four"></result>
+        <result property="userId" column="user_id"></result>
+        <result property="status" column="status"></result>
+        <result property="createdBy" column="created_by" ></result>
+        <result property="createdTime" column="created_time" ></result>
+        <result property="updatedBy" column="updated_by" ></result>
+        <result property="updatedTime" column="updated_time" ></result>
         <collection property="etmsResachTopicList" column="research_id" select="com.group8.dao.ResearchTopicDao.findTopic" ofType="com.group8.entity.EtmsResachTopic"></collection>
     </resultMap>
+
 </mapper>
