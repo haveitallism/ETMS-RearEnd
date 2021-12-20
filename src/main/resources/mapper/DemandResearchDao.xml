@@ -24,4 +24,11 @@
                     select="com.group8.dao.ResearchTopicDao.findTopic"
                     ofType="com.group8.entity.EtmsResachTopic"></collection>
     </resultMap>
+
+    <resultMap id="findPeopleNumsMap" type="com.group8.entity.EtmsDemandResearch">
+        <result property="peoplenums" column="peoplenums"></result>
+    </resultMap>
+    <select id="findPeopleNums" resultMap="findPeopleNumsMap">
+        select count(*) peoplenums from etms_resach_results where research_id = #{rid}
+    </select>
 </mapper>
