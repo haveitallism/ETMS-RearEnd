@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public EtmsUser findUserById(int id) {
         EtmsUser user = userDao.findUserById(id);
+
         return user;
     }
 

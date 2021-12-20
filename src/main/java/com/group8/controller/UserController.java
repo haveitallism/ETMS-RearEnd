@@ -15,6 +15,7 @@ import java.util.List;
 
 @RequestMapping("/user")
 @RestController
+
 public class UserController {
 
     @Autowired
@@ -24,10 +25,11 @@ public class UserController {
     @GetMapping("/findAllUser")
     public ResponseEntity<List<EtmsUser>> findAllUser(){
         List<EtmsUser> allUser = userService.findAllUser();
+//        System.out.println(1111);
         ResponseEntity<List<EtmsUser>> entity;
-        System.out.println(allUser);
+//        System.out.println(allUser);
         if(allUser != null){
-            entity = new ResponseEntity<>(200,"查询成功！", allUser);
+            entity = new ResponseEntity<>(20000,"查询成功！", allUser);
         }else{
             entity = new ResponseEntity<>(500,"查询失败！");
         }
@@ -37,9 +39,10 @@ public class UserController {
     @GetMapping("/findUserById/{id}")
     public ResponseEntity<EtmsUser> findUserById(@PathVariable int id){
         EtmsUser user = userService.findUserById(id);
+        System.out.println(user);
         ResponseEntity<EtmsUser> entity;
         if(user != null){
-            entity = new ResponseEntity<>(200,"查询成功！", user);
+            entity = new ResponseEntity<>(20000,"查询成功！", user);
         }else{
             entity = new ResponseEntity<>(500,"查询失败！");
         }
@@ -47,11 +50,12 @@ public class UserController {
     }
 
     @PostMapping("/updateUser")
-    public ResponseEntity<Boolean> updateUser(EtmsUser etmsUser){
+    public ResponseEntity<Boolean> updateUser(@RequestBody EtmsUser etmsUser){
+        System.out.println(etmsUser);
         boolean flag = userService.updateUser(etmsUser);
         ResponseEntity<Boolean> entity;
         if(flag == true){
-            entity = new ResponseEntity<>(200,"修改成功！", flag);
+            entity = new ResponseEntity<>(20000,"修改成功！", flag);
         }else{
             entity = new ResponseEntity<>(500,"修改失败！");
         }
