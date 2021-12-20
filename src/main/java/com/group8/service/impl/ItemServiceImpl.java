@@ -4,7 +4,6 @@ import com.group8.dao.AbilityDao;
 import com.group8.dao.ItemDao;
 import com.group8.dao.OutlineDao;
 import com.group8.dto.EtmsItemAbilityOutline;
-import com.group8.entity.EtmsAbilityModel;
 import com.group8.entity.EtmsItem;
 import com.group8.entity.EtmsItemAm;
 import com.group8.entity.EtmsOutline;
