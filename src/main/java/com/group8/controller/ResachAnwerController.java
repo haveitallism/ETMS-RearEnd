@@ -44,7 +44,5 @@ public class ResachAnwerController {
         } else {
             return new ResponseEntity(500, "新增失败", "服务器在维护中");
         }
-//        System.out.println(anwersDto);
-//       return new ResponseEntity(500, "新增失败", "服务器在维护中");
     }
 }
