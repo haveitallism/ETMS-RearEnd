@@ -1,5 +1,6 @@
 package com.group8.service;
 
+import com.group8.dto.ceshiDto;
 import com.group8.entity.EtmsResachAnwer;
 
 import java.util.List;
@@ -16,5 +17,5 @@ public interface ResachAnwerService {
     List<EtmsResachAnwer> findALL();
 
     //新增答案
-    Integer addEtmsResachAnwerOne(List<String> ansers);
+    Integer addEtmsResachAnwerOne(List<ceshiDto> ansers, String topic);
 }

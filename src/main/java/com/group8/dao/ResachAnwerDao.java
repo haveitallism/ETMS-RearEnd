@@ -1,7 +1,7 @@
 package com.group8.dao;
 
 import com.group8.entity.EtmsResachAnwer;
-import org.apache.ibatis.annotations.Param;
+import io.lettuce.core.dynamic.annotation.Param;
 
 import java.util.List;
 
@@ -18,4 +18,5 @@ public interface ResachAnwerDao {
 
     //新增答案
     Integer addEtmsResachAnwerOne(@Param("ansers") List<String> ansers, @Param("id") int id);
+
 }
