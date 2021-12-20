@@ -8,5 +8,5 @@ import java.util.List;
 public interface AbilityModelDao {
     List<EtmsAbilityModel> findAll(AbilityModelSubject abilityModelSubject);
 
-    int addOne(AbilityModelSubject AbilityModelSubject);
+    int addOne(List<AbilityModelSubject> abilityModelSubject);
 }
