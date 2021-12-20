@@ -10,7 +10,11 @@
     </resultMap>
 
     <insert id="addOne" >
-        insert into  etms_item_am value (#{itemId},#{amId},#{itemAmScore})
+        insert into  etms_outline(item_id,catalog,train_class_title)
+        values
+        <foreach collection="outlines" item="outline" separator=",">
+            (#{outline.itemId},#{outline.catalog},#{outline.trainClassTitle})
+        </foreach>
     </insert>
 
     <select id="findCatalog" parameterType="int" resultMap="outlineCatalog">
