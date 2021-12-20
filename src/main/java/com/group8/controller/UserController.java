@@ -22,6 +22,16 @@ public class UserController {
     UserService userService;
 
 
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody EtmsUser etmsUser){
+        EtmsUser user = userService.login(etmsUser);
+        if (user != null){
+            return new ResponseEntity<>(200, "登录成功");
+        }else {
+            return new ResponseEntity<>(500, "登录失败");
+        }
+    }
+
     @GetMapping("/findAllUser")
     public ResponseEntity<List<EtmsUser>> findAllUser(){
         List<EtmsUser> allUser = userService.findAllUser();

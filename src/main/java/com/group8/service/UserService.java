@@ -22,4 +22,6 @@ public interface UserService {
     EtmsUser findUserIndexById(int id);
 
     List<EtmsUser> findByDeptId(int deptId);
+
+    EtmsUser login(EtmsUser etmsUser);
 }

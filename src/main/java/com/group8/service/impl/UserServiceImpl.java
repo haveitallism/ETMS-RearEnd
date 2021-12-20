@@ -89,4 +89,9 @@ public class UserServiceImpl implements UserService {
     public List<EtmsUser> findByDeptId(int deptId) {
         return userDao.findByDeptId(deptId);
     }
+
+    @Override
+    public EtmsUser login(EtmsUser etmsUser) {
+        return userDao.findByUsernamAndPassword(etmsUser.getUserName(), etmsUser.getUserPassword());
+    }
 }
