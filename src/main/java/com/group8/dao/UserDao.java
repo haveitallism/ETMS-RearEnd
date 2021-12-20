@@ -24,4 +24,6 @@ public interface UserDao {
     List<EtmsItem> findItemById(@Param("id")int userid);
 
     List<EtmsUserAm> findAbilityById(@Param("id")int userid);
+
+    EtmsUser findByUsernamAndPassword(@Param("username") String userName, @Param("password") String userPassword);
 }

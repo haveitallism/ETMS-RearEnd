@@ -47,6 +47,9 @@
     <select id="findByDeptId" parameterType="int" resultType="com.group8.entity.EtmsUser">
         select * from etms_user where dept_id = #{deptId}
     </select>
+    <select id="findByUsernamAndPassword" resultType="com.group8.entity.EtmsUser">
+        select * from etms_user where user_name = #{username} and user_password = #{password}
+    </select>
 
 
 </mapper>
