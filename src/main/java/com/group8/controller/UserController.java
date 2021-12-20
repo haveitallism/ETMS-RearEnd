@@ -80,7 +80,7 @@ public class UserController {
         boolean flag = userService.validatePassword(id,oldPasswrod);
         ResponseEntity<Boolean> entity;
         if(flag == true){
-            entity = new ResponseEntity<>(200,"密码正确！", flag);
+            entity = new ResponseEntity<>(20000,"密码正确！", flag);
         }else{
             entity = new ResponseEntity<>(500,"密码错误！", !flag);
         }
