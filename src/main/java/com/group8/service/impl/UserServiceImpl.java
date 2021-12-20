@@ -1,24 +1,21 @@
 package com.group8.service.impl;
 
 import com.group8.dao.UserDao;
-import com.group8.entity.EtmsUser;
-import com.group8.entity.ResponseEntity;
+import com.group8.entity.*;
 import com.group8.service.UserService;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Arrays;
 import java.util.List;
+import com.group8.entity.EtmsUser;
+import com.group8.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-/**
- * @author acoffee
- * @create 2021-12-14 15:57
- */
 @Service
 public class UserServiceImpl implements UserService {
-
-    @Autowired
+    @Autowired(required = false)
     UserDao userDao;
 
     @Override
@@ -30,7 +27,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public EtmsUser findUserById(int id) {
         EtmsUser user = userDao.findUserById(id);
-        System.out.println(user);
         return user;
     }
 
@@ -67,5 +63,29 @@ public class UserServiceImpl implements UserService {
         }else{
             return false;
         }
+    }
+
+    /**
+     * 2021.12.15日 新增：
+     * 网站首页展示
+     * 包含：用户课程 用户培训 用户个人能力展示
+     * 但还有进度展示待完善
+     * @param id
+     * @return
+     */
+    @Override
+    public EtmsUser findUserIndexById(int id) {
+        EtmsUser etmsUser = userDao.findUserById(id);
+        List<EtmsItem> itemById = userDao.findItemById(id);
+        List<EtmsCourse> coursesByid = userDao.findCoursesByid(id);
+        List<EtmsUserAm> abilityById = userDao.findAbilityById(id);
+        etmsUser.setCourseList(coursesByid);
+        etmsUser.setItemList(itemById);
+        etmsUser.setUserAmList(abilityById);
+        return etmsUser;
+    }
+    @Override
+    public List<EtmsUser> findByDeptId(int deptId) {
+        return userDao.findByDeptId(deptId);
     }
 }

@@ -1,13 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.group8.dao.AbilityDao">
+<mapper namespace="com.group8.dao.AbilityModelDao">
+    <resultMap id="itemAM" type="com.group8.entity.EtmsAbilityModel">
+        <id property="abilityId" column="ability_id"/>
+        <result property="abilityName" column="ability_name"/>
+        <result property="score" column="item_am_score"/>
+        <result property="abilityFatherId" column="ability_father_id"/>
+    </resultMap>
+    <select id="findAll" parameterType="com.group8.dto.AbilityModelSubject" resultMap="itemAM">
+        select
+        <if test="subject.equals('item')">
+        iam.item_am_score, am.ability_name, am.ability_id, am.ability_father_id from etms_item_am iam
+        left join etms_ability_model am on iam.am_id = am.ability_id where iam.item_id = #{subjectId}
+        </if>
+        <if test="subject.equals('course')">
+            cam.course_am_score, am.ability_name, am.ability_id, am.ability_father_id from etms_course_am cam
+            left join etms_ability_model am on cam.am_id = am.ability_id where cam.course_id = #{subjectId}
+        </if>
+        <if test="subject.equals('user')">
+            uam.user_am_score, am.ability_name, am.ability_id, am.ability_father_id from etms_user_am uam
+            left join etms_ability_model am on uam.am_id = am.ability_id where uam.user_id = #{subjectId}
+        </if>
+    </select>
 
-    <insert id="addOne" >
-            insert into  etms_item_am value (#{itemId},#{amId},#{itemAmScore})
+    <insert id="addOne" parameterType="com.group8.entity.EtmsAbilityModel">
+        insert into
+        <if test="subject.equals('item')">
+            etms_item_am
+        </if>
+        <if test="subject.equals('course')">
+            etms_course_am
+        </if>
+        <if test="subject.equals('user')">
+            etms_user_am
+        </if>
+        value (#{subjectId},#{amId},#{score})
     </insert>
-
-
-
-
 </mapper>

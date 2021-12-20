@@ -18,4 +18,8 @@ public interface UserService {
     boolean updatePassword(int id,String newPassword);
 
     boolean validatePassword(int id,String oldPassword);
+
+    EtmsUser findUserIndexById(int id);
+
+    List<EtmsUser> findByDeptId(int deptId);
 }

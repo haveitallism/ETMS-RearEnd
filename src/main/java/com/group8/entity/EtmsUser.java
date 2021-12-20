@@ -5,16 +5,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class EtmsUser {
 
-  private String userId;
+  private long userId;
   private String userName;
   private String userPassword;
-  private String userDept;
+  private long deptId;
+  private EtmsDept dept;
   private String userPosition;
   private String userTelephone;
   private String userEmail;
@@ -26,6 +28,12 @@ public class EtmsUser {
   private Date createdTime;
   private String updatedBy;
   private Date updatedTime;
+  //该用户课程集合
+  private List<EtmsCourse> courseList;
+  //该培训课程集合
+  private List<EtmsItem> itemList;
+  //该能力模型集合
+  private List<EtmsUserAm> userAmList;
 
 
 }

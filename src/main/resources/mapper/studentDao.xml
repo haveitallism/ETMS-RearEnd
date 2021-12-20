@@ -18,19 +18,22 @@
             <id property="userId" column="user_id"/>
             <result property="userName" column="user_name"/>
             <result property="userCompany" column="user_company"/>
-            <result property="userDept" column="user_dept"/>
             <result property="userPosition" column="user_position"/>
             <result property="userEmail" column="user_email"/>
+            <association property="dept" column="deptId" javaType="com.group8.entity.EtmsDept">
+                <id property="deptId" column="dept_id"/>
+                <result property="deptName" column="dept_name"/>
+            </association>
         </association>
     </resultMap>
     <select id="findAll" resultMap="studentUserMap" parameterType="int">
-        select u.user_name, u.user_company, u.user_dept, u.user_position, u.user_email, s.apply_status
-        from etms_user u left join etms_item_student s on u.user_id = s.user_id where s.item_id = #{id}
+        select s.student_id, u.user_id, u.user_name, u.user_company, d.dept_id, d.dept_name, u.user_position, u.user_email, s.apply_status
+        from etms_dept d left join etms_user u on d.dept_id = u.dept_id left join etms_item_student s on u.user_id = s.user_id where s.item_id = #{id}
     </select>
 
     <select id="finApplied" resultMap="studentUserMap" parameterType="com.group8.dto.ScheduleQueryCondition">
-        select u.user_head_img, u.user_name, u.user_company, u.user_dept, u.user_position, s.train_schedule
-        from etms_user u left join etms_item_student s on u.user_id = s.user_id where s.apply_status = 1 and s.item_id = #{itemId}
+        select u.user_id, u.user_head_img, u.user_name, u.user_company, d.dept_id, d.dept_name, u.user_position,u.user_email, s.train_schedule
+        from etms_dept d left join etms_user u on d.dept_id = u.dept_id left join etms_item_student s on u.user_id = s.user_id where s.apply_status = 'true' and s.item_id = #{itemId}
         <if test="!username.equals('')">
             and u.user_name = #{username}
         </if>
@@ -38,4 +41,12 @@
             and u.user_position = #{position}
         </if>
     </select>
+
+    <delete id="deleteByItemIdAndUserId">
+        delete from etms_item_student where item_id = #{itemId} and user_id = #{userId}
+    </delete>
+
+    <insert id="add">
+        insert into etms_item_student values(null, #{userId}, #{itemId}, 0, 0, null, null, null, null, null, null)
+    </insert>
 </mapper>

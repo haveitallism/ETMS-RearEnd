@@ -36,6 +36,33 @@
         select * from etms_item where item_id = #{id}
     </select>
 
+
+    <!--从etms_outline查出目录名字，返回为EtmsCatalog对象-->
+    <resultMap id="Catalogs" type="com.group8.entity.EtmsCatalog">
+        <id property="catalogName" column="catalog"></id>
+    </resultMap>
+    <select id="findCatalogByTid" parameterType="int" resultMap="Catalogs">
+        select * from etms_outline where item_id = #{id}
+    </select>
+
+    <!--从etms_outline通过培训id和目录id去查询具体的课程文件和课程名字-->
+    <resultMap id="ClassFiles" type="com.group8.entity.EtmsClassFile">
+        <id property="classTitle" column="train_class_title"></id>
+        <result property="classFile" column="train_class_file"></result>
+    </resultMap>
+    <select id="findClassFileByCid" resultMap="ClassFiles">
+        select * from etms_outline where catalog = #{catalogName} and item_id = #{id}
+    </select>
+
+    <!--通过培训课程的Id和学员Id去查培训课程的进度-->
+    <select id="findSchedule" resultType="String">
+        select train_schedule from etms_item_student where user_id = #{uid} and item_id = #{tid};
+    </select>
+
+    <select id="findClassNum" resultType="int">
+        select count(*) from etms_outline where item_id = #{id}
+    </select>
+
     <insert id="addOne" >
         insert into
             etms_item (train_title,train_description,train_type,train_level,train_form,train_status,train_plan,train_budget,train_princ,train_cover,apply_num,apply_cuttime,apply_check,apply_form,train_betime,train_address,study_type,sign_in,train_endtime,train_teacher,created_time,created_by,updated_by,updated_time)
@@ -43,7 +70,7 @@
             (#{trainTitle},#{trainDescription},#{trainType},#{trainLevel},#{trainForm},#{trainStatus},#{trainPlan},#{trainBudget},#{trainPrinc},#{trainCover},#{applyNum},#{applyCuttime},#{applyCheck},#{applyForm},#{trainBetime},#{trainAddress},#{studyType},#{signIn},#{trainEndtime},#{trainTeacher},#{createdTime},#{createdBy},#{updatedBy},#{updatedTime})
     </insert>
 
-    <select id="findItem"  resultType="etmsItem" parameterType="etmsItem">
+    <select id="findItem" resultType="com.group8.entity.EtmsItem" parameterType="com.group8.entity.EtmsItem">
         select i.train_title,i.train_status,i.train_princ
         from etms_item i
         <where>
