@@ -138,6 +138,16 @@ public class ItemController {
         return new ResponseEntity<PageInfo<EtmsItem>>(200,"查询成功",etmsItemPageInfo);
     }
 
+    //根据项目id删除相应的培训项目
+    @DeleteMapping("/deleteOne/{itemId}")
+    public ResponseEntity<PageInfo<EtmsItem>> deleteItem(@PathVariable int itemId){
+        int i  = itemService.deleteOne(itemId);
+        if (i > 0 ){
+            return  new ResponseEntity(200,"删除成功");
+        }else{
+            return  new ResponseEntity(200,"删除失败");
+        }
+    }
 
     /*
      * 我的培训中参加的培训总数
@@ -159,5 +169,9 @@ public class ItemController {
             return new ResponseEntity(400,"查询失败","");
         }
     }
+
+
+
+
 
 }

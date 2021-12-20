@@ -28,4 +28,5 @@ public interface ItemDao {
 
     int findMyItemSum(int uid);
 
+    int deleteOne(int itemId);
 }

@@ -29,4 +29,5 @@ public interface ItemService {
 
     List<EtmsItem> findAllItem(int uid);
 
+    int deleteOne(int itemId);
 }
