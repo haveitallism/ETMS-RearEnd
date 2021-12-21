@@ -13,4 +13,8 @@ public interface StudentService {
     int deleteByItemIdAndUserId(int itemId, int userId);
 
     int add(int itemId, int userId);
+
+    int updateApplyStatus(String status, int stuId);
+
+    EtmsItemStudent findByItemIdAndUserId(int itemId, int userId);
 }

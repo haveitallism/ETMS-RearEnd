@@ -24,17 +24,37 @@
         </if>
     </select>
 
-    <insert id="addOne" parameterType="com.group8.entity.EtmsAbilityModel">
-        insert into
+    <insert id="addOne">
+        <if test="abilityModelSubject.get(0).subject.equals('item')">
+        insert into etms_item_am value
+            <foreach collection="abilityModelSubject" item="ability" separator="," >
+                 (#{ability.subjectId},#{ability.amId},#{ability.score})
+            </foreach>
+        </if>
+        <if test="abilityModelSubject.get(0).subject.equals('course')">
+            insert into etms_course_am value
+            <foreach collection="abilityModelSubject" item="ability" separator="," >
+                (#{ability.subjectId},#{ability.amId},#{ability.score})
+            </foreach>
+        </if>
+        <if test="abilityModelSubject.get(0).subject.equals('user')">
+            insert into etms_user_am value
+            <foreach collection="abilityModelSubject" item="ability" separator="," >
+                (#{ability.subjectId},#{ability.amId},#{ability.score})
+            </foreach>
+        </if>
+    </insert>
+
+    <update id="updateAbilityModel">
+        update
         <if test="subject.equals('item')">
-            etms_item_am
+            etms_item_am set item_am_score = #{score} where item_id = #{subjectId} and am_id = #{amId}
         </if>
         <if test="subject.equals('course')">
-            etms_course_am
+            etms_course_am set course_am_score = #{score} where course_id = #{subjectId} and am_id = #{amId}
         </if>
         <if test="subject.equals('user')">
-            etms_user_am
+            etms_user_am set user_am_score = #{score} where user_id = #{subjectId} and am_id = #{amId}
         </if>
-        value (#{subjectId},#{amId},#{score})
-    </insert>
+    </update>
 </mapper>

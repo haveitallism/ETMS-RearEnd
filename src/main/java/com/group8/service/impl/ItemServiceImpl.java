@@ -7,9 +7,11 @@ import com.group8.dto.AbilityModelSubject;
 import com.group8.dto.EtmsItemAbilityOutline;
 import com.group8.entity.*;
 import com.group8.service.ItemService;
+import com.group8.utils.TidyAbilityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -71,27 +73,27 @@ public class ItemServiceImpl implements ItemService {
 
             //添加培训项目
             EtmsItem etmsItem = iao.getEtmsItem();
+            LocalDateTime now = LocalDateTime.now();
+            etmsItem.setCreatedTime(now);
             int i1 = itemDao.addOne(etmsItem);
+            long itemId = etmsItem.getItemId();
 
-            //(不建议在service层循环调用sql语句)
+            //添加大纲集合
             List<EtmsOutline> etmsOutlines = iao.getEtmsOutlines();
-            for (EtmsOutline eoi : etmsOutlines) {
-                i2 = outlineDao.addOne(eoi);
-                //如果中间添加失败 则中断循环
-                if (i2 < 0) {
-                    break;
-                }
+            for (int i = 0; i < etmsOutlines.size(); i++) {
+                etmsOutlines.get(i).setCatalog("目录" +1+ i);
+                etmsOutlines.get(i).setItemId(itemId);
             }
+            i2 = outlineDao.addOne(iao.getEtmsOutlines());
 
-            //循环添加能力模型 (不建议在service层循环调用sql语句)
+            //添加能力模型
             List<AbilityModelSubject> list = iao.getAmSubjectLists();
-            for (AbilityModelSubject ams : list) {
-                i3 = abilityModelDao.addOne(ams);
-                //如果中间添加失败 则中断循环
-                if (i3 < 0) {
-                    break;
-                }
+            for (AbilityModelSubject ability:list
+                 ) {
+                ability.setSubjectId(itemId);
             }
+            list.get(0).setSubject("item");
+            i3 = abilityModelDao.addOne(list);
             //如果其中一项不大于0 则添加失败
             if (i1 > 0 && i2 > 0 && i3 > 0) {
                 return 1;
@@ -101,9 +103,8 @@ public class ItemServiceImpl implements ItemService {
         }
         @Override
         public List<EtmsItem> findItem (EtmsItem etmsItem){
-            System.out.println("123" + etmsItem);
             List<EtmsItem> list = itemDao.findItem(etmsItem);
-            System.out.println(list);
+            System.out.println("获取的集合:"+list);
             return list;
         }
 
@@ -115,6 +116,25 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<EtmsItem> findAllItem(int uid) {
         return itemDao.findAllItem(uid);
+    }
+
+    @Override
+    public int deleteOne(int itemId) {
+        return itemDao.deleteOne(itemId);
+    }
+
+    @Override
+    public List<EtmsAbilityModel> findAMById(int id) {
+        AbilityModelSubject modelSubject = new AbilityModelSubject();
+        modelSubject.setSubjectId(id);
+        modelSubject.setSubject("item");
+        List<EtmsAbilityModel> abilityModelList = abilityModelDao.findAll(modelSubject);
+        return TidyAbilityModel.tidy(abilityModelList);
+    }
+
+    @Override
+    public int updateAbilityModel(AbilityModelSubject abilityModelSubject) {
+        return abilityModelDao.updateAbilityModel(abilityModelSubject);
     }
 }
 
