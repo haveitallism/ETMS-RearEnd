@@ -5,10 +5,7 @@ import com.group8.entity.EtmsCatalog;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.OutlineService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,8 +20,9 @@ public class OutlineController {
      * @param formInLine 传入的项目id
      * @return 返回一个目录集合
      */
-    @RequestMapping("/findByItemId")
+    @PostMapping(value = "/findByItemId")
     public ResponseEntity<List<EtmsCatalog>> findByItemId(@RequestBody FormInLine formInLine){
+        System.out.println(formInLine.toString());
         //PageHelper.startPage(formInLine.getPage(), formInLine.getLimit());
         List<EtmsCatalog> catalogList = outlineService.findByItemId(formInLine.getId());
 //        PageInfo<EtmsCatalog> etmsItemStudentPageInfo = new PageInfo<>(catalogList);
