@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@RequestMapping("/demand")
 public class DemandController {
     @Autowired
     DemandService etmsDemandService;

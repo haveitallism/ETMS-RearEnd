@@ -25,5 +25,5 @@ public class EtmsPlan {
   private Date createdTime;
   private String updatedBy;
   private Date updatedTime;
-
+  private String approver; //当前审批人
 }
