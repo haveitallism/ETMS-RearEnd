@@ -24,4 +24,20 @@ public interface UserDao {
     List<EtmsItem> findItemById(@Param("id")int userid);
 
     List<EtmsUserAm> findAbilityById(@Param("id")int userid);
+
+    EtmsUser findByUsernamAndPassword(@Param("username") String userName, @Param("password") String userPassword);
+
+    String validatePassword(int id);
+
+    boolean uploadPicture(@Param("headImg") String headImg,@Param("userId") int userId);
+
+    List<EtmsUser> findAllStudent(EtmsUser etmsUser);
+
+    List<EtmsUser> checkUser(EtmsUser etmsUser);
+
+    int addStudent(EtmsUser etmsUser);
+
+    int deleteStudent(int userId);
+
+    boolean updateStudent(EtmsUser etmsUser);
 }

@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.group8.dao.DemanResearchDao">
     <select id="findById" resultMap="research">
-        select * from etms_demand_research where research_id = #{id}
+        select * from etms_demand_research where demand_id = #{demand_table_id}
     </select>
     <resultMap id="research" type="com.group8.entity.EtmsDemandResearch">
         <id property="researchId" column="research_id"></id>
@@ -24,4 +24,11 @@
                     select="com.group8.dao.ResearchTopicDao.findTopic"
                     ofType="com.group8.entity.EtmsResachTopic"></collection>
     </resultMap>
+
+    <resultMap id="findPeopleNumsMap" type="com.group8.entity.EtmsDemandResearch">
+        <result property="peoplenums" column="peoplenums"></result>
+    </resultMap>
+    <select id="findPeopleNums" resultMap="findPeopleNumsMap">
+        select count(*) peoplenums from etms_resach_results where research_id = #{rid}
+    </select>
 </mapper>

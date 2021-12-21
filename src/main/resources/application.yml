@@ -4,6 +4,8 @@ spring:
     url: jdbc:mysql://162.14.112.78:3306/etms?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
     username: etms
     password: 123456
+    hikari:
+      max-lifetime: 0
   #表单传递日期转换格式
   mvc:
     format:
@@ -38,7 +40,6 @@ mybatis:
   #下划线转驼峰配置
   configuration:
     map-underscore-to-camel-case: true
-
 
 #分页配置
 pagehelper:

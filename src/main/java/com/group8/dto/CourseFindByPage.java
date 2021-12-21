@@ -1,18 +1,20 @@
 package com.group8.dto;
 
+import com.group8.entity.EtmsCourse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * dto类，用于辅助分页查询
+ * @author QY
+ * @create 2021-12-21 11:35
  */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FormInLine {
-    private int page;
-    private int limit;
-    private int id;
-
+public class CourseFindByPage {
+    int page;
+    int limit;
+    EtmsCourse etmsCourse;
 }
