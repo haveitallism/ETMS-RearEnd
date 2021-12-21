@@ -38,12 +38,26 @@ public class OutlineController {
      */
     @RequestMapping("/uploadClassFile/{id}")
     public ResponseEntity<String> uploadClassFile(@PathVariable int id){
-        String filePath = "";
-        int i = outlineService.uploadClassFile(id, filePath);
+        int i = outlineService.uploadClassFile(id, "");
         if (i > 0) {
             return new ResponseEntity<>(200, "上传成功");
         }else {
             return new ResponseEntity<>(500, "上传失败");
+        }
+    }
+
+    /**
+     *根据大纲id删除对应的课件
+     * @param id 大纲id
+     * @return 返回1成功，0失败
+     */
+    @RequestMapping("/deleteClassFile/{id}")
+    public ResponseEntity<String> deleteClassFile(@PathVariable int id){
+        int i = outlineService.deleteClassFile(id);
+        if (i > 0) {
+            return new ResponseEntity<>(200, "删除成功");
+        }else {
+            return new ResponseEntity<>(500, "删除失败");
         }
     }
 }
