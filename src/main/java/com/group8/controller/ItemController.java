@@ -2,20 +2,11 @@ package com.group8.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.group8.dto.EtmsItemAbilityOutline;
-import com.group8.dto.ItemFindByPage;
-import com.group8.dto.ItemidAndCatalogName;
-import com.group8.dto.UseridAndItemid;
-import com.group8.entity.EtmsCatalog;
-import com.group8.entity.EtmsClassFile;
-import com.group8.entity.EtmsItem;
-import com.group8.entity.ResponseEntity;
+import com.group8.dto.*;
+import com.group8.entity.*;
 import com.group8.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
@@ -24,6 +15,12 @@ import java.util.List;
 public class ItemController {
     @Autowired(required = false)
     ItemService itemService;
+
+    @RequestMapping("/findAMById")
+    public ResponseEntity<List<EtmsAbilityModel>> findAMById(@RequestBody FormInLine formInLine){
+        List<EtmsAbilityModel> abilityModelList = itemService.findAMById(formInLine.getId());
+        return new ResponseEntity<>(200, abilityModelList);
+    }
 
     /**
      * 根据id查询培训项目
@@ -138,6 +135,16 @@ public class ItemController {
         return new ResponseEntity<PageInfo<EtmsItem>>(200,"查询成功",etmsItemPageInfo);
     }
 
+    //根据项目id删除相应的培训项目
+    @DeleteMapping("/deleteOne/{itemId}")
+    public ResponseEntity<PageInfo<EtmsItem>> deleteItem(@PathVariable int itemId){
+        int i  = itemService.deleteOne(itemId);
+        if (i > 0 ){
+            return  new ResponseEntity(200,"删除成功");
+        }else{
+            return  new ResponseEntity(200,"删除失败");
+        }
+    }
 
     /*
      * 我的培训中参加的培训总数
@@ -157,6 +164,17 @@ public class ItemController {
             return new ResponseEntity(200,"查询成功",list);
         }else{
             return new ResponseEntity(400,"查询失败","");
+        }
+    }
+
+    @RequestMapping("/updateAbilityModel")
+    public ResponseEntity<EtmsItem> updateAbilityModel(@RequestBody AbilityModelSubject abilityModelSubject) {
+        abilityModelSubject.setSubject("item");
+        int i = itemService.updateAbilityModel(abilityModelSubject);
+        if (i > 0){
+            return new ResponseEntity<>(200, "修改成功");
+        }else {
+            return new ResponseEntity<>(500, "修改失败");
         }
     }
 
