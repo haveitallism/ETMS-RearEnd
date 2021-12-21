@@ -34,8 +34,8 @@ public class ResachAnwerController {
     }
 
     @RequestMapping("addEtmsResachAnwerOne")
-    public ResponseEntity<EtmsResachAnwer> addEtmsResachAnwerOne(@RequestBody EtmsResachAnwer etmsResachAnwer) {
-        Integer i = etmsResachAnwerService.addEtmsResachAnwerOne(etmsResachAnwer);
+    public ResponseEntity<EtmsResachAnwer> addEtmsResachAnwerOne(@RequestBody List<String> ansews) {
+        Integer i = etmsResachAnwerService.addEtmsResachAnwerOne(ansews);
         if (i > 0) {
             return new ResponseEntity(200, "新增成功", "成功新增" + i + "条数");
         } else {

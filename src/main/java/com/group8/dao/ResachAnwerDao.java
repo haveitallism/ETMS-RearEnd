@@ -1,6 +1,7 @@
 package com.group8.dao;
 
 import com.group8.entity.EtmsResachAnwer;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,5 +17,5 @@ public interface ResachAnwerDao {
     List<EtmsResachAnwer> findALL();
 
     //新增答案
-    Integer addEtmsResachAnwerOne(EtmsResachAnwer etmsResachAnwer);
+    Integer addEtmsResachAnwerOne(@Param("ansers") List<String> ansers, @Param("id") int id);
 }

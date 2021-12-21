@@ -19,6 +19,5 @@ import java.util.List;
 public class EtmsItemAbilityOutline {
     EtmsItem etmsItem;
     List<EtmsOutline> etmsOutlines;
-    List<AbilityModelSubject> AmSubjectLists;
-
+    List<AbilityModelSubject> amSubjectLists;
 }

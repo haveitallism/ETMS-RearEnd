@@ -25,7 +25,7 @@ public class ResachTopicController {
     //查询所有题目
     @RequestMapping("/findAll")
     public ResponseEntity<List<EtmsResachTopic>> findAll() {
-        List<EtmsResachTopic> topicLsit = etmsResachTopicService.findALL();
+        List<EtmsResachTopic> topicLsit = etmsResachTopicService.findALLTopic();
         return new ResponseEntity<>(200, "查询成功", topicLsit);
     }
 

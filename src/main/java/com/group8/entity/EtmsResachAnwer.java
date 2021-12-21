@@ -25,6 +25,7 @@ public class EtmsResachAnwer {
     private String  creatorid;        //创建人
     private Date    createtime;       //创建人时间
     private String  updated;          //修改人
-    private Date    updatetime;       //修改人时间
-    List<EtmsResachTopic>etmsResachTopics;
+    private Date updatetime;       //修改人时间
+    List<EtmsResachTopic> etmsResachTopics;//暂时没有用
+    private int nums;                  //选择这个答案的人数
 }

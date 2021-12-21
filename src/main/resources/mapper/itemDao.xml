@@ -32,6 +32,10 @@
             where item_id = #{itemId}
     </update>
 
+    <delete id="deleteOne">
+        delete from etms_item where item_id = #{itemId}
+    </delete>
+
     <select id="findById" parameterType="int" resultType="com.group8.entity.EtmsItem">
         select * from etms_item where item_id = #{id}
     </select>
@@ -41,6 +45,7 @@
     <resultMap id="Catalogs" type="com.group8.entity.EtmsCatalog">
         <id property="catalogName" column="catalog"></id>
     </resultMap>
+
     <select id="findCatalogByTid" parameterType="int" resultMap="Catalogs">
         select * from etms_outline where item_id = #{id}
     </select>
@@ -63,7 +68,7 @@
         select count(*) from etms_outline where item_id = #{id}
     </select>
 
-    <insert id="addOne" >
+    <insert id="addOne" useGeneratedKeys="true" keyProperty="itemId" >
         insert into
             etms_item (train_title,train_description,train_type,train_level,train_form,train_status,train_plan,train_budget,train_princ,train_cover,apply_num,apply_cuttime,apply_check,apply_form,train_betime,train_address,study_type,sign_in,train_endtime,train_teacher,created_time,created_by,updated_by,updated_time)
             value
@@ -71,7 +76,7 @@
     </insert>
 
     <select id="findItem" resultType="com.group8.entity.EtmsItem" parameterType="com.group8.entity.EtmsItem">
-        select i.train_title,i.train_status,i.train_princ
+        select *
         from etms_item i
         <where>
             <if test="!trainTitle.equals('')">

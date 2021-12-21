@@ -28,4 +28,9 @@ public class ResachTopicServiceImpl implements ResachTopicService {
     public Integer EtmsResachTopicaddOne(EtmsResachTopic etmsResachTopic) {
         return researchTopicDao.EtmsResachTopicaddOne(etmsResachTopic);
     }
+
+    @Override
+    public List<EtmsResachTopic> findALLTopic() {
+        return researchTopicDao.findALLTopic();
+    }
 }
