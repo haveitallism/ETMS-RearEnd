@@ -7,6 +7,9 @@ import com.group8.entity.*;
 import com.group8.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
@@ -150,18 +153,25 @@ public class ItemController {
      * 我的培训中参加的培训总数
      * */
     @RequestMapping("/findMyItemSum/{uid}")
-    public int findMyItemSum(@PathVariable int uid){
-        return itemService.findMyItemSum(uid);
+    public ResponseEntity<Integer> findMyItemSum(@PathVariable int uid){
+        int sum = itemService.findMyItemSum(uid);
+        return new ResponseEntity<>(200,"查询成功",sum);
     }
 
     /*
      * 我的培训中参加的培训项目根据类别展示
      * */
-    @RequestMapping("/findAllItem/{user_id}")
-    public ResponseEntity<EtmsItem> findAllItem(@PathVariable("user_id") int user_id){
-        List<EtmsItem> list = itemService.findAllItem(user_id);
+    @PostMapping("/findAllItem")
+    public ResponseEntity<List<EtmsItem>> findAllItem(@RequestBody FormInLine formInLine){
+        PageHelper.startPage(formInLine.getPage(),formInLine.getLimit());
+        int id = formInLine.getId();
+        List<EtmsItem> list = itemService.findAllItem(id);
+        for (EtmsItem l : list) {
+            System.out.println(l);
+        }
+        PageInfo<EtmsItem> etmsItemPageInfo = new PageInfo<>(list);
         if(!list.isEmpty()){
-            return new ResponseEntity(200,"查询成功",list);
+            return new ResponseEntity(200,"查询成功",etmsItemPageInfo);
         }else{
             return new ResponseEntity(400,"查询失败","");
         }

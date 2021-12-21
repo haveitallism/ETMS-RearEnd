@@ -1,10 +1,15 @@
 package com.group8.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.group8.dto.FormInLine;
+import com.group8.dto.StudentFindByPage;
 import com.group8.dto.UpdatePass;
 import com.group8.dto.UploadImg;
 import com.group8.entity.EtmsUser;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.UserService;
+import org.apache.coyote.Response;
 import com.group8.utils.QiniuUtil;
 import com.qiniu.storage.model.DefaultPutRet;
 import org.assertj.core.util.DateUtil;
@@ -23,7 +28,6 @@ import java.util.*;
 
 @RequestMapping("/user")
 @RestController
-
 public class UserController {
 
     @Autowired
@@ -46,9 +50,8 @@ public class UserController {
     @GetMapping("/findAllUser")
     public ResponseEntity<List<EtmsUser>> findAllUser(){
         List<EtmsUser> allUser = userService.findAllUser();
-//        System.out.println(1111);
         ResponseEntity<List<EtmsUser>> entity;
-//        System.out.println(allUser);
+        System.out.println(allUser);
         if(allUser != null){
             entity = new ResponseEntity<>(200,"查询成功！", allUser);
         }else{
@@ -146,5 +149,64 @@ public class UserController {
         System.out.println(uploadImg);
         String pictureUrl = userService.uploadPicture(uploadImg);
         return new ResponseEntity(200,"上传成功！",pictureUrl);
+    }
+
+    /*
+    * 学员管理中通过条件查询所有学员
+    * */
+    @RequestMapping("/findStudentBySearch")
+    public ResponseEntity<List<EtmsUser>> findAllStudent(@RequestBody StudentFindByPage studentFindByPage){
+        PageHelper.startPage(studentFindByPage.getPage(),studentFindByPage.getLimit());
+        List<EtmsUser> list = userService.findAllStudent(studentFindByPage.getEtmsUser());
+        PageInfo<EtmsUser> etmsUserPageInfo = new PageInfo<>(list);
+        if(!list.isEmpty()){
+            return new ResponseEntity(200,"查询成功",etmsUserPageInfo);
+        }else{
+            return new ResponseEntity(400,"查询失败","");
+        }
+    }
+
+    /*
+    * 学员管理中添加学员  即添加用户
+    * 需要判断是否存在
+    * 若存在，则添加失败
+    * 若不存在就直接添加
+    * */
+    @RequestMapping("/addStudent")
+    public ResponseEntity<String> addStudent(@RequestBody EtmsUser etmsUser){
+        String userName = etmsUser.getUserName();
+        String userRole = etmsUser.getUserRole();
+        if(! (userName.equals("") && userRole.equals(""))){
+            int i = userService.addStudent(etmsUser);
+            if(i == 1){
+                return new ResponseEntity(200,"添加成功!","成功保存一条数据");
+            }else{
+                return new ResponseEntity(400,"添加失败","");
+            }
+        }else{
+            return new ResponseEntity(400,"添加失败","不能为空");
+        }
+    }
+
+    /*
+    * 学员管理中删除某条学员数据
+    * */
+    @RequestMapping("/deleteStudent/{userId}")
+    public ResponseEntity<String> deleteStudent(@PathVariable int userId){
+        int i = userService.deleteStudent(userId);
+        if(i == 0){
+            return new ResponseEntity(200,"删除成功","成功删除一条数据");
+        }else{
+            return new ResponseEntity(400,"删除失败","");
+        }
+    }
+
+    /*
+    * 学员管理中修改某条学员的数据
+    * */
+    @RequestMapping("/updateStudent")
+    public ResponseEntity<String> updateStudent(@RequestBody EtmsUser etmsUser){
+        boolean b = userService.updateStudent(etmsUser);
+        return null;
     }
 }

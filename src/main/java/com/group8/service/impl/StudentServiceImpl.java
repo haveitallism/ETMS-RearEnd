@@ -3,6 +3,7 @@ package com.group8.service.impl;
 import com.group8.dao.StudentDao;
 import com.group8.dto.ScheduleQueryCondition;
 import com.group8.entity.EtmsItemStudent;
+import com.group8.entity.EtmsUser;
 import com.group8.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
