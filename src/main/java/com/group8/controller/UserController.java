@@ -1,12 +1,20 @@
 package com.group8.controller;
 
+import com.group8.dto.UpdatePass;
+import com.group8.dto.UploadImg;
 import com.group8.entity.EtmsUser;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.UserService;
+import com.group8.utils.QiniuUtil;
+import com.qiniu.storage.model.DefaultPutRet;
+import org.assertj.core.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @author acoffee
@@ -15,10 +23,14 @@ import java.util.List;
 
 @RequestMapping("/user")
 @RestController
+
 public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private QiniuUtil qiniuUtil;
 
 
     @PostMapping("/login")
@@ -34,8 +46,9 @@ public class UserController {
     @GetMapping("/findAllUser")
     public ResponseEntity<List<EtmsUser>> findAllUser(){
         List<EtmsUser> allUser = userService.findAllUser();
+//        System.out.println(1111);
         ResponseEntity<List<EtmsUser>> entity;
-        System.out.println(allUser);
+//        System.out.println(allUser);
         if(allUser != null){
             entity = new ResponseEntity<>(200,"查询成功！", allUser);
         }else{
@@ -47,6 +60,7 @@ public class UserController {
     @GetMapping("/findUserById/{id}")
     public ResponseEntity<EtmsUser> findUserById(@PathVariable int id){
         EtmsUser user = userService.findUserById(id);
+        System.out.println(user);
         ResponseEntity<EtmsUser> entity;
         if(user != null){
             entity = new ResponseEntity<>(200,"查询成功！", user);
@@ -57,7 +71,8 @@ public class UserController {
     }
 
     @PostMapping("/updateUser")
-    public ResponseEntity<Boolean> updateUser(EtmsUser etmsUser){
+    public ResponseEntity<Boolean> updateUser(@RequestBody EtmsUser etmsUser){
+        System.out.println(etmsUser);
         boolean flag = userService.updateUser(etmsUser);
         ResponseEntity<Boolean> entity;
         if(flag == true){
@@ -68,28 +83,33 @@ public class UserController {
         return entity;
     }
 
-    @PostMapping("/updatePassword/{id}/{newPassword}")
-    public ResponseEntity<Boolean> updatePassword(@PathVariable int id,@PathVariable String newPassword){
-        boolean flag = userService.updatePassword(id,newPassword);
+    @PostMapping("/updatePassword")
+    public ResponseEntity<Boolean> updatePassword(@RequestBody UpdatePass updatePass){
+        boolean flag = userService.updatePassword(updatePass.getId(),updatePass.getPass());
         ResponseEntity<Boolean> entity;
         if(flag == true){
             entity = new ResponseEntity<>(200,"修改成功！", flag);
         }else{
-            entity = new ResponseEntity<>(500,"修改失败！", !flag);
+            entity = new ResponseEntity<>(500,"修改失败！", flag);
         }
         return entity;
     }
 
-    @GetMapping("/validatePassword/{id}/{oldPassword}")
-    public ResponseEntity<Boolean> validatePassword(@PathVariable("id") int id,@PathVariable("oldPassword") String oldPasswrod){
-
-        boolean flag = userService.validatePassword(id,oldPasswrod);
+    @PostMapping("/validatePassword")
+    public ResponseEntity<Boolean> validatePassword(@RequestBody UpdatePass updatePass){
+        System.out.println(updatePass.getId());
+        System.out.println(updatePass.getOldPassword());
+        boolean flag = userService.validatePassword(updatePass.getId(),updatePass.getOldPassword());
         ResponseEntity<Boolean> entity;
         if(flag == true){
             entity = new ResponseEntity<>(200,"密码正确！", flag);
+        }else if(flag == false){
+            entity = new ResponseEntity<>(200,"密码错误！", flag);
         }else{
-            entity = new ResponseEntity<>(500,"密码错误！", !flag);
+            entity = new ResponseEntity<>(500,"后台正在维护！", flag);
         }
+        System.out.println(entity);
+
         return entity;
     }
 
@@ -113,5 +133,18 @@ public class UserController {
     public ResponseEntity<List<EtmsUser>> findByDeptId(@PathVariable int deptId){
         List<EtmsUser> userList = userService.findByDeptId(deptId);
         return new ResponseEntity<>(200, userList);
+    }
+
+    /**
+     * 上传头像
+     * @param uploadImg
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/uploadPicture")
+    public ResponseEntity<String> uploadPicture(UploadImg uploadImg) throws IOException {
+        System.out.println(uploadImg);
+        String pictureUrl = userService.uploadPicture(uploadImg);
+        return new ResponseEntity(200,"上传成功！",pictureUrl);
     }
 }

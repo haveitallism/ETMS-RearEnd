@@ -7,16 +7,40 @@
         select * from etms_user
     </select>
 
-    <select id="findUserById" resultType="com.group8.entity.EtmsUser" parameterType="int">
-        select * from etms_user where user_id = #{id}
+    <resultMap id="userMap" type="com.group8.entity.EtmsUser">
+        <id column="user_id" property="userId"/>
+        <result  column="user_name" property="userName"/>
+        <result  column="user_Position" property="userPosition"/>
+        <result  column="dept_id" property="deptId"/>
+        <result  column="user_telephone" property="userTelephone"/>
+        <result  column="user_email" property="userEmail"/>
+        <result  column="user_manager" property="userManager"/>
+        <result  column="user_role" property="userRole"/>
+        <result  column="user_company" property="userCompany"/>
+        <result  column="user_head_img" property="userHeadImg"/>
+        <association property="dept" javaType="com.group8.entity.EtmsDept">
+            <id property="deptId" column="dept_id"/>
+            <result property="deptName" column="dept_name"/>
+        </association>
+    </resultMap>
+    <select id="findUserById" resultMap="userMap" parameterType="int">
+        SELECT d.dept_name,u.* FROM etms_user u,etms_dept d WHERE u.dept_id = d.dept_id AND u.`user_id`= #{id}
+    </select>
+
+    <select id="validatePassword" resultType="String" parameterType="int">
+        select user_password from etms_user where user_id = #{id}
     </select>
 
     <update id="updateUser" parameterType="com.group8.entity.EtmsUser">
         update etms_user set user_name = #{userName},
         dept_id = #{deptId},user_position = #{userPosition},user_telephone = #{userTelephone},
         user_email = #{userEmail},user_manager = #{userManager},user_role = #{userRole},
-        user_company = #{userCompany},user_head_img = #{userHeadImg},updated_by = #{updatedBy},
+        user_company = #{userCompany},updated_by = #{updatedBy},
         updated_time = #{updatedTime} where user_id = #{userId}
+    </update>
+
+    <update id="uploadPicture">
+        update etms_user set user_head_img = #{headImg} where user_id = #{userId}
     </update>
 
     <update id="updatePassword">
