@@ -18,4 +18,6 @@ public interface StudentDao {
     int updateApplyStatus(@Param("status") String status, @Param("stuId") int stuId);
 
     EtmsItemStudent findByItemIdAndUserId(int itemId, int userId);
+
+
 }
