@@ -74,4 +74,14 @@ public class CourseServiceImpl implements CourseService {
         }
 
     }
+
+    /**
+     * 删除课程
+     * @param courseId
+     * @return
+     */
+    @Override
+    public int deleteCourse(int courseId) {
+        return courseDao.deleteCourse(courseId);
+    }
 }

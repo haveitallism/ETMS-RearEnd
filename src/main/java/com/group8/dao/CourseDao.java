@@ -13,4 +13,6 @@ public interface CourseDao {
     List<EtmsCourse> findAllCourse1(EtmsCourse etmsCourse);
 
     int addCourse(EtmsCourse etmsCourse);
+
+    int deleteCourse(int courseId);
 }
