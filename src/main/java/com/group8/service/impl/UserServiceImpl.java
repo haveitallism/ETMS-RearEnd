@@ -1,17 +1,27 @@
 package com.group8.service.impl;
 
+import com.google.gson.Gson;
 import com.group8.dao.UserDao;
-import com.group8.entity.*;
+import com.group8.dto.UploadImg;
+import com.group8.entity.EtmsCourse;
+import com.group8.entity.EtmsItem;
+import com.group8.entity.EtmsUser;
+import com.group8.entity.EtmsUserAm;
 import com.group8.service.UserService;
+import com.group8.utils.QiniuUtil;
+import com.qiniu.common.QiniuException;
+import com.qiniu.common.Zone;
+import com.qiniu.http.Response;
+import com.qiniu.storage.Configuration;
+import com.qiniu.storage.UploadManager;
+import com.qiniu.storage.model.DefaultPutRet;
+import com.qiniu.util.Auth;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Arrays;
+
+import java.io.IOException;
 import java.util.List;
-import com.group8.entity.EtmsUser;
-import com.group8.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,6 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public EtmsUser findUserById(int id) {
         EtmsUser user = userDao.findUserById(id);
+
         return user;
     }
 
@@ -51,14 +62,17 @@ public class UserServiceImpl implements UserService {
     public boolean validatePassword(int id, String oldPassword) {
 
         EtmsUser user = userDao.findUserById(id);
+        String oldPass = userDao.validatePassword(id);
+        System.out.println(oldPass);
         //MD5加盐加密
         SimpleHash simpleHash = new SimpleHash("MD5", oldPassword, user.getUserName() + "etms");
         //16进制后的密码
         String hex = simpleHash.toHex();
-        String userPassword = user.getUserPassword();
-        System.out.println(Arrays.toString(userPassword.getBytes()));
-        System.out.println(Arrays.toString(simpleHash.getBytes()));
-        if(userPassword.equals(hex)){
+
+
+//        System.out.println(Arrays.toString(userPassword.getBytes()));
+//        System.out.println(Arrays.toString(simpleHash.getBytes()));
+        if(oldPass.equals(hex)){
             return true;
         }else{
             return false;
@@ -93,4 +107,32 @@ public class UserServiceImpl implements UserService {
     public EtmsUser login(EtmsUser etmsUser) {
         return userDao.findByUsernamAndPassword(etmsUser.getUserName(), etmsUser.getUserPassword());
     }
+
+
+    @Override
+    public String uploadPicture(UploadImg uploadImg) throws IOException {
+        String qiniuUrl = "r4f66awjt.hn-bkt.clouddn.com";
+        Configuration configuration = new Configuration(Zone.zone2());
+        UploadManager uploadManager = new UploadManager(configuration);
+        String accessKey = "GMucqD1bf4zKiZSoHafMWR6nf9h0R1us1BxFRBxn";
+        String secretKey = "9olNhZCBABDA9fl5WmPjeniPkdCZ-gnTK439CKCl";
+        String bucket = "acoffee";
+        String key = QiniuUtil.getRandomCharacterAndNumber(10) + ".jpg";//生成随机文件名
+        Auth auth = Auth.create(accessKey,secretKey);
+        String uptoken = auth.uploadToken(bucket);
+        String responseUrl = "";
+        try{
+            byte[] localFile = uploadImg.getFile().getBytes();
+            Response response = uploadManager.put(localFile,key,uptoken);
+            DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
+            responseUrl = "http://"+responseUrl + qiniuUrl +"/"+ putRet.key;
+            boolean flag = userDao.uploadPicture(responseUrl,uploadImg.getUserId());
+
+        }catch (QiniuException e){
+            Response r = e.response;
+        }
+        return responseUrl;
+    }
+
+
 }
