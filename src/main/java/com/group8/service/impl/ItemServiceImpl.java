@@ -7,6 +7,7 @@ import com.group8.dto.AbilityModelSubject;
 import com.group8.dto.EtmsItemAbilityOutline;
 import com.group8.entity.*;
 import com.group8.service.ItemService;
+import com.group8.utils.TidyAbilityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -91,7 +92,7 @@ public class ItemServiceImpl implements ItemService {
             list.get(0).setSubject("item");
             System.out.println("集合"+list);
             i3 = abilityModelDao.addOne(list);
-
+            //如果其中一项不大于0 则添加失败
             if (i1 > 0 && i2 > 0 && i3 > 0) {
                 return 1;
             } else {
@@ -118,6 +119,20 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public int deleteOne(int itemId) {
         return itemDao.deleteOne(itemId);
+    }
+
+    @Override
+    public List<EtmsAbilityModel> findAMById(int id) {
+        AbilityModelSubject modelSubject = new AbilityModelSubject();
+        modelSubject.setSubjectId(id);
+        modelSubject.setSubject("item");
+        List<EtmsAbilityModel> abilityModelList = abilityModelDao.findAll(modelSubject);
+        return TidyAbilityModel.tidy(abilityModelList);
+    }
+
+    @Override
+    public int updateAbilityModel(AbilityModelSubject abilityModelSubject) {
+        return abilityModelDao.updateAbilityModel(abilityModelSubject);
     }
 }
 
