@@ -31,11 +31,30 @@
                  (#{ability.subjectId},#{ability.amId},#{ability.score})
             </foreach>
         </if>
-        <!--<if test="subject.equals('course')">
-            etms_course_am
+        <if test="abilityModelSubject.get(0).subject.equals('course')">
+            insert into etms_course_am value
+            <foreach collection="abilityModelSubject" item="ability" separator="," >
+                (#{ability.subjectId},#{ability.amId},#{ability.score})
+            </foreach>
+        </if>
+        <if test="abilityModelSubject.get(0).subject.equals('user')">
+            insert into etms_user_am value
+            <foreach collection="abilityModelSubject" item="ability" separator="," >
+                (#{ability.subjectId},#{ability.amId},#{ability.score})
+            </foreach>
+        </if>
+    </insert>
+
+    <update id="updateAbilityModel">
+        update
+        <if test="subject.equals('item')">
+            etms_item_am set item_am_score = #{score} where item_id = #{subjectId} and am_id = #{amId}
+        </if>
+        <if test="subject.equals('course')">
+            etms_course_am set course_am_score = #{score} where course_id = #{subjectId} and am_id = #{amId}
         </if>
         <if test="subject.equals('user')">
-            etms_user_am
-        </if>-->
-    </insert>
+            etms_user_am set user_am_score = #{score} where user_id = #{subjectId} and am_id = #{amId}
+        </if>
+    </update>
 </mapper>

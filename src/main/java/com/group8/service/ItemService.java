@@ -1,10 +1,11 @@
 package com.group8.service;
 
+import com.group8.dto.AbilityModelSubject;
+import com.group8.dto.EtmsItemAbilityOutline;
+import com.group8.entity.EtmsAbilityModel;
 import com.group8.entity.EtmsCatalog;
 import com.group8.entity.EtmsClassFile;
 import com.group8.entity.EtmsItem;
-import com.group8.dto.EtmsItemAbilityOutline;
-import java.util.List;
 
 import java.util.List;
 
@@ -29,4 +30,7 @@ public interface ItemService {
 
     List<EtmsItem> findAllItem(int uid);
 
+    List<EtmsAbilityModel> findAMById(int id);
+
+    int updateAbilityModel(AbilityModelSubject abilityModelSubject);
 }

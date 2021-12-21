@@ -7,6 +7,7 @@ import com.group8.dto.AbilityModelSubject;
 import com.group8.dto.EtmsItemAbilityOutline;
 import com.group8.entity.*;
 import com.group8.service.ItemService;
+import com.group8.utils.TidyAbilityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -118,6 +119,20 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<EtmsItem> findAllItem(int uid) {
         return itemDao.findAllItem(uid);
+    }
+
+    @Override
+    public List<EtmsAbilityModel> findAMById(int id) {
+        AbilityModelSubject modelSubject = new AbilityModelSubject();
+        modelSubject.setSubjectId(id);
+        modelSubject.setSubject("item");
+        List<EtmsAbilityModel> abilityModelList = abilityModelDao.findAll(modelSubject);
+        return TidyAbilityModel.tidy(abilityModelList);
+    }
+
+    @Override
+    public int updateAbilityModel(AbilityModelSubject abilityModelSubject) {
+        return abilityModelDao.updateAbilityModel(abilityModelSubject);
     }
 }
 

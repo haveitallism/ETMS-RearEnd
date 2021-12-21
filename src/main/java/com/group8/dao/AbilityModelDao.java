@@ -9,4 +9,6 @@ public interface AbilityModelDao {
     List<EtmsAbilityModel> findAll(AbilityModelSubject abilityModelSubject);
 
     int addOne(List<AbilityModelSubject> abilityModelSubject);
+
+    int updateAbilityModel(AbilityModelSubject abilityModelSubject);
 }
