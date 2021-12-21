@@ -5,10 +5,7 @@ import com.group8.entity.EtmsCatalog;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.OutlineService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,8 +20,9 @@ public class OutlineController {
      * @param formInLine 传入的项目id
      * @return 返回一个目录集合
      */
-    @RequestMapping("/findByItemId")
+    @PostMapping(value = "/findByItemId")
     public ResponseEntity<List<EtmsCatalog>> findByItemId(@RequestBody FormInLine formInLine){
+        System.out.println(formInLine.toString());
         //PageHelper.startPage(formInLine.getPage(), formInLine.getLimit());
         List<EtmsCatalog> catalogList = outlineService.findByItemId(formInLine.getId());
 //        PageInfo<EtmsCatalog> etmsItemStudentPageInfo = new PageInfo<>(catalogList);
@@ -38,12 +36,26 @@ public class OutlineController {
      */
     @RequestMapping("/uploadClassFile/{id}")
     public ResponseEntity<String> uploadClassFile(@PathVariable int id){
-        String filePath = "";
-        int i = outlineService.uploadClassFile(id, filePath);
+        int i = outlineService.uploadClassFile(id, "");
         if (i > 0) {
             return new ResponseEntity<>(200, "上传成功");
         }else {
             return new ResponseEntity<>(500, "上传失败");
+        }
+    }
+
+    /**
+     *根据大纲id删除对应的课件
+     * @param id 大纲id
+     * @return 返回1成功，0失败
+     */
+    @RequestMapping("/deleteClassFile/{id}")
+    public ResponseEntity<String> deleteClassFile(@PathVariable int id){
+        int i = outlineService.deleteClassFile(id);
+        if (i > 0) {
+            return new ResponseEntity<>(200, "删除成功");
+        }else {
+            return new ResponseEntity<>(500, "删除失败");
         }
     }
 }

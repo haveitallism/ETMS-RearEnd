@@ -1,7 +1,10 @@
 package com.group8.service;
 
+import com.group8.dto.UploadImg;
 import com.group8.entity.EtmsUser;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -24,6 +27,9 @@ public interface UserService {
     List<EtmsUser> findByDeptId(int deptId);
 
     EtmsUser login(EtmsUser etmsUser);
+
+
+    String uploadPicture(UploadImg uploadImg) throws IOException;
 
     List<EtmsUser> findAllStudent(EtmsUser etmsUser);
 

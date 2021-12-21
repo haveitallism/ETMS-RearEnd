@@ -36,6 +36,14 @@ public class StudentServiceImpl implements StudentService {
         return studentDao.add(itemId, userId);
     }
 
+    @Override
+    public int updateApplyStatus(String status, int stuId) {
+        return studentDao.updateApplyStatus(status, stuId);
+    }
 
+    @Override
+    public EtmsItemStudent findByItemIdAndUserId(int itemId, int userId) {
+        return studentDao.findByItemIdAndUserId(itemId, userId);
+    }
 
 }
