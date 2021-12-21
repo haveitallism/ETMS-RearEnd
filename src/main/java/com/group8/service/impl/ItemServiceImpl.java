@@ -70,7 +70,6 @@ public class ItemServiceImpl implements ItemService {
             EtmsItem etmsItem = iao.getEtmsItem();
             int i1 = itemDao.addOne(etmsItem);
 
-            //(不建议在service层循环调用sql语句)
             List<EtmsOutline> etmsOutlines = iao.getEtmsOutlines();
             for (EtmsOutline eoi : etmsOutlines) {
                 i2 = outlineDao.addOne(eoi);
@@ -80,10 +79,10 @@ public class ItemServiceImpl implements ItemService {
                 }
             }
 
-            //循环添加能力模型 (不建议在service层循环调用sql语句)
-            List<AbilityModelSubject> list = iao.getAmSubjectLists();
-            for (AbilityModelSubject ams : list) {
-                i3 = abilityModelDao.addOne(ams);
+            //循环添加能力模型
+            List<EtmsItemAm> list = iao.getItemAmLists();
+            for (EtmsItemAm eia : list) {
+                i3 = abilityDao.addOne(eia);
                 //如果中间添加失败 则中断循环
                 if (i3 < 0) {
                     break;
@@ -110,8 +109,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<EtmsItem> findAllItem(int uid) {
-        return itemDao.findAllItem(uid);
+    public List<EtmsItem> findAllItem(int uid,String radio) {
+        return itemDao.findAllItem(uid,radio);
     }
-}
+
+    }
 

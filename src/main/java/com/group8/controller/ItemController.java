@@ -2,10 +2,7 @@ package com.group8.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.group8.dto.EtmsItemAbilityOutline;
-import com.group8.dto.ItemFindByPage;
-import com.group8.dto.ItemidAndCatalogName;
-import com.group8.dto.UseridAndItemid;
+import com.group8.dto.*;
 import com.group8.entity.EtmsCatalog;
 import com.group8.entity.EtmsClassFile;
 import com.group8.entity.EtmsItem;
@@ -143,18 +140,26 @@ public class ItemController {
      * 我的培训中参加的培训总数
      * */
     @RequestMapping("/findMyItemSum/{uid}")
-    public int findMyItemSum(@PathVariable int uid){
-        return itemService.findMyItemSum(uid);
+    public ResponseEntity<Integer> findMyItemSum(@PathVariable int uid){
+        int sum = itemService.findMyItemSum(uid);
+        return new ResponseEntity<>(200,"查询成功",sum);
     }
 
     /*
      * 我的培训中参加的培训项目根据类别展示
      * */
-    @RequestMapping("/findAllItem/{user_id}")
-    public ResponseEntity<EtmsItem> findAllItem(@PathVariable("user_id") int user_id){
-        List<EtmsItem> list = itemService.findAllItem(user_id);
+    @PostMapping("/findAllItem")
+    public ResponseEntity<List<EtmsItem>> findAllItem(@RequestBody FormInLine formInLine){
+        PageHelper.startPage(formInLine.getPage(),formInLine.getLimit());
+        int id = formInLine.getId();
+        String radio = formInLine.getRadio();
+        List<EtmsItem> list = itemService.findAllItem(id,radio);
+        for (EtmsItem l : list) {
+            System.out.println(l);
+        }
+        PageInfo<EtmsItem> etmsItemPageInfo = new PageInfo<>(list);
         if(!list.isEmpty()){
-            return new ResponseEntity(200,"查询成功",list);
+            return new ResponseEntity(200,"查询成功",etmsItemPageInfo);
         }else{
             return new ResponseEntity(400,"查询失败","");
         }

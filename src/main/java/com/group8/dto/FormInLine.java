@@ -14,4 +14,5 @@ public class FormInLine {
     private int page;
     private int limit;
     private int id;
+    private String radio;
 }

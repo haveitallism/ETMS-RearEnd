@@ -24,7 +24,7 @@ public interface ItemDao {
 
     List<EtmsItem> findItem(EtmsItem etmsItem);
 
-    List<EtmsItem> findAllItem(int uid);
+    List<EtmsItem> findAllItem(int uid,String radio);
 
     int findMyItemSum(int uid);
 

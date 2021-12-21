@@ -27,6 +27,6 @@ public interface ItemService {
 
     int findMyItemSum(int uid);
 
-    List<EtmsItem> findAllItem(int uid);
+    List<EtmsItem> findAllItem(int uid,String radio);
 
 }

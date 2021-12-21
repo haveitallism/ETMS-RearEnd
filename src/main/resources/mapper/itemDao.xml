@@ -95,7 +95,22 @@
     </select>
 
     <select id="findAllItem" resultType="com.group8.entity.EtmsItem">
-        select * from etms_item where item_id in (select item_id from etms_item_student where user_id = #{uid})
+        select * from etms_item
+--         where item_id in (select item_id from etms_item_student where user_id = #{uid})
+        <where>
+            item_id in (select item_id from etms_item_student where user_id = #{uid})
+            <if test="!trainTitle.equals('')">
+                and train_title = #{trainTitle}
+            </if>
+            <if test="!trainStatus.equals('')">
+                and train_status = #{trainStatus}
+            </if>
+            <if test="!radio.equals('')">
+                and train_type = #{radio}
+            </if>
+
+
+        </where>
     </select>
 
 </mapper>
