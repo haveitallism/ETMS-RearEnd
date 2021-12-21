@@ -22,6 +22,6 @@ public class EtmsApproveRecord {
   private Date createdTime;
   private String updatedBy;
   private Date updatedTime;
-
+  EtmsApproveRecord etmsApproveRecord;
 
 }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -34,7 +35,7 @@ public class EtmsItem {
   private String studyType;
   private String signIn;
   private String createdBy;
-  private Date createdTime;
+  private LocalDateTime createdTime;
   private String updatedBy;
   private Date updatedTime;
 

@@ -23,4 +23,9 @@ public class OutlineServiceImpl implements OutlineService {
     public int uploadClassFile(int id, String filePath) {
         return outlineDao.uploadClassFile(id, filePath);
     }
+
+    @Override
+    public int deleteClassFile(int id) {
+        return outlineDao.deleteClassFile(id);
+    }
 }

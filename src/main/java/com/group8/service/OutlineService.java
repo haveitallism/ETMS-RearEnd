@@ -9,4 +9,5 @@ public interface OutlineService {
 
     int uploadClassFile(int id, String filePath);
 
+    int deleteClassFile(int id);
 }

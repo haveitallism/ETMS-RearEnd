@@ -8,4 +8,31 @@
     <select id="findAllCourse" resultType="com.group8.entity.EtmsCourse">
         select * from etms_course where course_id in (select course_id from etms_user_course where user_id = #{user_id})
     </select>
+
+    <select id="findAllCourse1" resultType="com.group8.entity.EtmsCourse" parameterType="com.group8.entity.EtmsCourse">
+        select *
+        from etms_course c
+        <where>
+            <if test="!courseTitle.equals('')">
+                and c.course_title = #{courseTitle}
+            </if>
+            <if test="!courseType.equals('')">
+                and c.course_type = #{courseType}
+            </if>
+            <if test="!courseRequired.equals('')">
+                and c.course_Required = #{courseRequired}
+            </if>
+            <if test="!createdBy.equals('')">
+                and c.created_by = #{createdBy}
+            </if>
+        </where>
+        order by c.course_id desc
+    </select>
+
+    <insert id="addCourse" useGeneratedKeys="true" keyProperty="courseId">
+        insert into etms_course
+        (course_title, course_type, course_level, course_hour, course_status, course_description, course_cover, course_form, course_required, course_attachment, created_by,created_time)
+        values
+        (#{courseTitle},#{courseType},#{courseLevel},#{courseHour},#{courseStatus},#{courseDescription},#{courseCover},#{courseForm},#{courseRequired},#{courseAttachment},#{createdBy},#{createdTime})
+    </insert>
 </mapper>
