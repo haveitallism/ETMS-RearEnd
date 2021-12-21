@@ -50,4 +50,6 @@
     <insert id="add">
         insert into etms_item_student values(null, #{userId}, #{itemId}, 0, 0, null, null, null, null, null, null)
     </insert>
+
+
 </mapper>

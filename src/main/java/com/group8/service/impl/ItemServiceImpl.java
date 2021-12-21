@@ -112,8 +112,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<EtmsItem> findAllItem(int uid,String radio) {
-        return itemDao.findAllItem(uid,radio);
+    public List<EtmsItem> findAllItem(int uid) {
+        return itemDao.findAllItem(uid);
     }
 
     @Override

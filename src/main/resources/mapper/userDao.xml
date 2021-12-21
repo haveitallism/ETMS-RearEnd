@@ -51,5 +51,36 @@
         select * from etms_user where user_name = #{username} and user_password = #{password}
     </select>
 
+    <select id="findAllStudent" resultType="com.group8.entity.EtmsUser" parameterType="com.group8.entity.EtmsUser">
+        select * from etms_user u
+        <where>
+            <if test="!userName.equals('')">
+                and u.user_name = #{userName}
+            </if>
+            <if test="!userCompany.equals('')">
+                and u.user_company = #{userCompany}
+            </if>
+            <if test="!userPosition.equals('')">
+                and u.user_position = #{userPosition}
+            </if>
 
+        </where>
+    </select>
+
+    <select id="checkUser" parameterType="com.group8.entity.EtmsUser" resultType="com.group8.entity.EtmsUser">
+        select * from etms_user where user_name = #{userName} and user_telephone = #{userTelephone}
+    </select>
+
+    <insert id="addStudent" parameterType="com.group8.entity.EtmsUser">
+        insert into etms_user (user_name,dept_id,user_position,user_telephone,user_email,user_manager,user_role) values
+        (#{userName},#{deptId},#{userPosition},#{userTelephone},#{userEmail},#{userManager},#{userRole})
+    </insert>
+
+    <delete id="deleteStudent" parameterType="int">
+        delete from etms_user where user_id = #{userId}
+    </delete>
+
+    <update id="updateStudent" parameterType="com.group8.entity.EtmsUser">
+        update
+    </update>
 </mapper>

@@ -93,4 +93,35 @@ public class UserServiceImpl implements UserService {
     public EtmsUser login(EtmsUser etmsUser) {
         return userDao.findByUsernamAndPassword(etmsUser.getUserName(), etmsUser.getUserPassword());
     }
+
+    @Override
+    public List<EtmsUser> findAllStudent(EtmsUser etmsUser) {
+        return userDao.findAllStudent(etmsUser);
+    }
+
+    @Override
+    public int addStudent(EtmsUser etmsUser) {
+        List<EtmsUser> list = userDao.checkUser(etmsUser);
+        if(list.isEmpty()){
+            int i = userDao.addStudent(etmsUser);
+            return i;
+        }else{
+            return 0;
+        }
+
+    }
+
+    @Override
+    public int deleteStudent(int userId) {
+        int i = userDao.deleteStudent(userId);
+        return 0;
+    }
+
+    @Override
+    public boolean updateStudent(EtmsUser etmsUser) {
+        boolean b = userDao.updateStudent(etmsUser);
+        return false;
+    }
+
+
 }

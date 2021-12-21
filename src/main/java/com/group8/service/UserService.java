@@ -24,4 +24,12 @@ public interface UserService {
     List<EtmsUser> findByDeptId(int deptId);
 
     EtmsUser login(EtmsUser etmsUser);
+
+    List<EtmsUser> findAllStudent(EtmsUser etmsUser);
+
+    int addStudent(EtmsUser etmsUser);
+
+    int deleteStudent(int userId);
+
+    boolean updateStudent(EtmsUser etmsUser);
 }

@@ -165,14 +165,13 @@ public class ItemController {
     public ResponseEntity<List<EtmsItem>> findAllItem(@RequestBody FormInLine formInLine){
         PageHelper.startPage(formInLine.getPage(),formInLine.getLimit());
         int id = formInLine.getId();
-        String radio = formInLine.getRadio();
-        List<EtmsItem> list = itemService.findAllItem(id,radio);
+        List<EtmsItem> list = itemService.findAllItem(id);
         for (EtmsItem l : list) {
             System.out.println(l);
         }
         PageInfo<EtmsItem> etmsItemPageInfo = new PageInfo<>(list);
         if(!list.isEmpty()){
-            return new ResponseEntity(200,"查询成功",list);
+            return new ResponseEntity(200,"查询成功",etmsItemPageInfo);
         }else{
             return new ResponseEntity(400,"查询失败","");
         }
