@@ -105,6 +105,7 @@
     </delete>
 
     <update id="updateStudent" parameterType="com.group8.entity.EtmsUser">
-        update
+        update etms_user set user_name = #{userName} and dept_id = #{deptId} and user_position = #{userPosition} and user_telephone = #{userTelephone}
+        and user_email = #{userEmail} and user_manager = #{userManager} and user_role = #{userRole} where user_id = #{userId}
     </update>
 </mapper>
