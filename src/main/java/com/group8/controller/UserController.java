@@ -207,6 +207,6 @@ public class UserController {
     @RequestMapping("/updateStudent")
     public ResponseEntity<String> updateStudent(@RequestBody EtmsUser etmsUser){
         boolean b = userService.updateStudent(etmsUser);
-
+        return null;
     }
 }
