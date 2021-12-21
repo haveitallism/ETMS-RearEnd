@@ -7,6 +7,7 @@ import com.group8.entity.*;
 import com.group8.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 
@@ -30,7 +31,11 @@ public class ItemController {
     @RequestMapping("/findById/{id}")
     public ResponseEntity<EtmsItem> findById(@PathVariable int id){
         EtmsItem item = itemService.findById(id);
-        return new ResponseEntity<>(200, item);
+        if(item != null){
+            return new ResponseEntity<>(200, "查询成功", item);
+        }else{
+            return new ResponseEntity<>(500, "查询失败", null);
+        }
     }
 
     /**

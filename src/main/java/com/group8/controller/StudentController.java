@@ -47,14 +47,13 @@ public class StudentController {
     }
 
     /**
-     * 根据用户id和项目id删除学员表记录
-     * @param itemId 当前项目id
-     * @param userId 选择用户id
+     * 根据学员id删除学员表记录
+     * @param stuId 学员id
      * @return
      */
-    @RequestMapping("/delete/{itemId}/{userId}")
-    public ResponseEntity<String> deleteByItemIdAndUserId(@PathVariable int itemId, @PathVariable int userId) {
-        int i = studentService.deleteByItemIdAndUserId(itemId, userId);
+    @RequestMapping("/delete/{stuId}")
+    public ResponseEntity<String> deleteById(@PathVariable int stuId) {
+        int i = studentService.deleteById(stuId);
         if (i > 0) {
             return new ResponseEntity<>(200, "删除成功");
         }else {
