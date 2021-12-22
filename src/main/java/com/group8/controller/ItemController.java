@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 
@@ -33,7 +34,11 @@ public class ItemController {
     @RequestMapping("/findById/{id}")
     public ResponseEntity<EtmsItem> findById(@PathVariable int id){
         EtmsItem item = itemService.findById(id);
-        return new ResponseEntity<>(200, item);
+        if(item != null){
+            return new ResponseEntity<>(200, "查询成功", item);
+        }else{
+            return new ResponseEntity<>(500, "查询失败", null);
+        }
     }
 
     /**

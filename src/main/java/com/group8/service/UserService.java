@@ -1,6 +1,7 @@
 package com.group8.service;
 
 import com.group8.dto.UploadImg;
+import com.group8.entity.EtmsAbilityModel;
 import com.group8.entity.EtmsUser;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,5 +38,10 @@ public interface UserService {
 
     int deleteStudent(int userId);
 
-    boolean updateStudent(EtmsUser etmsUser);
+    int updateStudent(EtmsUser etmsUser);
+
+    EtmsUser getStudentById(int userId);
+
+    List<EtmsAbilityModel> findAmById(int userId);
+
 }

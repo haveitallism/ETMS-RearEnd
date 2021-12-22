@@ -66,14 +66,13 @@
         <result property="demandDept" column="dept"></result>
         <result property="endTime" column="endtime"></result>
         <result property="peopleNumber" column="pnums"></result>
-        <association property="etmsDemandResearch" javaType="com.group8.entity.EtmsDemandResearch">
-            <result property="peoplenums" column="peoplenums"></result>
-        </association>
+        <association property="etmsDemandResearch" javaType="com.group8.entity.EtmsDemandResearch" column="rid" select="com.group8.dao.DemanResearchDao.findPeopleNums"></association>
+
     </resultMap>
     <!--  查询个人发布的需求  -->
     <select id="findByuid" resultMap="findbyuid">
-        select d.demand_table_id did,d.demand_dept dept,d.demand_title dtitle,d.end_time endtime,d.people_number pnums,count(rr.research_id) peoplenums from etms_demand d,etms_demand_research r,etms_resach_results rr
-        where d.user_id = #{uid} and demand_id = d.demand_table_id and rr.research_id = r.research_id order by did desc
+        select d.demand_table_id did,d.demand_dept dept,d.demand_title dtitle,d.end_time endtime,d.people_number pnums,r.research_id rid from etms_demand d,etms_demand_research r
+        where r.user_id = #{uid} and demand_id = d.demand_table_id order by did desc
     </select>
 
     <resultMap id="findbyid" type="com.group8.entity.EtmsDemand">

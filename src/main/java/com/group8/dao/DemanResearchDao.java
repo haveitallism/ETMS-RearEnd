@@ -4,4 +4,5 @@ import com.group8.entity.EtmsDemandResearch;
 
 public interface DemanResearchDao {
        EtmsDemandResearch findById(int id);
+       EtmsDemandResearch findPeopleNums();
 }
