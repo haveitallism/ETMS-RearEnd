@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -11,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class EtmsCourse {
 
-  private String courseId;
+  private int courseId;
   private String courseTitle;
   private String courseType;
   private String courseLevel;
@@ -23,7 +24,7 @@ public class EtmsCourse {
   private String courseRequired;
   private String courseAttachment;
   private String createdBy;
-  private Date createdTime;
+  private LocalDateTime createdTime;
   private String updatedBy;
   private Date updatedTime;
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/demand")
 public class DemandController {
     @Autowired
     DemandService etmsDemandService;
@@ -24,6 +25,7 @@ public class DemandController {
     @RequestMapping ("/findMyDemand/{uid}")
     public ResponseEntity findMyDemand(@PathVariable Integer uid){
         List<EtmsDemand> etmsDemandList = etmsDemandService.findMyDemand(uid);
+        System.out.println(etmsDemandList);
         return  new ResponseEntity(200,"查询成功",etmsDemandList);
     }
     //查询具体发布需求

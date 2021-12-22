@@ -11,6 +11,7 @@ import com.group8.utils.TidyAbilityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -72,14 +73,16 @@ public class ItemServiceImpl implements ItemService {
 
             //添加培训项目
             EtmsItem etmsItem = iao.getEtmsItem();
+            LocalDateTime now = LocalDateTime.now();
+            etmsItem.setCreatedTime(now);
             int i1 = itemDao.addOne(etmsItem);
             long itemId = etmsItem.getItemId();
 
             //添加大纲集合
             List<EtmsOutline> etmsOutlines = iao.getEtmsOutlines();
-            for (EtmsOutline etmsOutline:etmsOutlines
-                 ) {
-                etmsOutline.setItemId(itemId);
+            for (int i = 0; i < etmsOutlines.size(); i++) {
+                etmsOutlines.get(i).setCatalog("目录" +1+ i);
+                etmsOutlines.get(i).setItemId(itemId);
             }
             i2 = outlineDao.addOne(iao.getEtmsOutlines());
 
@@ -90,7 +93,6 @@ public class ItemServiceImpl implements ItemService {
                 ability.setSubjectId(itemId);
             }
             list.get(0).setSubject("item");
-            System.out.println("集合"+list);
             i3 = abilityModelDao.addOne(list);
             //如果其中一项不大于0 则添加失败
             if (i1 > 0 && i2 > 0 && i3 > 0) {
