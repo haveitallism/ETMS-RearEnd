@@ -1,9 +1,11 @@
 package com.group8.controller;
 
+import com.group8.dto.AnwersDto;
 import com.group8.entity.EtmsResachAnwer;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.ResachAnwerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +20,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/anwer")
+@CrossOrigin
 public class ResachAnwerController {
     @Autowired
     ResachAnwerService etmsResachAnwerService;
@@ -34,12 +37,14 @@ public class ResachAnwerController {
     }
 
     @RequestMapping("addEtmsResachAnwerOne")
-    public ResponseEntity<EtmsResachAnwer> addEtmsResachAnwerOne(@RequestBody List<String> ansews) {
-        Integer i = etmsResachAnwerService.addEtmsResachAnwerOne(ansews);
+    public ResponseEntity<EtmsResachAnwer> addEtmsResachAnwerOne(@RequestBody AnwersDto anwersDto) {
+        Integer i = etmsResachAnwerService.addEtmsResachAnwerOne(anwersDto.getAnswers(), anwersDto.getTopic());
         if (i > 0) {
             return new ResponseEntity(200, "新增成功", "成功新增" + i + "条数");
         } else {
             return new ResponseEntity(500, "新增失败", "服务器在维护中");
         }
+//        System.out.println(anwersDto);
+//       return new ResponseEntity(500, "新增失败", "服务器在维护中");
     }
 }

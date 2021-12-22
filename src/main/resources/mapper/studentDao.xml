@@ -47,8 +47,8 @@
         select * from etms_item_student where item_id = #{itemId} and user_id = #{userId}
     </select>
 
-    <delete id="deleteByItemIdAndUserId">
-        delete from etms_item_student where item_id = #{itemId} and user_id = #{userId}
+    <delete id="deleteById">
+        delete from etms_item_student where student_id = #{stuId}
     </delete>
 
     <insert id="add">
