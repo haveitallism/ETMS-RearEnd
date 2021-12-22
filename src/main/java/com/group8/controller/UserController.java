@@ -230,4 +230,18 @@ public class UserController {
         List<EtmsAbilityModel> abilityModelList = userService.findAmById(userId);
         return new ResponseEntity(200,"am查询成功",abilityModelList);
     }
+
+    /**
+     * 给用户添加课程
+     */
+    @PostMapping("/addCourse/{userId}/{courseId}")
+    public ResponseEntity<String> addCourse(@PathVariable int userId,@PathVariable int courseId){
+        int i = userService.addCourse(userId,courseId);
+        if (i > 0){
+            return new ResponseEntity<>(200, "添加成功");
+        }else {
+            return new ResponseEntity<>(300, "已收藏该课程");
+        }
+    }
+
 }
