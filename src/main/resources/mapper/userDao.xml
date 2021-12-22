@@ -108,4 +108,8 @@
         update etms_user set user_name = #{userName} , dept_id = #{deptId} , user_position = #{userPosition} , user_telephone = #{userTelephone}
         , user_email = #{userEmail} , user_manager = #{userManager} , user_role = #{userRole} where user_id = #{userId}
     </update>
+
+    <select id="getStudentById" resultType="com.group8.entity.EtmsUser">
+        select * from etms_user where user_id = #{userId}
+    </select>
 </mapper>

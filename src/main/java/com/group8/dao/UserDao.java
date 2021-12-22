@@ -40,4 +40,6 @@ public interface UserDao {
     int deleteStudent(int userId);
 
     int updateStudent(EtmsUser etmsUser);
+
+    EtmsUser getStudentById(int userId);
 }

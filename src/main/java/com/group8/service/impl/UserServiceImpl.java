@@ -1,14 +1,14 @@
 package com.group8.service.impl;
 
 import com.google.gson.Gson;
+import com.group8.dao.AbilityModelDao;
 import com.group8.dao.UserDao;
+import com.group8.dto.AbilityModelSubject;
 import com.group8.dto.UploadImg;
-import com.group8.entity.EtmsCourse;
-import com.group8.entity.EtmsItem;
-import com.group8.entity.EtmsUser;
-import com.group8.entity.EtmsUserAm;
+import com.group8.entity.*;
 import com.group8.service.UserService;
 import com.group8.utils.QiniuUtil;
+import com.group8.utils.TidyAbilityModel;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
@@ -31,6 +31,8 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Autowired(required = false)
     UserDao userDao;
+    @Autowired(required = false)
+    AbilityModelDao abilityModelDao;
 
     @Override
     public List<EtmsUser> findAllUser() {
@@ -167,6 +169,25 @@ public class UserServiceImpl implements UserService {
     public int updateStudent(EtmsUser etmsUser) {
         int b = userDao.updateStudent(etmsUser);
         return b;
+    }
+
+    @Override
+    public EtmsUser getStudentById(int userId) {
+        EtmsUser etmsUser = userDao.getStudentById(userId);
+        return etmsUser;
+    }
+
+    @Override
+    public List<EtmsAbilityModel> findAmById(int userId) {
+        AbilityModelSubject modelSubject = new AbilityModelSubject();
+        modelSubject.setSubjectId(userId);
+        modelSubject.setSubject("user");
+        List<EtmsAbilityModel> abilityModelList = abilityModelDao.findAll(modelSubject);
+        for (EtmsAbilityModel am:
+             abilityModelList) {
+            System.out.println(am);
+        }
+        return TidyAbilityModel.tidy(abilityModelList);
     }
 
 
