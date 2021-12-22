@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group8.dao.RoleDao">
+    <resultMap id="rolePerm" type="com.group8.entity.EtmsRole">
+        <id property="roleId" column="role_id"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleDescription" column="role_description"/>
+        <result property="roleStatus" column="role_status"/>
+        <collection property="permList" ofType="com.group8.entity.EtmsPerm" javaType="java.util.List">
+            <id property="permId" column="perm_id"/>
+            <result property="permName" column="perm_name"/>
+            <result property="permOperate" column="perm_operate"/>
+            <result property="permStatus" column="perm_status"/>
+        </collection>
+    </resultMap>
+
+    <select id="findAll" resultMap="rolePerm">
+        select r.role_id, r.role_name, r.role_description, r.role_status, p.perm_id, p.perm_name, p.perm_operate, p.perm_status
+        from etms_role r  left join etms_role_perm rp on r.role_id = rp.role_id left join etms_perm p on rp.perm_id = p.perm_id
+        <where>
+            <if test="!roleName.equals('')">
+                and r.role_name like concat('%', #{roleName}, '%')
+            </if>
+            <if test="!module.equals('')">
+                and p.perm_name like concat('%', #{module}, '%')
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById">
+        delete from etms_role where role_id = #{roleId}
+    </delete>
+
+    <delete id="deleteRolePermById">
+        delete from etms_role_perm where role_id = #{roleId}
+    </delete>
+
+    <update id="updateRole">
+        update etms_role set role_name = #{roleName}, role_description = #{roleDescription}, role_status = #{roleStatus}
+        where role_id = #{roleId}
+    </update>
+
+    <insert id="addRolePerm">
+        <if test="permList.size() > 0">
+            insert into etms_role_perm(role_id, perm_id) values
+            <foreach collection="permList" item="perm" separator=",">
+            (#{roleId}, #{perm.permId})</foreach>
+        </if>
+    </insert>
+    <insert id="addRole" useGeneratedKeys="true" keyProperty="roleId">
+        insert into etms_role(role_id, role_name, role_description, role_status) value(null, #{roleName}, #{roleDescription}, #{roleStatus})
+    </insert>
+</mapper>
