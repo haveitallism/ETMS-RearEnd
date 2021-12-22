@@ -39,9 +39,6 @@
         updated_time = #{updatedTime} where user_id = #{userId}
     </update>
 
-    <update id="uploadPicture">
-        update etms_user set user_head_img = #{headImg} where user_id = #{userId}
-    </update>
 
     <update id="updatePassword">
         update etms_user set user_password = #{newPassword} where user_id = #{id}
@@ -108,4 +105,12 @@
         update etms_user set user_name = #{userName} and dept_id = #{deptId} and user_position = #{userPosition} and user_telephone = #{userTelephone}
         and user_email = #{userEmail} and user_manager = #{userManager} and user_role = #{userRole} where user_id = #{userId}
     </update>
+
+    <insert id="addCourse">
+        insert into etms_user_course value (#{userId},#{courseId})
+    </insert>
+
+    <select id="findUidCid" resultType="integer">
+        select course_id from etms_user_course where course_id = #{courseId} and user_id =#{userId}
+    </select>
 </mapper>

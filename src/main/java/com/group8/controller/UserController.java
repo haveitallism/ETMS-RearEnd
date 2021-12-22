@@ -209,4 +209,18 @@ public class UserController {
         boolean b = userService.updateStudent(etmsUser);
         return null;
     }
+
+    /**
+     * 给用户添加课程
+     */
+    @PostMapping("/addCourse/{userId}/{courseId}")
+    public ResponseEntity<String> addCourse(@PathVariable int userId,@PathVariable int courseId){
+        int i = userService.addCourse(userId,courseId);
+        if (i > 0){
+            return new ResponseEntity<>(200, "添加成功");
+        }else {
+            return new ResponseEntity<>(300, "已收藏该课程");
+        }
+    }
+
 }

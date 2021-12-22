@@ -40,4 +40,8 @@ public interface UserDao {
     int deleteStudent(int userId);
 
     boolean updateStudent(EtmsUser etmsUser);
+
+    int addCourse(@Param("userId") int userId,@Param("courseId") int courseId);
+
+    Integer findUidCid(@Param("userId") int userId,@Param("courseId") int courseId);
 }

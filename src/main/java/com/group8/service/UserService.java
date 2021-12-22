@@ -28,7 +28,6 @@ public interface UserService {
 
     EtmsUser login(EtmsUser etmsUser);
 
-
     String uploadPicture(UploadImg uploadImg) throws IOException;
 
     List<EtmsUser> findAllStudent(EtmsUser etmsUser);
@@ -38,4 +37,6 @@ public interface UserService {
     int deleteStudent(int userId);
 
     boolean updateStudent(EtmsUser etmsUser);
+
+    int addCourse(int userId, int courseId);
 }

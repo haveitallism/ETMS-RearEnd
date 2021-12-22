@@ -1,7 +1,6 @@
 package com.group8.dao;
 
 import com.group8.entity.EtmsCourse;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,4 +14,8 @@ public interface CourseDao {
     int addCourse(EtmsCourse etmsCourse);
 
     int deleteCourse(int courseId);
+
+    List<EtmsCourse> findHotCourses();
+
+    List<EtmsCourse> findCompanyRecommend();
 }
