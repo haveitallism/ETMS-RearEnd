@@ -143,7 +143,6 @@ public class UserController {
      */
     @PostMapping("/uploadPicture")
     public ResponseEntity<String> uploadPicture(UploadImg uploadImg) throws IOException {
-        System.out.println(uploadImg);
         String pictureUrl = userService.uploadPicture(uploadImg);
         return new ResponseEntity(200,"上传成功！",pictureUrl);
     }

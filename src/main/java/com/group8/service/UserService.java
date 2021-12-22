@@ -28,6 +28,5 @@ public interface UserService {
 
     EtmsUser login(EtmsUser etmsUser);
 
-
     String uploadPicture(UploadImg uploadImg) throws IOException;
 }

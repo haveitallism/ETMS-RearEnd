@@ -25,4 +25,10 @@
         update etms_outline set train_class_file = #{filePath} where outline_id = #{id}
     </update>
 
+
+    <update id="uploadFile">
+        update etms_outline set train_class_file = #{filePath},train_hour=#{trainHour} where outline_id = #{id}
+    </update>
+
+
 </mapper>

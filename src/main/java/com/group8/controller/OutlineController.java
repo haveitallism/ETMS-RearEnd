@@ -1,12 +1,14 @@
 package com.group8.controller;
 
 import com.group8.dto.FormInLine;
+import com.group8.dto.UploadFile;
 import com.group8.entity.EtmsCatalog;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.OutlineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -44,5 +46,23 @@ public class OutlineController {
             return new ResponseEntity<>(500, "上传失败");
         }
     }
+
+
+    /**
+     * 上传视频
+     * @param uploadFile
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping("/uploadFile")
+    public ResponseEntity<Boolean> uploadFile(UploadFile uploadFile) throws IOException {
+        boolean flag = outlineService.uploadFile(uploadFile);
+        if (flag) {
+            return new ResponseEntity<>(200, "上传成功",flag);
+        }else {
+            return new ResponseEntity<>(500, "上传失败",flag);
+        }
+    }
+
 }
 
