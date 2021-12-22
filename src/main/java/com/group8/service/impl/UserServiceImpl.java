@@ -164,9 +164,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateStudent(EtmsUser etmsUser) {
-        boolean b = userDao.updateStudent(etmsUser);
-        return false;
+    public int updateStudent(EtmsUser etmsUser) {
+        int b = userDao.updateStudent(etmsUser);
+        return b;
     }
 
 

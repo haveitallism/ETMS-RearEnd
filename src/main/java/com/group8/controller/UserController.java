@@ -206,7 +206,11 @@ public class UserController {
     * */
     @RequestMapping("/updateStudent")
     public ResponseEntity<String> updateStudent(@RequestBody EtmsUser etmsUser){
-        boolean b = userService.updateStudent(etmsUser);
-        return null;
+        int  b = userService.updateStudent(etmsUser);
+        if(b == 1){
+            return new ResponseEntity(200,"修改成功","成功修改一条数据");
+        }else{
+            return new ResponseEntity(400,"修改失败","");
+        }
     }
 }

@@ -39,5 +39,5 @@ public interface UserDao {
 
     int deleteStudent(int userId);
 
-    boolean updateStudent(EtmsUser etmsUser);
+    int updateStudent(EtmsUser etmsUser);
 }
