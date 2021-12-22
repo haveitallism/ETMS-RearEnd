@@ -13,4 +13,6 @@ public interface CourseService {
     List<EtmsCourse> findAllCourse1(EtmsCourse etmsCourse);
 
     int addCourse(EtmsCourseAbility etmsCourseAbility);
+
+    int deleteCourse(int courseId);
 }

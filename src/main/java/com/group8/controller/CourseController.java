@@ -2,9 +2,9 @@ package com.group8.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.group8.dto.FormInLine;
 import com.group8.dto.CourseFindByPage;
 import com.group8.dto.EtmsCourseAbility;
+import com.group8.dto.FormInLine;
 import com.group8.entity.EtmsCourse;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.CourseService;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -73,4 +74,16 @@ public class CourseController {
         }
     }
 
+    /**
+     * 删除课程
+     */
+    @DeleteMapping("deleteCourse/{courseId}")
+    public ResponseEntity<EtmsCourse> deleteCourse(@PathVariable int courseId){
+        int i = courseService.deleteCourse(courseId);
+        if (i > 0){
+            return new ResponseEntity<>(200, "删除成功");
+        }else {
+            return new ResponseEntity<>(500, "删除失败");
+        }
+    }
 }
