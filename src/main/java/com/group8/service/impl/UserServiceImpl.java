@@ -1,14 +1,14 @@
 package com.group8.service.impl;
 
 import com.google.gson.Gson;
+import com.group8.dao.AbilityModelDao;
 import com.group8.dao.UserDao;
+import com.group8.dto.AbilityModelSubject;
 import com.group8.dto.UploadImg;
-import com.group8.entity.EtmsCourse;
-import com.group8.entity.EtmsItem;
-import com.group8.entity.EtmsUser;
-import com.group8.entity.EtmsUserAm;
+import com.group8.entity.*;
 import com.group8.service.UserService;
 import com.group8.utils.QiniuUtil;
+import com.group8.utils.TidyAbilityModel;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
@@ -31,6 +31,8 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Autowired(required = false)
     UserDao userDao;
+    @Autowired(required = false)
+    AbilityModelDao abilityModelDao;
 
     @Override
     public List<EtmsUser> findAllUser() {
@@ -41,7 +43,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public EtmsUser findUserById(int id) {
         EtmsUser user = userDao.findUserById(id);
-
+        String userRole = user.getUserRole();
+        if(userRole.equals("1")){
+            user.setUserRole("普通学员");
+        }else if(userRole.equals("2")){
+            user.setUserRole("经理");
+        }else if(userRole.equals("3")){
+            user.setUserRole("管理员");
+        }
         return user;
     }
 
@@ -142,11 +151,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<EtmsUser> findAllStudent(EtmsUser etmsUser) {
-        return userDao.findAllStudent(etmsUser);
+        List<EtmsUser> list = userDao.findAllStudent(etmsUser);
+        for (EtmsUser eu: list) {
+            String userRole = eu.getUserRole();
+            System.out.println(userRole);
+            if(userRole.equals("1")){
+                eu.setUserRole("普通学员");
+            }else if(userRole.equals("2")){
+                eu.setUserRole("经理");
+            }else if(userRole.equals("3")){
+                eu.setUserRole("管理员");
+            }
+        }
+        return list;
     }
 
     @Override
     public int addStudent(EtmsUser etmsUser) {
+        String oldpassword = etmsUser.getUserPassword();
+        //MD5加盐加密
+        SimpleHash simpleHash = new SimpleHash("MD5", oldpassword, etmsUser.getUserName() + "etms");
+        //16进制后的密码
+        String hex = simpleHash.toHex();
+        etmsUser.setUserPassword(hex);
         List<EtmsUser> list = userDao.checkUser(etmsUser);
         if(list.isEmpty()){
             int i = userDao.addStudent(etmsUser);
@@ -164,9 +191,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateStudent(EtmsUser etmsUser) {
-        boolean b = userDao.updateStudent(etmsUser);
-        return false;
+    public int updateStudent(EtmsUser etmsUser) {
+        int b = userDao.updateStudent(etmsUser);
+        return b;
+    }
+
+    @Override
+    public EtmsUser getStudentById(int userId) {
+        EtmsUser etmsUser = userDao.getStudentById(userId);
+        return etmsUser;
+    }
+
+    @Override
+    public List<EtmsAbilityModel> findAmById(int userId) {
+        AbilityModelSubject modelSubject = new AbilityModelSubject();
+        modelSubject.setSubjectId(userId);
+        modelSubject.setSubject("user");
+        List<EtmsAbilityModel> abilityModelList = abilityModelDao.findAll(modelSubject);
+        for (EtmsAbilityModel am:
+             abilityModelList) {
+            System.out.println(am);
+        }
+        return TidyAbilityModel.tidy(abilityModelList);
+    }
+
+    @Override
+    public int addCourse(int userId, int courseId) {
+
+        Integer text = userDao.findUidCid(userId,courseId);
+        if(text == null){
+            return userDao.addCourse(userId,courseId);
+        }else {
+            return 0;
+        }
+
     }
 
 

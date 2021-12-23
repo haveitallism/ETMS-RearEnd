@@ -2,11 +2,8 @@ package com.group8.service;
 
 import com.group8.dto.AbilityModelSubject;
 import com.group8.dto.EtmsItemAbilityOutline;
-import com.group8.entity.EtmsAbilityModel;
-import com.group8.entity.EtmsCatalog;
-import com.group8.entity.EtmsClassFile;
-import com.group8.entity.EtmsItem;
-import java.util.List;
+import com.group8.dto.TrainAndCatalogSchedule;
+import com.group8.entity.*;
 
 import java.util.List;
 
@@ -36,4 +33,10 @@ public interface ItemService {
     List<EtmsAbilityModel> findAMById(int id);
 
     int updateAbilityModel(AbilityModelSubject abilityModelSubject);
+
+    List<EtmsOutline> findItemInfo(int itemId,String catalog);
+
+    String findClassVideo(long itemId, String catalog, String trainClassTitle);
+
+    TrainAndCatalogSchedule findScheduleAndHour(int userId, int itemId);
 }

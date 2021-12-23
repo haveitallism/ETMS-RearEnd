@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 
@@ -33,7 +34,11 @@ public class ItemController {
     @RequestMapping("/findById/{id}")
     public ResponseEntity<EtmsItem> findById(@PathVariable int id){
         EtmsItem item = itemService.findById(id);
-        return new ResponseEntity<>(200, item);
+        if(item != null){
+            return new ResponseEntity<>(200, "查询成功", item);
+        }else{
+            return new ResponseEntity<>(500, "查询失败", null);
+        }
     }
 
     /**
@@ -188,4 +193,54 @@ public class ItemController {
         }
     }
 
+    /**
+     * 查询outline中所有信息
+     * @return
+     */
+    @RequestMapping("/findCatalogInfo")
+    public ResponseEntity<List<EtmsOutline>> findOutlineInfo(@RequestBody EtmsOutline etmsOutline){
+        List<EtmsOutline> itemInfo = itemService.findItemInfo((int) etmsOutline.getItemId(),etmsOutline.getCatalog());
+        if(itemInfo != null){
+            return new ResponseEntity(200,"查询成功",itemInfo);
+        }else{
+            return new ResponseEntity(400,"查询失败","");
+        }
+    }
+
+    /**
+     * 查询对应的视频
+     * @param etmsOutline
+     * @return
+     */
+    @RequestMapping("/openClassFile")
+    public ResponseEntity<String> findClassVideo(@RequestBody EtmsOutline etmsOutline){
+        String classVideoName = itemService.findClassVideo(etmsOutline.getItemId(), etmsOutline.getCatalog(), etmsOutline.getTrainClassTitle());
+        System.out.println(classVideoName);
+        if(classVideoName != null){
+            return new ResponseEntity(200,"查询成功",classVideoName);
+        }else{
+            return new ResponseEntity(400,"查询失败","");
+        }
+    }
+
+    /**
+     * 查询详情页一中的进度以及时间
+     * @return
+     */
+    @PostMapping("/findScheduleAndHour")
+    public ResponseEntity<TrainAndCatalogSchedule> findScheduleAndHour(@RequestBody UserAndItemid userAndItemid){
+        System.out.println(userAndItemid);
+        TrainAndCatalogSchedule scheduleAndHour = itemService.findScheduleAndHour(userAndItemid.getUserId(), userAndItemid.getItemId());
+
+        PageHelper.startPage(userAndItemid.getPage(),userAndItemid.getLimit());
+        PageInfo<CatalogSchedule> catalogSchedulePageInfo = new PageInfo<>(scheduleAndHour.getCatalogSchedules());
+
+        scheduleAndHour.setPageInfo(catalogSchedulePageInfo);
+
+        if(scheduleAndHour != null){
+            return new ResponseEntity(200,"查询成功",scheduleAndHour);
+        }else{
+            return new ResponseEntity(400,"查询失败","");
+        }
+    }
 }
