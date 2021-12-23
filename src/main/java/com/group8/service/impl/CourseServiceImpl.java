@@ -4,9 +4,12 @@ import com.google.gson.Gson;
 import com.group8.dao.AbilityModelDao;
 import com.group8.dao.CourseDao;
 import com.group8.dto.AbilityModelSubject;
+import com.group8.dto.CourseFindByPage;
 import com.group8.dto.EtmsCourseAbility;
 import com.group8.dto.UploadImg;
 import com.group8.entity.EtmsCourse;
+import com.group8.entity.EtmsUser;
+import com.group8.entity.ResponseEntity;
 import com.group8.service.CourseService;
 import com.group8.utils.QiniuUtil;
 import com.qiniu.common.QiniuException;
@@ -36,12 +39,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public int findMyCourseSum(int uid) {
-        return courseDao.findMyCourseSum(uid);
+        return courseDao.findMyRequiredSum(uid);
     }
 
     @Override
-    public List<EtmsCourse> findAllCourse(int user_id) {
-        return courseDao.findAllCourse(user_id);
+    public List<EtmsCourse> findAllRequired(int uid, EtmsCourse etmsCourse) {
+        return courseDao.findAllRequired(uid,etmsCourse);
     }
 
     /**
@@ -142,4 +145,28 @@ public class CourseServiceImpl implements CourseService {
     public List<EtmsCourse> findCompanyRecommend() {
         return courseDao.findCompanyRecommend();
     }
+
+    @Override
+    public int findMyElectiveSum(int uid) {
+        return courseDao.findMyElectiveSum(uid);
+    }
+
+    @Override
+    public List<EtmsCourse> findAllElective(int uid, EtmsCourse etmsCourse) {
+        return courseDao.findAllElective(uid,etmsCourse);
+    }
+
+    @Override
+    public EtmsCourse findCourseById(int courseId) {
+        EtmsCourse course = courseDao.findCourseById(courseId);
+        return course;
+    }
+
+    @Override
+    public List<EtmsUser> findStudentByCid(int id) {
+        List<EtmsUser> list = courseDao.findStudentByCid(id);
+        return list;
+    }
+
+
 }

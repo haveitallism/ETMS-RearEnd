@@ -1,13 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.group8.dao.CourseDao">
+    <select id="findMyRequiredSum" resultType="int">
+        SELECT count(*) FROM etms_user_course uc,etms_course c where uc.user_id = #{uid} and uc.course_id = c.course_id and c.course_required ='必修'
+    </select>
+
+    <select id="findMyElectiveSum" resultType="int">
+        SELECT count(*) FROM etms_user_course uc,etms_course c where uc.user_id = #{uid} and uc.course_id = c.course_id and c.course_required ='选修'
+    </select>
+
+    <select id="findAllRequired" resultType="com.group8.entity.EtmsCourse" parameterType="com.group8.dto.CourseFindByPage">
+        select * from etms_course
+        <where>
+            course_required  = '必修' and course_id in (select course_id from etms_user_course where user_id = #{uid})
+            <if test="!course.courseTitle.equals('')">
+                and course_title = #{course.courseTitle}
+            </if>
+            <if test="!course.courseType.equals('')">
+                and course_type = #{course.courseType}
+            </if>
+        </where>
+    </select>
 
     <select id="findMyCourseSum" resultType="int">
         select count(*) from etms_user_course where user_id = #{uid}
     </select>
 
-    <select id="findAllCourse" resultType="com.group8.entity.EtmsCourse">
-        select * from etms_course where course_id in (select course_id from etms_user_course where user_id = #{user_id})
+    <select id="findAllElective" resultType="com.group8.entity.EtmsCourse" parameterType="com.group8.dto.CourseFindByPage">
+        select * from etms_course
+        <where>
+            course_required  = '选修' and course_id in (select course_id from etms_user_course where user_id = #{uid})
+            <if test="!course.courseTitle.equals('')">
+                and course_title = #{course.courseTitle}
+            </if>
+            <if test="!course.courseType.equals('')">
+                and course_type = #{course.courseType}
+            </if>
+        </where>
     </select>
 
     <select id="findAllCourse1" resultType="com.group8.entity.EtmsCourse" parameterType="com.group8.entity.EtmsCourse">
@@ -36,6 +65,14 @@
         values
         (#{courseTitle},#{courseType},#{courseLevel},#{courseHour},#{courseStatus},#{courseDescription},#{courseCover},#{courseForm},#{courseRequired},#{courseAttachment},#{createdBy},#{createdTime})
     </insert>
+
+    <select id="findCourseById" resultType="com.group8.entity.EtmsCourse">
+        select * from etms_course where course_id = #{courseId}
+    </select>
+
+    <select id="findStudentByCid" resultType="com.group8.entity.EtmsUser">
+        select eu.* from etms_user eu,etms_user_course c where c.course_id = #{id} and c.user_id = eu.user_id
+    </select>
 
     <delete id="deleteCourse">
         delete from etms_course
