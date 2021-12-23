@@ -23,4 +23,10 @@ public interface CourseDao {
     EtmsCourse findCourseById(int courseId);
 
     List<EtmsUser> findStudentByCid(int id);
+
+    int deleteCourse(int courseId);
+
+    List<EtmsCourse> findHotCourses();
+
+    List<EtmsCourse> findCompanyRecommend();
 }

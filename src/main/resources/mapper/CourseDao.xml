@@ -20,6 +20,9 @@
                 and course_type = #{course.courseType}
             </if>
         </where>
+
+    <select id="findMyCourseSum" resultType="int">
+        select count(*) from etms_user_course where user_id = #{uid}
     </select>
 
     <select id="findAllElective" resultType="com.group8.entity.EtmsCourse" parameterType="com.group8.dto.CourseFindByPage">
@@ -69,4 +72,18 @@
     <select id="findStudentByCid" resultType="com.group8.entity.EtmsUser">
         select eu.* from etms_user eu,etms_user_course c where c.course_id = #{id} and c.user_id = eu.user_id
     </select>
+
+    <delete id="deleteCourse">
+        delete from etms_course
+        where course_id = #{courseId}
+    </delete>
+
+    <select id="findHotCourses" resultType="com.group8.entity.EtmsCourse">
+        select * from etms_course where course_status = '流行' order by course_id desc limit 6
+    </select>
+
+    <select id="findCompanyRecommend" resultType="com.group8.entity.EtmsCourse">
+        select * from etms_course where course_required = '必修' order by created_time desc limit 2
+    </select>
+
 </mapper>

@@ -215,5 +215,17 @@ public class UserServiceImpl implements UserService {
         return TidyAbilityModel.tidy(abilityModelList);
     }
 
+    @Override
+    public int addCourse(int userId, int courseId) {
+
+        Integer text = userDao.findUidCid(userId,courseId);
+        if(text == null){
+            return userDao.addCourse(userId,courseId);
+        }else {
+            return 0;
+        }
+
+    }
+
 
 }

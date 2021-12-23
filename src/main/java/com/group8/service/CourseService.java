@@ -2,9 +2,11 @@ package com.group8.service;
 
 import com.group8.dto.CourseFindByPage;
 import com.group8.dto.EtmsCourseAbility;
+import com.group8.dto.UploadImg;
 import com.group8.entity.EtmsCourse;
 import com.group8.entity.EtmsUser;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface CourseService {
@@ -23,4 +25,12 @@ public interface CourseService {
     EtmsCourse findCourseById(int courseId);
 
     List<EtmsUser> findStudentByCid(int id);
+
+    int deleteCourse(int courseId);
+
+    String uploadPicture(UploadImg uploadImg) ;
+
+    List<EtmsCourse> findHotCourses();
+
+    List<EtmsCourse> findCompanyRecommend();
 }

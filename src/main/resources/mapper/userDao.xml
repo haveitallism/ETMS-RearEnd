@@ -105,11 +105,21 @@
     </delete>
 
     <update id="updateStudent" parameterType="com.group8.entity.EtmsUser">
-        update etms_user set user_name = #{userName} , dept_id = #{deptId} , user_position = #{userPosition} , user_telephone = #{userTelephone}
-        , user_email = #{userEmail} , user_manager = #{userManager} , user_role = #{userRole} where user_id = #{userId}
+        update etms_user set user_name = #{userName} and dept_id = #{deptId} and user_position = #{userPosition} and user_telephone = #{userTelephone}
+        and user_email = #{userEmail} and user_manager = #{userManager} and user_role = #{userRole} where user_id = #{userId}
     </update>
+
+    <insert id="addCourse">
+        insert into etms_user_course value (#{userId},#{courseId})
+    </insert>
+
+    <select id="findUidCid" resultType="integer">
+        select course_id from etms_user_course where course_id = #{courseId} and user_id =#{userId}
+    </select>
 
     <select id="getStudentById" resultType="com.group8.entity.EtmsUser">
         select * from etms_user where user_id = #{userId}
     </select>
+
+
 </mapper>
