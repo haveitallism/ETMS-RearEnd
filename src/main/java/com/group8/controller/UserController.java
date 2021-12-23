@@ -177,11 +177,12 @@ public class UserController {
         String userName = etmsUser.getUserName();
         String userRole = etmsUser.getUserRole();
         if(! (userName.equals("") && userRole.equals(""))){
+            etmsUser.setUserPassword("123456");
             int i = userService.addStudent(etmsUser);
             if(i == 1){
                 return new ResponseEntity(200,"添加成功!","成功保存一条数据");
             }else{
-                return new ResponseEntity(400,"添加失败","");
+                return new ResponseEntity(400,"添加失败","用户名或角色为空");
             }
         }else{
             return new ResponseEntity(400,"添加失败","不能为空");
@@ -206,12 +207,15 @@ public class UserController {
     * */
     @RequestMapping("/updateStudent")
     public ResponseEntity<String> updateStudent(@RequestBody EtmsUser etmsUser){
-        int  b = userService.updateStudent(etmsUser);
-        if(b == 1){
-            return new ResponseEntity(200,"修改成功","成功修改一条数据");
-        }else{
-            return new ResponseEntity(400,"修改失败","");
-        }
+        String userRole = etmsUser.getUserRole();
+        System.out.println(userRole);
+
+            int  b = userService.updateStudent(etmsUser);
+            if(b == 1){
+                return new ResponseEntity(200,"修改成功","成功修改一条数据");
+            }else {
+                return new ResponseEntity(400, "修改失败", "");
+            }
     }
 
     @RequestMapping("/getStudentById/{userId}")
