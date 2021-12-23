@@ -28,5 +28,4 @@ public class EtmsDemand {
   private String updatedBy;
   private Date updatedTime;
   private EtmsDemandResearch etmsDemandResearch;
-
 }
