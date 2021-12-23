@@ -227,9 +227,16 @@ public class ItemController {
      * 查询详情页一中的进度以及时间
      * @return
      */
-    @RequestMapping("/findScheduleAndHour")
+    @PostMapping("/findScheduleAndHour")
     public ResponseEntity<TrainAndCatalogSchedule> findScheduleAndHour(@RequestBody UserAndItemid userAndItemid){
+        System.out.println(userAndItemid);
         TrainAndCatalogSchedule scheduleAndHour = itemService.findScheduleAndHour(userAndItemid.getUserId(), userAndItemid.getItemId());
+
+        PageHelper.startPage(userAndItemid.getPage(),userAndItemid.getLimit());
+        PageInfo<CatalogSchedule> catalogSchedulePageInfo = new PageInfo<>(scheduleAndHour.getCatalogSchedules());
+
+        scheduleAndHour.setPageInfo(catalogSchedulePageInfo);
+
         if(scheduleAndHour != null){
             return new ResponseEntity(200,"查询成功",scheduleAndHour);
         }else{

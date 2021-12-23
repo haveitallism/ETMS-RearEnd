@@ -1,5 +1,6 @@
 package com.group8.dto;
 
+import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,5 @@ import java.util.List;
 public class TrainAndCatalogSchedule {
     int itemSchedule;
     List<CatalogSchedule> catalogSchedules;
+    PageInfo<CatalogSchedule> pageInfo;
 }

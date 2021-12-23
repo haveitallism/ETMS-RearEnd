@@ -72,8 +72,9 @@ public class OutlineServiceImpl implements OutlineService {
             //计算视频时长
             long trainHour = FileUtils.getDuration(file);
             flag = outlineDao.uploadFile(responseUrl,uploadFile.getId(),trainHour);
-            //删除我们用于计算时间生成的File
-            file.delete();
+            //删除我们用于计算时间生成的临时File
+            FileUtils.delteTempFile(file);
+            //file.delete();
         }catch (Exception e) {
             e.printStackTrace();
         }

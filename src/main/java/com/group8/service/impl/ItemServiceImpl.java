@@ -224,7 +224,6 @@ public class ItemServiceImpl implements ItemService {
                 }
             }
         }
-
         schedule.setCatalogSchedules(catalogSchedules);
         return schedule;
     }

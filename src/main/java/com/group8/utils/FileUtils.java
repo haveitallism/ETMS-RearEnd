@@ -53,6 +53,7 @@ public class FileUtils {
     }
 
 
+    //获取流文件
     public static void inputStreamToFile(InputStream ins, File file) {
         try {
             OutputStream os = new FileOutputStream(file);
@@ -65,6 +66,17 @@ public class FileUtils {
             ins.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 删除本地临时文件
+     * @param file
+     */
+    public static void delteTempFile(File file) {
+        if (file != null) {
+            File del = new File(file.toURI());
+            del.delete();
         }
     }
 
