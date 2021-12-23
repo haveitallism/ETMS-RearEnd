@@ -2,6 +2,7 @@ package com.group8.service;
 
 import com.group8.dto.CourseFindByPage;
 import com.group8.dto.EtmsCourseAbility;
+import com.group8.dto.UploadFile;
 import com.group8.dto.UploadImg;
 import com.group8.entity.EtmsCourse;
 import com.group8.entity.EtmsUser;
@@ -33,4 +34,6 @@ public interface CourseService {
     List<EtmsCourse> findHotCourses();
 
     List<EtmsCourse> findCompanyRecommend();
+
+    String uploadFile(UploadFile uploadFile);
 }
