@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,6 +21,7 @@ public class EtmsRole {
   private Date createdTime;
   private String updatedBy;
   private Date updatedTime;
+  private List<EtmsPerm> permList;
 
 
 }

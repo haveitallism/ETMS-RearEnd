@@ -1,8 +1,10 @@
 package com.group8.service;
 
 import com.group8.dto.EtmsCourseAbility;
+import com.group8.dto.UploadImg;
 import com.group8.entity.EtmsCourse;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface CourseService {
@@ -13,4 +15,12 @@ public interface CourseService {
     List<EtmsCourse> findAllCourse1(EtmsCourse etmsCourse);
 
     int addCourse(EtmsCourseAbility etmsCourseAbility);
+
+    int deleteCourse(int courseId);
+
+    String uploadPicture(UploadImg uploadImg) ;
+
+    List<EtmsCourse> findHotCourses();
+
+    List<EtmsCourse> findCompanyRecommend();
 }

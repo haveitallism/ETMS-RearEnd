@@ -1,7 +1,9 @@
 package com.group8.service.impl;
 
 import com.group8.dao.PlanDao;
+import com.group8.entity.EtmsApproveRecord;
 import com.group8.entity.EtmsPlan;
+import com.group8.entity.EtmsUser;
 import com.group8.service.PlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,5 +51,10 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public EtmsPlan findPlanById(Integer pid) {
         return planDao.findPlanById(pid);
+    }
+
+    @Override
+    public List<EtmsUser> findUser(List<EtmsApproveRecord> etmsApproveRecordList) {
+        return planDao.findUser(etmsApproveRecordList);
     }
 }

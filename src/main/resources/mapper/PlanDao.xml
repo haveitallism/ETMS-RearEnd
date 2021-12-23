@@ -14,7 +14,7 @@
     <select id="findBySelect" parameterType="com.group8.entity.EtmsPlan" resultType="com.group8.entity.EtmsPlan">
         select * from etms_plan
         <where>
-            <if test="planFor != null">
+            <if test="planFor != null and planFor != ''">
                 and plan_for = #{planFor}
             </if>
             <if test="planTitle != null and planTitle != ''">
@@ -71,5 +71,15 @@
     <!-- 根据plan_id查询计划详情   -->
     <select id="findPlanById" resultType="com.group8.entity.EtmsPlan">
         select * from etms_plan where plan_id = #{pid}
+    </select>
+    <select id="findUser" parameterType="com.group8.entity.EtmsApproveRecord" resultType="com.group8.entity.EtmsUser">
+        select * from etms_user eu
+        <where>
+            eu.user_id in (select eur.user_id from etms_user_role eur where role_id = 2)
+            <foreach collection="list" item="approve">
+                and eu.user_id != #{approve.approveUserId}
+            </foreach>
+        </where>
+
     </select>
 </mapper>
