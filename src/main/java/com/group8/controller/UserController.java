@@ -237,7 +237,7 @@ public class UserController {
     public ResponseEntity<String> addCourse(@PathVariable int userId,@PathVariable int courseId){
         int i = userService.addCourse(userId,courseId);
         if (i > 0){
-            return new ResponseEntity<>(200, "添加成功");
+            return new ResponseEntity<>(200, "添加课程成功");
         }else {
             return new ResponseEntity<>(501, "已收藏该课程");
         }
