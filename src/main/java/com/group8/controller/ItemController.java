@@ -7,6 +7,10 @@ import com.group8.entity.*;
 import com.group8.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 
@@ -30,7 +34,11 @@ public class ItemController {
     @RequestMapping("/findById/{id}")
     public ResponseEntity<EtmsItem> findById(@PathVariable int id){
         EtmsItem item = itemService.findById(id);
-        return new ResponseEntity<>(200, item);
+        if(item != null){
+            return new ResponseEntity<>(200, "查询成功", item);
+        }else{
+            return new ResponseEntity<>(500, "查询失败", null);
+        }
     }
 
     /**
@@ -150,18 +158,25 @@ public class ItemController {
      * 我的培训中参加的培训总数
      * */
     @RequestMapping("/findMyItemSum/{uid}")
-    public int findMyItemSum(@PathVariable int uid){
-        return itemService.findMyItemSum(uid);
+    public ResponseEntity<Integer> findMyItemSum(@PathVariable int uid){
+        int sum = itemService.findMyItemSum(uid);
+        return new ResponseEntity<>(200,"查询成功",sum);
     }
 
     /*
      * 我的培训中参加的培训项目根据类别展示
      * */
-    @RequestMapping("/findAllItem/{user_id}")
-    public ResponseEntity<EtmsItem> findAllItem(@PathVariable("user_id") int user_id){
-        List<EtmsItem> list = itemService.findAllItem(user_id);
+    @PostMapping("/findAllItem")
+    public ResponseEntity<List<EtmsItem>> findAllItem(@RequestBody FormInLine formInLine){
+        PageHelper.startPage(formInLine.getPage(),formInLine.getLimit());
+        int id = formInLine.getId();
+        List<EtmsItem> list = itemService.findAllItem(id);
+        for (EtmsItem l : list) {
+            System.out.println(l);
+        }
+        PageInfo<EtmsItem> etmsItemPageInfo = new PageInfo<>(list);
         if(!list.isEmpty()){
-            return new ResponseEntity(200,"查询成功",list);
+            return new ResponseEntity(200,"查询成功",etmsItemPageInfo);
         }else{
             return new ResponseEntity(400,"查询失败","");
         }
@@ -178,4 +193,47 @@ public class ItemController {
         }
     }
 
+    /**
+     * 查询outline中所有信息
+     * @return
+     */
+    @RequestMapping("/findCatalogInfo")
+    public ResponseEntity<List<EtmsOutline>> findOutlineInfo(@RequestBody EtmsOutline etmsOutline){
+        List<EtmsOutline> itemInfo = itemService.findItemInfo((int) etmsOutline.getItemId(),etmsOutline.getCatalog());
+        if(itemInfo != null){
+            return new ResponseEntity(200,"查询成功",itemInfo);
+        }else{
+            return new ResponseEntity(400,"查询失败","");
+        }
+    }
+
+    /**
+     * 查询对应的视频
+     * @param etmsOutline
+     * @return
+     */
+    @RequestMapping("/openClassFile")
+    public ResponseEntity<String> findClassVideo(@RequestBody EtmsOutline etmsOutline){
+        String classVideoName = itemService.findClassVideo(etmsOutline.getItemId(), etmsOutline.getCatalog(), etmsOutline.getTrainClassTitle());
+        System.out.println(classVideoName);
+        if(classVideoName != null){
+            return new ResponseEntity(200,"查询成功",classVideoName);
+        }else{
+            return new ResponseEntity(400,"查询失败","");
+        }
+    }
+
+    /**
+     * 查询详情页一中的进度以及时间
+     * @return
+     */
+    @RequestMapping("/findScheduleAndHour")
+    public ResponseEntity<TrainAndCatalogSchedule> findScheduleAndHour(@RequestBody UserAndItemid userAndItemid){
+        TrainAndCatalogSchedule scheduleAndHour = itemService.findScheduleAndHour(userAndItemid.getUserId(), userAndItemid.getItemId());
+        if(scheduleAndHour != null){
+            return new ResponseEntity(200,"查询成功",scheduleAndHour);
+        }else{
+            return new ResponseEntity(400,"查询失败","");
+        }
+    }
 }

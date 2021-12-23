@@ -10,7 +10,11 @@ public interface StudentService {
 
     List<EtmsItemStudent> findApplied(ScheduleQueryCondition scheduleQueryCondition);
 
-    int deleteByItemIdAndUserId(int itemId, int userId);
+    int deleteById(int stuId);
 
     int add(int itemId, int userId);
+
+    int updateApplyStatus(String status, int stuId);
+
+    EtmsItemStudent findByItemIdAndUserId(int itemId, int userId);
 }

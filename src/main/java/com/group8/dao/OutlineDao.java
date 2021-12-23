@@ -4,7 +4,6 @@ import com.group8.entity.EtmsCatalog;
 import com.group8.entity.EtmsOutline;
 import org.apache.ibatis.annotations.Param;
 
-import java.math.BigInteger;
 import java.util.List;
 
 public interface OutlineDao {
@@ -15,4 +14,6 @@ public interface OutlineDao {
     int addOne(List<EtmsOutline> outlines) ;
 
     boolean uploadFile(@Param("filePath") String filePath,@Param("id") int id,@Param("trainHour") long trainHour);
+
+    int deleteClassFile(int id);
 }

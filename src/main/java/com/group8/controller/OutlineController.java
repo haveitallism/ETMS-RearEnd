@@ -3,6 +3,7 @@ package com.group8.controller;
 import com.group8.dto.FormInLine;
 import com.group8.dto.UploadFile;
 import com.group8.entity.EtmsCatalog;
+import com.group8.entity.EtmsOutline;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.OutlineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,23 @@ public class OutlineController {
             return new ResponseEntity<>(500, "上传失败",flag);
         }
     }
+
+
+    /**
+     *根据大纲id删除对应的课件
+     * @param id 大纲id
+     * @return 返回1成功，0失败
+     */
+    @RequestMapping("/deleteClassFile/{id}")
+    public ResponseEntity<String> deleteClassFile(@PathVariable int id){
+        int i = outlineService.deleteClassFile(id);
+        if (i > 0) {
+            return new ResponseEntity<>(200, "删除成功");
+        }else {
+            return new ResponseEntity<>(500, "删除失败");
+        }
+    }
+
 
 }
 

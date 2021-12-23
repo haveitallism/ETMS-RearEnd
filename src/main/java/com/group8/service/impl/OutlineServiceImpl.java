@@ -38,6 +38,11 @@ public class OutlineServiceImpl implements OutlineService {
         return outlineDao.uploadClassFile(id, filePath);
     }
 
+    @Override
+    public int deleteClassFile(int id) {
+        return outlineDao.deleteClassFile(id);
+    }
+
     /**
      * 上传视频
      * @param uploadFile
@@ -63,9 +68,12 @@ public class OutlineServiceImpl implements OutlineService {
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
             responseUrl = "http://"+responseUrl + qiniuUrl +"/"+ putRet.key;
             File file = FileUtils.multipartFileToFile(uploadFile.getFile());
+            System.out.println(file.getName());
             //计算视频时长
             long trainHour = FileUtils.getDuration(file);
             flag = outlineDao.uploadFile(responseUrl,uploadFile.getId(),trainHour);
+            //删除我们用于计算时间生成的File
+            file.delete();
         }catch (Exception e) {
             e.printStackTrace();
         }

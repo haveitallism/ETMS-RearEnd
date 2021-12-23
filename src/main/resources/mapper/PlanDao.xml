@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group8.dao.PlanDao">
+    <!-- 查询所有培训计划   -->
+    <select id="findAll" resultType="com.group8.entity.EtmsPlan">
+        select * from etms_plan order by plan_id desc
+    </select>
+    <!-- 查询所有某人发布的培训计划   -->
+    <select id="findByUid" parameterType="com.group8.entity.EtmsPlan" resultType="com.group8.entity.EtmsPlan">
+        select * from etms_plan where plan_uid = #{planUid} order by plan_id desc
+    </select>
+    <!-- 根据搜索条件查询计划   -->
+    <select id="findBySelect" parameterType="com.group8.entity.EtmsPlan" resultType="com.group8.entity.EtmsPlan">
+        select * from etms_plan
+        <where>
+            <if test="planFor != null">
+                and plan_for = #{planFor}
+            </if>
+            <if test="planTitle != null and planTitle != ''">
+                and plan_title like concat('%',#{planTitle},'%')
+            </if>
+            <if test='planStatus == "y" '>
+                and plan_status = 'y'
+            </if>
+            <if test='planStatus == "n"'>
+                and plan_status = 'n'
+            </if>
+
+        </where>
+        order by plan_id desc
+    </select>
+    <!-- 添加培训计划   -->
+    <insert id="addPlan" parameterType="com.group8.entity.EtmsPlan">
+        insert into etms_plan values (null,#{planUid},#{planTitle},#{planCollect},#{planFor},#{planMoney}
+        ,#{planContent},#{planStatus},#{planPass},#{planStarttime},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime})
+    </insert>
+    <!-- 我的培训计划进度查询   -->
+    <resultMap id="findApprove" type="com.group8.entity.EtmsPlan">
+        <id property="planId" column="plan_id"></id>
+        <result property="planUid" column="plan_uid"></result>
+        <result property="planTitle" column="plan_title"></result>
+        <result property="planCollect" column="plan_collect"></result>
+        <result property="planFor" column="plan_for"></result>
+        <result property="planMoney" column="plan_money"></result>
+        <result property="planContent" column="plan_content"></result>
+        <result property="planStatus" column="plan_status"></result>
+        <result property="planPass" column="plan_pass"></result>
+        <result property="planStarttime" column="plan_starttime"></result>
+        <association property="approver" javaType="String" column="plan_id" select="com.group8.dao.PlanDao.findApprove"></association>
+    </resultMap>
+    <select id="findPlanSchedule" parameterType="com.group8.entity.EtmsPlan" resultMap="findApprove">
+        select * from etms_plan where plan_uid = #{planUid} order by plan_id desc
+    </select>
+    <!--  查找当前审批人  -->
+    <select id="findApprove" resultType="String">
+        select u.user_name from etms_approve_record a , etms_user u , etms_plan_record p where a.approve_result = 'now'
+        and p.plan_id = #{plan_id} and a.record_id = p.record_id and a.approve_user_id = u.user_id
+    </select>
+    <!-- 查询我的待审批-->
+    <select id="findMyApprove" resultType="com.group8.entity.EtmsPlan">
+        select * from etms_plan p,etms_approve_record a,etms_plan_record pr where a.approve_user_id = #{uid} and pr.plan_id = p.plan_id
+        and pr.record_id = a.record_id and a.approve_result = 'now'
+    </select>
+    <!-- 查询我的已审批   -->
+    <select id="findMyApproved" resultType="com.group8.entity.EtmsPlan">
+        select * from etms_plan p,etms_approve_record a,etms_plan_record pr where a.approve_user_id = #{uid} and pr.plan_id = p.plan_id
+        and pr.record_id = a.record_id and a.approve_result in('pass','nopass')
+    </select>
+
+    <!-- 根据plan_id查询计划详情   -->
+    <select id="findPlanById" resultType="com.group8.entity.EtmsPlan">
+        select * from etms_plan where plan_id = #{pid}
+    </select>
+</mapper>

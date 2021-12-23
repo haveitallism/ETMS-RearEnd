@@ -12,4 +12,5 @@ public interface OutlineService {
     int uploadClassFile(int id, String filePath);
 
     boolean uploadFile(UploadFile uploadFile)throws IOException;
+    int deleteClassFile(int id);
 }

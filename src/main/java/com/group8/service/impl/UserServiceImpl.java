@@ -22,6 +22,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import com.group8.entity.EtmsUser;
+import com.group8.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -133,4 +137,37 @@ public class UserServiceImpl implements UserService {
         }
         return responseUrl;
     }
+
+
+
+    @Override
+    public List<EtmsUser> findAllStudent(EtmsUser etmsUser) {
+        return userDao.findAllStudent(etmsUser);
+    }
+
+    @Override
+    public int addStudent(EtmsUser etmsUser) {
+        List<EtmsUser> list = userDao.checkUser(etmsUser);
+        if(list.isEmpty()){
+            int i = userDao.addStudent(etmsUser);
+            return i;
+        }else{
+            return 0;
+        }
+
+    }
+
+    @Override
+    public int deleteStudent(int userId) {
+        int i = userDao.deleteStudent(userId);
+        return 0;
+    }
+
+    @Override
+    public boolean updateStudent(EtmsUser etmsUser) {
+        boolean b = userDao.updateStudent(etmsUser);
+        return false;
+    }
+
+
 }

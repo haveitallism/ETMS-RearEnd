@@ -30,4 +30,14 @@ public interface UserDao {
     String validatePassword(int id);
 
     boolean uploadPicture(@Param("headImg") String headImg,@Param("userId") int userId);
+
+    List<EtmsUser> findAllStudent(EtmsUser etmsUser);
+
+    List<EtmsUser> checkUser(EtmsUser etmsUser);
+
+    int addStudent(EtmsUser etmsUser);
+
+    int deleteStudent(int userId);
+
+    boolean updateStudent(EtmsUser etmsUser);
 }

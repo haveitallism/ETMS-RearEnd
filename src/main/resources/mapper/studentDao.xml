@@ -43,11 +43,22 @@
         </if>
     </select>
 
-    <delete id="deleteByItemIdAndUserId">
-        delete from etms_item_student where item_id = #{itemId} and user_id = #{userId}
+    <select id="findByItemIdAndUserId" resultType="com.group8.entity.EtmsItemStudent">
+        select * from etms_item_student where item_id = #{itemId} and user_id = #{userId}
+    </select>
+
+    <delete id="deleteById">
+        delete from etms_item_student where student_id = #{stuId}
     </delete>
 
     <insert id="add">
         insert into etms_item_student values(null, #{userId}, #{itemId}, 0, 0, null, null, null, null, null, null)
     </insert>
+
+    <update id="updateApplyStatus">
+        update etms_item_student set apply_status = #{status} where apply_status = '0'
+        <if test="stuId != 0">
+            and student_id = #{stuId}
+        </if>
+    </update>
 </mapper>

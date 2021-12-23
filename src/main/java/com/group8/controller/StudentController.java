@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.group8.dto.FormInLine;
 import com.group8.dto.ScheduleQueryCondition;
 import com.group8.entity.EtmsItemStudent;
+import com.group8.entity.EtmsUser;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +48,13 @@ public class StudentController {
     }
 
     /**
-     * 根据用户id和项目id删除学员表记录
-     * @param itemId 当前项目id
-     * @param userId 选择用户id
+     * 根据学员id删除学员表记录
+     * @param stuId 学员id
      * @return
      */
-    @RequestMapping("/delete/{itemId}/{userId}")
-    public ResponseEntity<String> deleteByItemIdAndUserId(@PathVariable int itemId, @PathVariable int userId) {
-        int i = studentService.deleteByItemIdAndUserId(itemId, userId);
+    @RequestMapping("/delete/{stuId}")
+    public ResponseEntity<String> deleteById(@PathVariable int stuId) {
+        int i = studentService.deleteById(stuId);
         if (i > 0) {
             return new ResponseEntity<>(200, "删除成功");
         }else {
@@ -62,15 +62,60 @@ public class StudentController {
         }
     }
 
+    /**
+     * 根据项目id和用户id新增学员
+     * @param itemId
+     * @param userId
+     * @return
+     */
     @RequestMapping("/add/{itemId}/{userId}")
     public ResponseEntity<String> add(@PathVariable int itemId, @PathVariable int userId){
         //新增前需要判断记录是否存在
-        int i = studentService.add(itemId, userId);
-        if (i > 0) {
-            return new ResponseEntity<>(200, "添加成功");
-        }else {
-            return new ResponseEntity<>(500, "添加失败");
+        EtmsItemStudent student = studentService.findByItemIdAndUserId(itemId, userId);
+        if(student == null){
+            //学员不存在  可以新增
+            int i = studentService.add(itemId, userId);
+            if (i > 0) {
+                return new ResponseEntity<>(200, "添加成功");
+            }else {
+                return new ResponseEntity<>(500, "添加失败");
+            }
+        }else{
+            //学员已存在  不能新增
+            return new ResponseEntity<>(200, "学员已存在");
         }
     }
+
+    /**
+     * 更新报名状态，传入id为0时是全部同意
+     * @param stuId
+     * @return
+     */
+    @RequestMapping("/agree/{stuId}")
+    public ResponseEntity<String> agree(@PathVariable int stuId){
+        int i = studentService.updateApplyStatus("1", stuId);
+        if (i > 0) {
+            return new ResponseEntity<>(200, "操作成功");
+        }else {
+            return new ResponseEntity<>(500, "操作失败");
+        }
+    }
+
+    /**
+     * 更新报名状态，传入id为0时是全部拒绝
+     * @param stuId
+     * @return
+     */
+    @RequestMapping("/reject/{stuId}")
+    public ResponseEntity<String> reject(@PathVariable int stuId){
+        int i = studentService.updateApplyStatus("-1", stuId);
+        if (i > 0) {
+            return new ResponseEntity<>(200, "操作成功");
+        }else {
+            return new ResponseEntity<>(500, "操作失败");
+        }
+    }
+
+
 }
 

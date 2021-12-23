@@ -4,16 +4,18 @@ import com.group8.dao.AbilityModelDao;
 import com.group8.dao.ItemDao;
 import com.group8.dao.OutlineDao;
 import com.group8.dto.AbilityModelSubject;
+import com.group8.dto.CatalogSchedule;
 import com.group8.dto.EtmsItemAbilityOutline;
+import com.group8.dto.TrainAndCatalogSchedule;
 import com.group8.entity.*;
 import com.group8.service.ItemService;
 import com.group8.utils.TidyAbilityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
-
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 @Service
@@ -72,14 +74,16 @@ public class ItemServiceImpl implements ItemService {
 
             //添加培训项目
             EtmsItem etmsItem = iao.getEtmsItem();
+            LocalDateTime now = LocalDateTime.now();
+            etmsItem.setCreatedTime(now);
             int i1 = itemDao.addOne(etmsItem);
             long itemId = etmsItem.getItemId();
 
             //添加大纲集合
             List<EtmsOutline> etmsOutlines = iao.getEtmsOutlines();
-            for (EtmsOutline etmsOutline:etmsOutlines
-                 ) {
-                etmsOutline.setItemId(itemId);
+            for (int i = 0; i < etmsOutlines.size(); i++) {
+                etmsOutlines.get(i).setCatalog("目录" +1+ i);
+                etmsOutlines.get(i).setItemId(itemId);
             }
             i2 = outlineDao.addOne(iao.getEtmsOutlines());
 
@@ -90,7 +94,6 @@ public class ItemServiceImpl implements ItemService {
                 ability.setSubjectId(itemId);
             }
             list.get(0).setSubject("item");
-            System.out.println("集合"+list);
             i3 = abilityModelDao.addOne(list);
             //如果其中一项不大于0 则添加失败
             if (i1 > 0 && i2 > 0 && i3 > 0) {
@@ -133,6 +136,97 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public int updateAbilityModel(AbilityModelSubject abilityModelSubject) {
         return abilityModelDao.updateAbilityModel(abilityModelSubject);
+    }
+
+    @Override
+    public List<EtmsOutline> findItemInfo(int itemId, String catalog) {
+        List<EtmsOutline> itemInfo = itemDao.findItemInfo(itemId, catalog);
+        return itemInfo;
+    }
+
+    @Override
+    public String findClassVideo(long itemId, String catalog, String trainClassTitle) {
+        String classVideo = itemDao.findClassVideo((int) itemId, catalog, trainClassTitle);
+        return classVideo;
+    }
+
+    @Override
+    public TrainAndCatalogSchedule findScheduleAndHour(int userId, int itemId) {
+        TrainAndCatalogSchedule schedule = new TrainAndCatalogSchedule();
+        List<CatalogSchedule> catalogSchedules = new ArrayList<>();
+
+        List<EtmsOutline> outlines = itemDao.findOutline(itemId);
+        //记录培训总时长
+        long itemHour = 0L;
+        //利用set去重得到目录名字
+        HashSet<String> set = new HashSet();
+        for(int i = 0;i < outlines.size();i++){
+            set.add(outlines.get(i).getCatalog());
+            itemHour += outlines.get(i).getTrainHour();
+        }
+
+        //存放去重后的目录
+        List<String> list = new ArrayList();
+        for(String catalog : set){
+            list.add(catalog);
+        }
+
+        //得到目录名字以及对应课程时长的map集合
+        HashMap map = new HashMap<String,List<Long>>();
+        for (int i = 0;i < list.size();i++){
+             List<Long> list1 = itemDao.findCatalogTrainHour(itemId,list.get(i));
+             map.put(list.get(i),list1);
+        }
+
+        //记录目录及对应的总时长
+        HashMap<String, Long> catalogAndHourMap = new HashMap<>();
+        //计算每个catalog的时长
+        for (int i = 0;i < list.size();i++) {
+            List<Long> listcatalogHours = (List<Long>) map.get(list.get(i));
+            long everyCatalogHours = 0;
+            for (int j = 0;j < listcatalogHours.size();j++){
+                //先判断是否为空，因为数据库里面有些train_hour字段是空的,不判断就会报空指针异常
+                if(listcatalogHours.get(j) != null){
+                    everyCatalogHours += listcatalogHours.get(j);
+                }
+                //我们这里采用先放到map中将目录去重，这里如果直接用对象接受 就会有很多相同目录名字的对象产生
+                catalogAndHourMap.put(list.get(i),everyCatalogHours);
+            }
+            //计算完一个就归零
+            everyCatalogHours = 0;
+        }
+
+        CatalogSchedule catalogSchedule = null;
+        Iterator iter = catalogAndHourMap.entrySet().iterator();//获取key和value的set
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next(); //把hashmap转成Iterator再迭代到entry
+            String key = (String) entry.getKey(); //从entry获取key
+            Long val = (Long) entry.getValue(); //从entry获取value
+            catalogSchedule = new CatalogSchedule(key,val,null);
+            catalogSchedules.add(catalogSchedule);
+        }
+
+        System.out.println(catalogAndHourMap);
+        System.out.println(catalogSchedules);
+        //计算培训项目完成的进度
+        int count = itemDao.findTrainSchedele(userId,itemId);
+        int trainSchedule = ((count*100)/outlines.size());
+        schedule.setItemSchedule(trainSchedule);
+
+        //计算每个目录完成的进度
+        for(int i = 0;i < list.size();i++){
+            int TrainNumByCatalog = itemDao.findTrainNumByCatalog(list.get(i),itemId);
+            int catalogSchedeleNum = itemDao.findCatalogSchedele(list.get(i), userId, itemId);
+            int catalogSchedele = ((catalogSchedeleNum)*100/TrainNumByCatalog);
+            for(int j = 0;j < catalogSchedules.size();j++){
+                if(catalogSchedules.get(j).getCatalog() == list.get(i)){
+                    catalogSchedules.get(j).setCatalogSchedule(catalogSchedele);
+                }
+            }
+        }
+
+        schedule.setCatalogSchedules(catalogSchedules);
+        return schedule;
     }
 }
 

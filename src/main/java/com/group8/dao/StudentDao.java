@@ -11,7 +11,13 @@ public interface StudentDao {
 
     List<EtmsItemStudent> finApplied(ScheduleQueryCondition scheduleQueryCondition);
 
-    int deleteByItemIdAndUserId(@Param("itemId") int itemId, @Param("userId") int userId);
+    int deleteById(int stuId);
 
     int add(@Param("itemId") int itemId, @Param("userId") int userId);
+
+    int updateApplyStatus(@Param("status") String status, @Param("stuId") int stuId);
+
+    EtmsItemStudent findByItemIdAndUserId(int itemId, int userId);
+
+
 }
