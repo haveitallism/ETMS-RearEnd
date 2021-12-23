@@ -38,9 +38,8 @@ public interface UserService {
 
     int deleteStudent(int userId);
 
-    boolean updateStudent(EtmsUser etmsUser);
-
     int addCourse(int userId, int courseId);
+
     int updateStudent(EtmsUser etmsUser);
 
     EtmsUser getStudentById(int userId);

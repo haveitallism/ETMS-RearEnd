@@ -42,7 +42,7 @@ public interface UserDao {
     int updateStudent(EtmsUser etmsUser);
 
     EtmsUser getStudentById(int userId);
-    boolean updateStudent(EtmsUser etmsUser);
+
 
     int addCourse(@Param("userId") int userId,@Param("courseId") int courseId);
 

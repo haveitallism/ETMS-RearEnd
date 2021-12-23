@@ -240,7 +240,7 @@ public class UserController {
         if (i > 0){
             return new ResponseEntity<>(200, "添加成功");
         }else {
-            return new ResponseEntity<>(300, "已收藏该课程");
+            return new ResponseEntity<>(501, "已收藏该课程");
         }
     }
 
