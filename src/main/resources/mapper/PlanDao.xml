@@ -14,7 +14,7 @@
     <select id="findBySelect" parameterType="com.group8.entity.EtmsPlan" resultType="com.group8.entity.EtmsPlan">
         select * from etms_plan
         <where>
-            <if test="planFor != null">
+            <if test="planFor != null and planFor != ''">
                 and plan_for = #{planFor}
             </if>
             <if test="planTitle != null and planTitle != ''">
@@ -31,9 +31,26 @@
         order by plan_id desc
     </select>
     <!-- 添加培训计划   -->
-    <insert id="addPlan" parameterType="com.group8.entity.EtmsPlan">
+    <insert id="addPlan" parameterType="com.group8.entity.EtmsPlan" keyProperty="planId" useGeneratedKeys="true">
         insert into etms_plan values (null,#{planUid},#{planTitle},#{planCollect},#{planFor},#{planMoney}
         ,#{planContent},#{planStatus},#{planPass},#{planStarttime},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime})
+    </insert>
+    <insert id="addApproveRecord" parameterType="com.group8.entity.EtmsApproveRecord">
+        insert into etms_approve_record(approve_user_id,plan_id,approve_number,approve_end_time,approve_result) values
+        <foreach collection="list" item="approve" separator="," index="index">
+            <if test="index == 0">
+                (#{approve.approveUserId},#{planId},#{index},#{approve.approveEndTime},'now')
+            </if>
+            <if test="index != 0">
+                (#{approve.approveUserId},#{planId},#{index},#{approve.approveEndTime},'')
+            </if>
+        </foreach>
+    </insert>
+    <insert id="addBudget" parameterType="com.group8.entity.EtmsPlanBudget">
+        insert into etms_plan_budget(plan_id,budget_name,budget_num) values
+        <foreach collection="list" item="budget" separator=",">
+            (#{planId},#{budget.budgetName},#{budget.budgetNum})
+        </foreach>
     </insert>
     <!-- 我的培训计划进度查询   -->
     <resultMap id="findApprove" type="com.group8.entity.EtmsPlan">
@@ -47,15 +64,15 @@
         <result property="planStatus" column="plan_status"></result>
         <result property="planPass" column="plan_pass"></result>
         <result property="planStarttime" column="plan_starttime"></result>
-        <association property="approver" javaType="String" column="plan_id" select="com.group8.dao.PlanDao.findApprove"></association>
+        <collection property="approver" ofType="String" column="plan_id" select="com.group8.dao.PlanDao.findApprove"></collection>
     </resultMap>
     <select id="findPlanSchedule" parameterType="com.group8.entity.EtmsPlan" resultMap="findApprove">
         select * from etms_plan where plan_uid = #{planUid} order by plan_id desc
     </select>
     <!--  查找当前审批人  -->
     <select id="findApprove" resultType="String">
-        select u.user_name from etms_approve_record a , etms_user u , etms_plan_record p where a.approve_result = 'now'
-        and p.plan_id = #{plan_id} and a.record_id = p.record_id and a.approve_user_id = u.user_id
+        select u.user_name from etms_approve_record a , etms_user u where a.approve_result = 'now'
+        and a.plan_id = #{plan_id} and a.approve_user_id = u.user_id
     </select>
     <!-- 查询我的待审批-->
     <select id="findMyApprove" resultType="com.group8.entity.EtmsPlan">
@@ -64,12 +81,22 @@
     </select>
     <!-- 查询我的已审批   -->
     <select id="findMyApproved" resultType="com.group8.entity.EtmsPlan">
-        select * from etms_plan p,etms_approve_record a,etms_plan_record pr where a.approve_user_id = #{uid} and pr.plan_id = p.plan_id
-        and pr.record_id = a.record_id and a.approve_result in('pass','nopass')
+        select * from etms_plan p,etms_approve_record a where a.approve_user_id = #{uid} and a.plan_id = p.plan_id
+        and a.approve_result in('pass','nopass')
     </select>
 
     <!-- 根据plan_id查询计划详情   -->
     <select id="findPlanById" resultType="com.group8.entity.EtmsPlan">
         select * from etms_plan where plan_id = #{pid}
+    </select>
+    <select id="findUser" parameterType="com.group8.entity.EtmsApproveRecord" resultType="com.group8.entity.EtmsUser">
+        select * from etms_user eu
+        <where>
+            eu.user_id in (select eur.user_id from etms_user_role eur where role_id = 2)
+            <foreach collection="list" item="approve">
+                and eu.user_id != #{approve.approveUserId}
+            </foreach>
+        </where>
+
     </select>
 </mapper>

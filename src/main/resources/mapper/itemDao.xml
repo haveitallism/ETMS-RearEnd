@@ -113,4 +113,37 @@
 <!--        </where>-->
     </select>
 
+
+    <select id="findItemInfo" resultType="com.group8.entity.EtmsOutline">
+        select * from etms_outline where item_id = #{itemId} and catalog = #{catalog}
+    </select>
+
+
+    <select id="findClassVideo" resultType="String">
+        select train_class_file from etms_outline where item_id = #{itemId} and catalog = #{catalog} and train_class_title = #{trainClassTitle}
+    </select>
+
+    <select id="findCatalogTrainHour" resultType="Long">
+        SELECT train_hour FROM etms_outline WHERE catalog = #{catalog} AND item_id = #{itemId}
+    </select>
+
+    <select id="findOutline" resultType="com.group8.entity.EtmsOutline">
+        select * from etms_outline where item_id = #{itemId}
+    </select>
+
+    <select id="findTrainSchedele" resultType="int">
+        SELECT COUNT(*) FROM etms_outline_schedele WHERE outline_id IN (SELECT outline_id FROM etms_outline WHERE item_id = #{itemId}) AND user_id = #{userId}
+    </select>
+
+    <select id="findTrainNumByCatalog" resultType="int">
+        select count(*) from etms_outline where item_id = #{itemId} and catalog = #{catalog}
+    </select>
+
+
+    <select id="findCatalogSchedele" resultType="int">
+        SELECT COUNT(*) FROM etms_outline_schedele WHERE outline_id
+        IN (SELECT outline_id FROM etms_outline WHERE item_id = #{itemId} AND catalog = #{catalog})
+        AND user_id = #{userId}
+        AND item_id = #{itemId}
+    </select>
 </mapper>

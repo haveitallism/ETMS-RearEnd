@@ -27,8 +27,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public int deleteByItemIdAndUserId(int itemId, int userId) {
-        return studentDao.deleteByItemIdAndUserId(itemId, userId);
+    public int deleteById(int stuId) {
+        return studentDao.deleteById(stuId);
     }
 
     @Override

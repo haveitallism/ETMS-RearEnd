@@ -11,7 +11,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EtmsApproveRecord {
-
   private long recordId;
   private long processId;
   private long approveUserId;
@@ -22,6 +21,5 @@ public class EtmsApproveRecord {
   private Date createdTime;
   private String updatedBy;
   private Date updatedTime;
-  EtmsApproveRecord etmsApproveRecord;
-
+  private Date approveEndTime;
 }
