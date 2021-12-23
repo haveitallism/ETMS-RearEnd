@@ -5,10 +5,7 @@ import com.group8.entity.EtmsResachAnwer;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.ResachAnwerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,9 +33,11 @@ public class ResachAnwerController {
 
     }
 
+    //新增多个题目多个答案
     @RequestMapping("addEtmsResachAnwerOne")
     public ResponseEntity<EtmsResachAnwer> addEtmsResachAnwerOne(@RequestBody AnwersDto anwersDto) {
-        Integer i = etmsResachAnwerService.addEtmsResachAnwerOne(anwersDto.getAnswers(), anwersDto.getTopic());
+        Integer i = etmsResachAnwerService.addEtmsResachAnwerOne(anwersDto);
+        System.out.println(anwersDto);
         if (i > 0) {
             return new ResponseEntity(200, "新增成功", "成功新增" + i + "条数");
         } else {
@@ -46,4 +45,5 @@ public class ResachAnwerController {
         }
 
     }
+
 }
