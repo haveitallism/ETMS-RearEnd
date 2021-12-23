@@ -1,5 +1,6 @@
 package com.group8.service;
 
+import com.group8.dto.AddPlan;
 import com.group8.entity.EtmsApproveRecord;
 import com.group8.entity.EtmsPlan;
 import com.group8.entity.EtmsUser;
@@ -14,7 +15,7 @@ public interface PlanService {
 
     List<EtmsPlan> findBySelect(EtmsPlan etmsPlan);
 
-    int addPlan(EtmsPlan etmsPlan);
+    int addPlan(AddPlan addPlan);
 
     List<EtmsPlan> findPlanSchedule(EtmsPlan etmsPlan);
 

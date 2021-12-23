@@ -82,12 +82,12 @@ public class PlanController {
     @RequestMapping("/addPlan")
     public ResponseEntity<EtmsPlan> addPlan(@RequestBody AddPlan addPlan){
         System.out.println(addPlan);
-//        int i =  planService.addPlan(addPlan);
-//        if(i != 0){
-//            return new ResponseEntity(200,"新增成功",i);
-//        }else {
+        int i =  planService.addPlan(addPlan);
+        if(i != 3){
+            return new ResponseEntity(200,"新增成功",i);
+        }else {
               return new ResponseEntity(400, "查询失败", "服务器维护中");
-//        }
+        }
     }
 
     /**
