@@ -20,6 +20,7 @@
                 and course_type = #{course.courseType}
             </if>
         </where>
+    </select>
 
     <select id="findMyCourseSum" resultType="int">
         select count(*) from etms_user_course where user_id = #{uid}
