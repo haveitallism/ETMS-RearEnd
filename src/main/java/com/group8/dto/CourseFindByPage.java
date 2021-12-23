@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseFindByPage {
+    int id;
     int page;
     int limit;
     EtmsCourse etmsCourse;

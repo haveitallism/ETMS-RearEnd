@@ -96,8 +96,8 @@
     </select>
 
     <insert id="addStudent" parameterType="com.group8.entity.EtmsUser">
-        insert into etms_user (user_name,dept_id,user_position,user_telephone,user_email,user_manager,user_role) values
-        (#{userName},#{deptId},#{userPosition},#{userTelephone},#{userEmail},#{userManager},#{userRole})
+        insert into etms_user (user_name,user_password,dept_id,user_position,user_telephone,user_email,user_manager,user_role) values
+        (#{userName},#{userPassword},#{deptId},#{userPosition},#{userTelephone},#{userEmail},#{userManager},#{userRole})
     </insert>
 
     <delete id="deleteStudent" parameterType="int">
