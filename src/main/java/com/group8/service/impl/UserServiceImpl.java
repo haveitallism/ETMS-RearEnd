@@ -2,11 +2,13 @@ package com.group8.service.impl;
 
 import com.google.gson.Gson;
 import com.group8.dao.AbilityModelDao;
+import com.group8.dao.RoleDao;
 import com.group8.dao.UserDao;
 import com.group8.dto.AbilityModelSubject;
 import com.group8.dto.UploadImg;
 import com.group8.entity.*;
 import com.group8.service.UserService;
+import com.group8.utils.JWTUtils;
 import com.group8.utils.QiniuUtil;
 import com.group8.utils.TidyAbilityModel;
 import com.qiniu.common.QiniuException;
@@ -18,14 +20,12 @@ import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import com.group8.entity.EtmsUser;
-import com.group8.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,6 +33,10 @@ public class UserServiceImpl implements UserService {
     UserDao userDao;
     @Autowired(required = false)
     AbilityModelDao abilityModelDao;
+    @Autowired(required = false)
+    RedisTemplate redisTemplate;
+    @Autowired(required = false)
+    RoleDao roleDao;
 
     @Override
     public List<EtmsUser> findAllUser() {
@@ -111,7 +115,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public EtmsUser login(EtmsUser etmsUser) {
-        return userDao.findByUsernamAndPassword(etmsUser.getUserName(), etmsUser.getUserPassword());
+        //MD5加盐加密
+        SimpleHash simpleHash = new SimpleHash("MD5", etmsUser.getUserPassword(), etmsUser.getUserName() + "etms");
+        String hexPassword = simpleHash.toHex();
+        EtmsUser user = userDao.findByUsernamAndPassword(etmsUser.getUserName(), hexPassword);
+        if (user == null){
+            return null;
+        }else {
+            //在这个RbacManager对象中封装token
+            String jwt = JWTUtils.sign(user.getUserName(), hexPassword);
+            user.setToken(jwt);
+
+            //将token存入redis数据库中，并设置过期时间
+            redisTemplate.opsForValue().set(user.getUserName(), user.getToken());
+            redisTemplate.expire(user.getUserName(), 60, TimeUnit.MINUTES);
+
+            return user;
+        }
     }
 
 
@@ -183,12 +203,15 @@ public class UserServiceImpl implements UserService {
         modelSubject.setSubjectId(userId);
         modelSubject.setSubject("user");
         List<EtmsAbilityModel> abilityModelList = abilityModelDao.findAll(modelSubject);
-        for (EtmsAbilityModel am:
-             abilityModelList) {
-            System.out.println(am);
-        }
         return TidyAbilityModel.tidy(abilityModelList);
     }
 
-
+    @Override
+    public EtmsUser getInfo(String token) {
+        EtmsUser etmsUser = userDao.findByUsernamAndPassword(JWTUtils.getUserName(token), JWTUtils.getPassword(token));
+        EtmsRole etmsRole = roleDao.findById(Integer.parseInt(etmsUser.getUserRole()));
+        String[] roles = {etmsRole.getRoleRemark()};
+        etmsUser.setRoles(roles);
+        return etmsUser;
+    }
 }

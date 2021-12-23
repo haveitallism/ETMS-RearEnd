@@ -17,4 +17,6 @@ public interface RoleDao {
     int deleteRolePermById(long roleId);
 
     int addRole(EtmsRole etmsRole);
+
+    EtmsRole findById(int id);
 }

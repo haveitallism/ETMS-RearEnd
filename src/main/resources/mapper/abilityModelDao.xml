@@ -48,13 +48,13 @@
     <update id="updateAbilityModel">
         update
         <if test="subject.equals('item')">
-            etms_item_am set item_am_score = #{score} where item_id = #{subjectId} and am_id = #{amId}
+            etms_item_am set score = #{score} where item_id = #{subjectId} and am_id = #{amId}
         </if>
         <if test="subject.equals('course')">
-            etms_course_am set course_am_score = #{score} where course_id = #{subjectId} and am_id = #{amId}
+            etms_course_am set score = #{score} where course_id = #{subjectId} and am_id = #{amId}
         </if>
         <if test="subject.equals('user')">
-            etms_user_am set user_am_score = #{score} where user_id = #{subjectId} and am_id = #{amId}
+            etms_user_am set score = #{score} where user_id = #{subjectId} and am_id = #{amId}
         </if>
     </update>
 </mapper>
