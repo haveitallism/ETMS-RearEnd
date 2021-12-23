@@ -147,7 +147,6 @@ public class UserController {
      */
     @PostMapping("/uploadPicture")
     public ResponseEntity<String> uploadPicture(UploadImg uploadImg) throws IOException {
-        System.out.println(uploadImg);
         String pictureUrl = userService.uploadPicture(uploadImg);
         return new ResponseEntity(200,"上传成功！",pictureUrl);
     }
@@ -230,4 +229,18 @@ public class UserController {
         List<EtmsAbilityModel> abilityModelList = userService.findAmById(userId);
         return new ResponseEntity(200,"am查询成功",abilityModelList);
     }
+
+    /**
+     * 给用户添加课程
+     */
+    @PostMapping("/addCourse/{userId}/{courseId}")
+    public ResponseEntity<String> addCourse(@PathVariable int userId,@PathVariable int courseId){
+        int i = userService.addCourse(userId,courseId);
+        if (i > 0){
+            return new ResponseEntity<>(200, "添加成功");
+        }else {
+            return new ResponseEntity<>(501, "已收藏该课程");
+        }
+    }
+
 }

@@ -31,4 +31,8 @@ public class QiniuUtil {
         }
         return val;
     }
+
+
+
+
 }

@@ -16,6 +16,8 @@ public class EtmsOutline {
   private String catalog;
   private String trainClassTitle;
   private String trainClassFile;
+  private long trainHour;
+  private int trainStatus;
   private String createdBy;
   private Date createdTime;
   private String updatedBy;

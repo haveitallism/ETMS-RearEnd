@@ -13,5 +13,7 @@ public interface OutlineDao {
 
     int addOne(List<EtmsOutline> outlines) ;
 
+    boolean uploadFile(@Param("filePath") String filePath,@Param("id") int id,@Param("trainHour") long trainHour);
+
     int deleteClassFile(int id);
 }
