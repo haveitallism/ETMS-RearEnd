@@ -4,6 +4,7 @@ import com.group8.entity.EtmsResachTopic;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.ResachTopicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,17 @@ public class ResachTopicController {
     public ResponseEntity<List<EtmsResachTopic>> findAll() {
         List<EtmsResachTopic> topicLsit = etmsResachTopicService.findALLTopic();
         return new ResponseEntity<>(200, "查询成功", topicLsit);
+    }
+
+    //查询指定题目下面的所有答案
+    @RequestMapping("/findTopicOne/{topicId}")
+    public ResponseEntity<List<EtmsResachTopic>> findTopicOne(@PathVariable Integer topicId) {
+        List<EtmsResachTopic> Topics = etmsResachTopicService.selectTopicById(topicId);
+        if (Topics != null) {
+            return new ResponseEntity<>(200, "查询成功", Topics);
+        } else {
+            return new ResponseEntity<>(400, "查询失败", Topics);
+        }
     }
 
     //新增一条题目

@@ -2,14 +2,13 @@ package com.group8.service.impl;
 
 import com.group8.dao.ResachAnwerDao;
 import com.group8.dao.ResearchTopicDao;
-import com.group8.dto.ceshiDto;
+import com.group8.dto.AnwersDto;
 import com.group8.entity.EtmsResachAnwer;
 import com.group8.entity.EtmsResachTopic;
 import com.group8.service.ResachAnwerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,16 +31,17 @@ public class ResachAnwerServiceImpl implements ResachAnwerService {
     }
 
     @Override
-    public Integer addEtmsResachAnwerOne(List<ceshiDto> ansers, String topic) {
-        EtmsResachTopic etmsResachTopic = new EtmsResachTopic();
-        etmsResachTopic.setTopicName(topic);
-//        System.out.println(etmsResachTopic);
-        researchTopicDao.EtmsResachTopicaddOne(etmsResachTopic);
-        ArrayList arrayList = new ArrayList();
-        for (ceshiDto anser : ansers) {
-            arrayList.add(anser.getAnsers());
+    public EtmsResachAnwer selectAnwerById(Integer answerId) {
+        return etmsResachAnwerDao.selectAnwerById(answerId);
+    }
+
+    @Override
+    public Integer addEtmsResachAnwerOne(AnwersDto anwersDto) {
+        for (EtmsResachTopic topic : anwersDto.getTopics()) {
+            researchTopicDao.EtmsResachTopicaddOne(topic);
+            Integer topicId = topic.getTopicId();
+            etmsResachAnwerDao.addEtmsResachAnwerOne(topic.getEtmsResachAnwers(), topicId);
         }
-        Integer topicId = etmsResachTopic.getTopicId();
-        return etmsResachAnwerDao.addEtmsResachAnwerOne(arrayList, topicId);
+        return 1;
     }
 }

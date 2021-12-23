@@ -13,7 +13,12 @@ import java.util.List;
 public interface ResachTopicService {
     List<EtmsResachTopic> findALL();
 
+    //新增一道题目
     Integer EtmsResachTopicaddOne(EtmsResachTopic etmsResachTopic);
 
+    //查询指定题目下的所有答案
+    List<EtmsResachTopic> selectTopicById(Integer topicId);
+
+    //查询所有答案
     List<EtmsResachTopic> findALLTopic();
 }
