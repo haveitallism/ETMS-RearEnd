@@ -1,10 +1,9 @@
 package com.group8.service.impl;
 
 import com.google.gson.Gson;
-import com.group8.dao.AbilityModelDao;
-import com.group8.dao.RoleDao;
-import com.group8.dao.UserDao;
+import com.group8.dao.*;
 import com.group8.dto.AbilityModelSubject;
+import com.group8.dto.CourseAndItem;
 import com.group8.dto.UploadImg;
 import com.group8.entity.*;
 import com.group8.service.UserService;
@@ -37,6 +36,11 @@ public class UserServiceImpl implements UserService {
     RedisTemplate redisTemplate;
     @Autowired(required = false)
     RoleDao roleDao;
+    @Autowired(required = false)
+    CourseDao courseDao;
+    @Autowired(required = false)
+    ItemDao itemDao;
+
 
     @Override
     public List<EtmsUser> findAllUser() {
@@ -263,5 +267,21 @@ public class UserServiceImpl implements UserService {
         String username = JWTUtils.getUserName(token);
         //根据用户名删除数据
         return redisTemplate.delete(username);
+    }
+
+    /**
+     * 首页展示：查找该用户所有的培训项目以及课程项目
+     * @return
+     */
+    @Override
+    public CourseAndItem findCourseAndItem(int userId) {
+
+        List<EtmsCourse> allCourse = courseDao.findAllCourse(userId);
+        List<EtmsItem> allItem = itemDao.findAllItem(userId);
+
+        CourseAndItem courseAndItem = new CourseAndItem();
+        courseAndItem.setEtmsCourseList(allCourse);
+        courseAndItem.setEtmsItemList(allItem);
+        return courseAndItem;
     }
 }

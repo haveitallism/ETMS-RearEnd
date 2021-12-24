@@ -171,9 +171,6 @@ public class ItemController {
         PageHelper.startPage(formInLine.getPage(),formInLine.getLimit());
         int id = formInLine.getId();
         List<EtmsItem> list = itemService.findAllItem(id);
-        for (EtmsItem l : list) {
-            System.out.println(l);
-        }
         PageInfo<EtmsItem> etmsItemPageInfo = new PageInfo<>(list);
         if(!list.isEmpty()){
             return new ResponseEntity(200,"查询成功",etmsItemPageInfo);
