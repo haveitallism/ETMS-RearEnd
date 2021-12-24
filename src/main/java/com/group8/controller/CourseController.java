@@ -27,6 +27,17 @@ public class CourseController {
     CourseService courseService;
 
     /*
+    * 学生详情页中通过uid查找课程
+    * */
+    @RequestMapping("/findAllCourse")
+    public ResponseEntity<PageInfo<EtmsCourse>> findAllCourse(@RequestBody FormInLine formInLine){
+        PageHelper.startPage(formInLine.getPage(),formInLine.getLimit());
+        List<EtmsCourse> list = courseService.findAllCourse(formInLine.getId());
+        PageInfo<EtmsCourse> pageInfo = new PageInfo(list);
+        return new ResponseEntity<>(200,"查询成功",pageInfo);
+    }
+
+    /*
      * 我的必修中参加的培训总数
      * */
     @RequestMapping("/findMyRequiredSum/{uid}")

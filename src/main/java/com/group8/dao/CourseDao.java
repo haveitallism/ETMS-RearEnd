@@ -29,4 +29,6 @@ public interface CourseDao {
     List<EtmsCourse> findHotCourses();
 
     List<EtmsCourse> findCompanyRecommend();
+
+    List<EtmsCourse> findAllCourse(int id);
 }

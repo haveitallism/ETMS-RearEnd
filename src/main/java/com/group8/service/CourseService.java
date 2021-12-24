@@ -33,4 +33,6 @@ public interface CourseService {
     List<EtmsCourse> findHotCourses();
 
     List<EtmsCourse> findCompanyRecommend();
+
+    List<EtmsCourse> findAllCourse(int id);
 }

@@ -147,6 +147,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<EtmsCourse> findAllCourse(int id) {
+        return courseDao.findAllCourse(id);
+    }
+
+    @Override
     public int findMyElectiveSum(int uid) {
         return courseDao.findMyElectiveSum(uid);
     }
