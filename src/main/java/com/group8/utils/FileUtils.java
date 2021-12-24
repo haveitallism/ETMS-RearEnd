@@ -3,10 +3,8 @@ package com.group8.utils;
 //import it.sauronsoftware.jave.Encoder;
 //import it.sauronsoftware.jave.EncoderException;
 //import it.sauronsoftware.jave.MultimediaInfo;
-import org.springframework.web.multipart.MultipartFile;
-import ws.schild.jave.MultimediaInfo;
-import ws.schild.jave.MultimediaObject;
 
+import org.springframework.web.multipart.MultipartFile;
 import ws.schild.jave.MultimediaInfo;
 import ws.schild.jave.MultimediaObject;
 
@@ -61,22 +59,9 @@ public class FileUtils {
     /**
      * 获取视频时长 * @param file 视频文件
      * @return 时长（秒）
-     */ public static long getVideoDuration(File file){
+     */
+    public static long getVideoDuration(File file){
         long duration = 0;
-
-        try{
-            MultimediaObject multimediaObject = new MultimediaObject(file);
-            MultimediaInfo info = multimediaObject.getInfo();
-            duration =  info.getDuration();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return duration;
-     * 获取视频时长 * @param file 视频文件
-     * @return 时长（秒）
-     */ public static long getVideoDuration(File file){
-        long duration = 0;
-
         try{
             MultimediaObject multimediaObject = new MultimediaObject(file);
             MultimediaInfo info = multimediaObject.getInfo();
