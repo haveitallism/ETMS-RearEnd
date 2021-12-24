@@ -31,7 +31,11 @@ public class UserController {
     @Autowired
     private QiniuUtil qiniuUtil;
 
-
+    /**
+     * 仅登录获取token
+     * @param etmsUser
+     * @return
+     */
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody EtmsUser etmsUser){
         EtmsUser user = userService.login(etmsUser);
@@ -42,6 +46,11 @@ public class UserController {
         }
     }
 
+    /**
+     * 根据token获取用户角色信息
+     * @param token
+     * @return
+     */
     @PostMapping("/getInfo/{token}")
     public ResponseEntity<EtmsUser> getInfo(@PathVariable String token){
         EtmsUser user = userService.getInfo(token);
@@ -49,6 +58,16 @@ public class UserController {
             return new ResponseEntity<>(200, "获取成功", user);
         }else {
             return new ResponseEntity<>(500, "获取失败", null);
+        }
+    }
+
+    @PostMapping("/logout/{token}")
+    public ResponseEntity<String> logout(@PathVariable String token){
+        boolean flag = userService.logout(token);
+        if (flag){
+            return new ResponseEntity<>(200, "登出成功");
+        }else {
+            return new ResponseEntity<>(500, "登出失败");
         }
     }
 

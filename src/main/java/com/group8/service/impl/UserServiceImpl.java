@@ -214,4 +214,17 @@ public class UserServiceImpl implements UserService {
         etmsUser.setRoles(roles);
         return etmsUser;
     }
+
+    /**
+     * 根据token删除redis中的数据
+     * @param token
+     * @return
+     */
+    @Override
+    public boolean logout(String token) {
+        //通过token获取用户名
+        String username = JWTUtils.getUserName(token);
+        //根据用户名删除数据
+        return redisTemplate.delete(username);
+    }
 }

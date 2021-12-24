@@ -44,4 +44,6 @@ public interface UserService {
     List<EtmsAbilityModel> findAmById(int userId);
 
     EtmsUser getInfo(String token);
+
+    boolean logout(String token);
 }
