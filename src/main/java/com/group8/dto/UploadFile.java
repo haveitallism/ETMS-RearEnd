@@ -1,21 +1,18 @@
 package com.group8.dto;
 
-import com.group8.entity.EtmsCourse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @author QY
- * @create 2021-12-21 11:35
+ * @author acoffee
+ * @create 2021-12-21 18:53
  */
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CourseFindByPage {
+public class UploadFile {
     int id;
-    int page;
-    int limit;
-    EtmsCourse etmsCourse;
+    MultipartFile file;
 }

@@ -97,8 +97,8 @@
     </select>
 
     <insert id="addStudent" parameterType="com.group8.entity.EtmsUser">
-        insert into etms_user (user_name,dept_id,user_position,user_telephone,user_email,user_manager,user_role) values
-        (#{userName},#{deptId},#{userPosition},#{userTelephone},#{userEmail},#{userManager},#{userRole})
+        insert into etms_user (user_name,user_password,dept_id,user_position,user_telephone,user_email,user_manager,user_role) values
+        (#{userName},#{userPassword},#{deptId},#{userPosition},#{userTelephone},#{userEmail},#{userManager},#{userRole})
     </insert>
 
     <delete id="deleteStudent" parameterType="int">
@@ -106,11 +106,21 @@
     </delete>
 
     <update id="updateStudent" parameterType="com.group8.entity.EtmsUser">
-        update etms_user set user_name = #{userName} , dept_id = #{deptId} , user_position = #{userPosition} , user_telephone = #{userTelephone}
-        , user_email = #{userEmail} , user_manager = #{userManager} , user_role = #{userRole} where user_id = #{userId}
+        update etms_user set user_name = #{userName} and dept_id = #{deptId} and user_position = #{userPosition} and user_telephone = #{userTelephone}
+        and user_email = #{userEmail} and user_manager = #{userManager} and user_role = #{userRole} where user_id = #{userId}
     </update>
+
+    <insert id="addCourse">
+        insert into etms_user_course value (#{userId},#{courseId})
+    </insert>
+
+    <select id="findUidCid" resultType="integer">
+        select course_id from etms_user_course where course_id = #{courseId} and user_id =#{userId}
+    </select>
 
     <select id="getStudentById" resultType="com.group8.entity.EtmsUser">
         select * from etms_user where user_id = #{userId}
     </select>
+
+
 </mapper>

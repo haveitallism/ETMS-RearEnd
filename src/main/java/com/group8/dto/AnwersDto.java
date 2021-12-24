@@ -1,5 +1,6 @@
 package com.group8.dto;
 
+import com.group8.entity.EtmsResachTopic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnwersDto {
-    private List<ceshiDto> answers;
-    private String topic;
+    //private List<ceshiDto> answers;
+    private List<EtmsResachTopic> topics;
+//    private String topic;
 }

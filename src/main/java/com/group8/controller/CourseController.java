@@ -2,10 +2,9 @@ package com.group8.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.group8.dto.CourseFindByPage;
-import com.group8.dto.EtmsCourseAbility;
-import com.group8.dto.FormInLine;
+import com.group8.dto.*;
 import com.group8.entity.EtmsCourse;
+import com.group8.entity.EtmsUser;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,30 +14,56 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/course")
+@CrossOrigin
 public class CourseController {
     @Autowired
     CourseService courseService;
 
     /*
-     * 选修课程中参加的培训总数
+     * 我的必修中参加的培训总数
      * */
-    @RequestMapping("/findMyCourseSum/{uid}")
+    @RequestMapping("/findMyRequiredSum/{uid}")
     public ResponseEntity<Integer> findMyCourseSum(@PathVariable int uid){
         int sum =  courseService.findMyCourseSum(uid);
         return new ResponseEntity<>(200,"查询成功",sum);
     }
 
     /*
-     * 选修课程中参加的课程展示
+     * 我的必修中参加的培训总数
      * */
-    @RequestMapping("/findAllCourse")
-    public ResponseEntity<EtmsCourse> findAllCourse(@RequestBody FormInLine formInLine){
-        PageHelper.startPage(formInLine.getPage(),formInLine.getLimit());
-        List<EtmsCourse> list = courseService.findAllCourse(formInLine.getId());
+    @RequestMapping("/findMyElectiveSum/{uid}")
+    public ResponseEntity<Integer> findMyElectiveSum(@PathVariable int uid){
+        int sum =  courseService.findMyElectiveSum(uid);
+        return new ResponseEntity<>(200,"查询成功",sum);
+    }
+
+    /*
+     * 我的必修中参加的课程展示
+     * */
+    @RequestMapping("/findAllRequired")
+    public ResponseEntity<EtmsCourse> findAllRequired(@RequestBody CourseFindByPage courseFindByPage){
+        PageHelper.startPage(courseFindByPage.getPage(),courseFindByPage.getLimit());
+        List<EtmsCourse> list = courseService.findAllRequired(courseFindByPage.getId(),courseFindByPage.getEtmsCourse());
+        PageInfo<EtmsCourse> etmsCoursePageInfo = new PageInfo<>(list);
+        if(!list.isEmpty()){
+            return new ResponseEntity(200,"查询成功",etmsCoursePageInfo);
+        }else{
+            return new ResponseEntity(400,"查询失败","");
+        }
+    }
+
+    /*
+     * 我的必修中参加的课程展示
+     * */
+    @RequestMapping("/findAllElective")
+    public ResponseEntity<EtmsCourse> findAllElective(@RequestBody CourseFindByPage courseFindByPage){
+        PageHelper.startPage(courseFindByPage.getPage(),courseFindByPage.getLimit());
+        List<EtmsCourse> list = courseService.findAllElective(courseFindByPage.getId(),courseFindByPage.getEtmsCourse());
         PageInfo<EtmsCourse> etmsCoursePageInfo = new PageInfo<>(list);
         if(!list.isEmpty()){
             return new ResponseEntity(200,"查询成功",etmsCoursePageInfo);
@@ -49,7 +74,7 @@ public class CourseController {
 
     /**
      * 查询所有的课程 包括必修 选修
-     * 分压查询 包括关键字查询
+     * 分页查询 包括关键字查询
      */
     @RequestMapping("/allCourses")
     public ResponseEntity<PageInfo<EtmsCourse>> findAllCourse1(@RequestBody CourseFindByPage courseFindByPage){
@@ -74,6 +99,47 @@ public class CourseController {
         }
     }
 
+    /*
+    * 课程详情页中通过courseId查找
+    * */
+    @RequestMapping("/findCourseById/{courseId}")
+    public ResponseEntity<EtmsCourse> findCourseById(@PathVariable("courseId") int courseId){
+        EtmsCourse course = courseService.findCourseById(courseId);
+        return new ResponseEntity(200,"查询成功",course);
+    }
+
+    /*
+    * 课程详情页中通过课程id查找学员
+    * */
+    @RequestMapping("/findStudentByCid")
+    public ResponseEntity<PageInfo<EtmsUser>> findStudentByCid(@RequestBody FormInLine formInLine){
+        int id = formInLine.getId();
+        System.out.println(id);
+        PageHelper.startPage(formInLine.getPage(),formInLine.getLimit());
+        List<EtmsUser> list = courseService.findStudentByCid(formInLine.getId());
+        PageInfo<EtmsUser> etmsUserPageInfo = new PageInfo(list);
+            return new ResponseEntity(200, "查询成功", etmsUserPageInfo);
+
+    }
+    /**
+     * 上传封面
+     */
+    @PostMapping("/uploadCover")
+    public ResponseEntity<String> uploadPicture(UploadImg uploadImg) {
+        System.out.println(uploadImg);
+        String pictureUrl = courseService.uploadPicture(uploadImg);
+        return new ResponseEntity<String>(200,"上传成功！",pictureUrl);
+    }
+
+    /**
+     * 给课程上传视频
+     */
+    @PostMapping("/uploadVideo")
+    public ResponseEntity<String> uploadVideo(UploadFile uploadFile) {
+        String videoUrl = courseService.uploadFile(uploadFile);
+        return new ResponseEntity<String>(200,"上传成功！",videoUrl);
+    }
+
     /**
      * 删除课程
      */
@@ -85,5 +151,23 @@ public class CourseController {
         }else {
             return new ResponseEntity<>(500, "删除失败");
         }
+    }
+
+    /**
+     * 选课中心：热门课程展示 按照课程状态 流行 来排版
+     */
+    @RequestMapping("/hotCourses")
+    public ResponseEntity<EtmsCourse> findHotCourse(){
+        List<EtmsCourse> list = courseService.findHotCourses();
+        return new ResponseEntity(200,"查询成功！",list);
+    }
+
+    /**
+     * 选课中心：企业推荐课程 按照课程类型 必修 和创建时间最先 来排版
+     */
+    @RequestMapping("/companyRecommend")
+    public ResponseEntity<EtmsCourse> companyRecommend(){
+        List<EtmsCourse> list = courseService.findCompanyRecommend();
+        return new ResponseEntity(200,"查询成功！",list);
     }
 }

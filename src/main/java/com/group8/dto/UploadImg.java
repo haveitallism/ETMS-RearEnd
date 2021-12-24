@@ -12,4 +12,5 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadImg {
     int userId;
     MultipartFile file;
+    String format;
 }

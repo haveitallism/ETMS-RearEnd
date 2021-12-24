@@ -47,7 +47,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public EtmsUser findUserById(int id) {
         EtmsUser user = userDao.findUserById(id);
-
+        String userRole = user.getUserRole();
+        if(userRole.equals("1")){
+            user.setUserRole("普通学员");
+        }else if(userRole.equals("2")){
+            user.setUserRole("经理");
+        }else if(userRole.equals("3")){
+            user.setUserRole("管理员");
+        }
         return user;
     }
 
@@ -164,11 +171,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<EtmsUser> findAllStudent(EtmsUser etmsUser) {
-        return userDao.findAllStudent(etmsUser);
+        List<EtmsUser> list = userDao.findAllStudent(etmsUser);
+        for (EtmsUser eu: list) {
+            String userRole = eu.getUserRole();
+            System.out.println(userRole);
+            if(userRole.equals("1")){
+                eu.setUserRole("普通学员");
+            }else if(userRole.equals("2")){
+                eu.setUserRole("经理");
+            }else if(userRole.equals("3")){
+                eu.setUserRole("管理员");
+            }
+        }
+        return list;
     }
 
     @Override
     public int addStudent(EtmsUser etmsUser) {
+        String oldpassword = etmsUser.getUserPassword();
+        //MD5加盐加密
+        SimpleHash simpleHash = new SimpleHash("MD5", oldpassword, etmsUser.getUserName() + "etms");
+        //16进制后的密码
+        String hex = simpleHash.toHex();
+        etmsUser.setUserPassword(hex);
         List<EtmsUser> list = userDao.checkUser(etmsUser);
         if(list.isEmpty()){
             int i = userDao.addStudent(etmsUser);
@@ -204,6 +229,18 @@ public class UserServiceImpl implements UserService {
         modelSubject.setSubject("user");
         List<EtmsAbilityModel> abilityModelList = abilityModelDao.findAll(modelSubject);
         return TidyAbilityModel.tidy(abilityModelList);
+    }
+
+    @Override
+    public int addCourse(int userId, int courseId) {
+
+        Integer text = userDao.findUidCid(userId,courseId);
+        if(text == null){
+            return userDao.addCourse(userId,courseId);
+        }else {
+            return 0;
+        }
+
     }
 
     @Override

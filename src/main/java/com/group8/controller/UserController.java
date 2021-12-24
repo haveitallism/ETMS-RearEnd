@@ -170,7 +170,6 @@ public class UserController {
      */
     @PostMapping("/uploadPicture")
     public ResponseEntity<String> uploadPicture(UploadImg uploadImg) throws IOException {
-        System.out.println(uploadImg);
         String pictureUrl = userService.uploadPicture(uploadImg);
         return new ResponseEntity(200,"上传成功！",pictureUrl);
     }
@@ -201,11 +200,12 @@ public class UserController {
         String userName = etmsUser.getUserName();
         String userRole = etmsUser.getUserRole();
         if(! (userName.equals("") && userRole.equals(""))){
+            etmsUser.setUserPassword("123456");
             int i = userService.addStudent(etmsUser);
             if(i == 1){
                 return new ResponseEntity(200,"添加成功!","成功保存一条数据");
             }else{
-                return new ResponseEntity(400,"添加失败","");
+                return new ResponseEntity(400,"添加失败","用户名或角色为空");
             }
         }else{
             return new ResponseEntity(400,"添加失败","不能为空");
@@ -230,12 +230,15 @@ public class UserController {
     * */
     @RequestMapping("/updateStudent")
     public ResponseEntity<String> updateStudent(@RequestBody EtmsUser etmsUser){
-        int  b = userService.updateStudent(etmsUser);
-        if(b == 1){
-            return new ResponseEntity(200,"修改成功","成功修改一条数据");
-        }else{
-            return new ResponseEntity(400,"修改失败","");
-        }
+        String userRole = etmsUser.getUserRole();
+        System.out.println(userRole);
+
+            int  b = userService.updateStudent(etmsUser);
+            if(b == 1){
+                return new ResponseEntity(200,"修改成功","成功修改一条数据");
+            }else {
+                return new ResponseEntity(400, "修改失败", "");
+            }
     }
 
     @RequestMapping("/getStudentById/{userId}")
@@ -253,4 +256,18 @@ public class UserController {
         List<EtmsAbilityModel> abilityModelList = userService.findAmById(userId);
         return new ResponseEntity(200,"am查询成功",abilityModelList);
     }
+
+    /**
+     * 给用户添加课程
+     */
+    @PostMapping("/addCourse/{userId}/{courseId}")
+    public ResponseEntity<String> addCourse(@PathVariable int userId,@PathVariable int courseId){
+        int i = userService.addCourse(userId,courseId);
+        if (i > 0){
+            return new ResponseEntity<>(200, "添加课程成功");
+        }else {
+            return new ResponseEntity<>(501, "已收藏该课程");
+        }
+    }
+
 }
