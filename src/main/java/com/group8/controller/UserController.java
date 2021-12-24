@@ -2,6 +2,7 @@ package com.group8.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.group8.dto.CourseAndItem;
 import com.group8.dto.StudentFindByPage;
 import com.group8.dto.UpdatePass;
 import com.group8.dto.UploadImg;
@@ -270,4 +271,14 @@ public class UserController {
         }
     }
 
+    /**
+     * 查找该用户所有的培训项目及课程信息
+     */
+
+    @PostMapping("/findCourseAndItem/{userId}")
+    public ResponseEntity<CourseAndItem> findCourseAndItem(@PathVariable int userId){
+        CourseAndItem courseAndItems = userService.findCourseAndItem(userId);
+        System.out.println(courseAndItems);
+        return new ResponseEntity<CourseAndItem>(200,"查询该用户课程和培训项目成功！",courseAndItems);
+    }
 }

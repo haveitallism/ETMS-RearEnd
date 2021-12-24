@@ -1,5 +1,6 @@
 package com.group8.service;
 
+import com.group8.dto.CourseAndItem;
 import com.group8.dto.UploadImg;
 import com.group8.entity.EtmsAbilityModel;
 import com.group8.entity.EtmsUser;
@@ -47,4 +48,6 @@ public interface UserService {
     EtmsUser getInfo(String token);
 
     boolean logout(String token);
+
+    CourseAndItem findCourseAndItem(int userId);
 }
