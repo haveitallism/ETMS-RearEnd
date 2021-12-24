@@ -27,6 +27,9 @@
             </if>
         </where>
     </select>
+    <select id="findById" resultType="com.group8.entity.EtmsRole">
+        select * from etms_role where role_id = #{id}
+    </select>
 
     <delete id="deleteById">
         delete from etms_role where role_id = #{roleId}

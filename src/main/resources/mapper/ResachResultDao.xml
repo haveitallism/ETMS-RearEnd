@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group8.dao.ResachResultDao">
+
+    <insert id="addOne">
+        insert into etms_resach_results (answer_id, topic_id, research_id,
+                                         user_id, demand_table_id, creatorid, createtime, updated, updatetime)
+        values (answerId, topicId, researchId, userId, demandTableId, creatorid,
+                createtime, updated, updatetime)
+    </insert>
+</mapper>

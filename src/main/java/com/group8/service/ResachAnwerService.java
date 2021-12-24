@@ -1,6 +1,6 @@
 package com.group8.service;
 
-import com.group8.dto.ceshiDto;
+import com.group8.dto.AnwersDto;
 import com.group8.entity.EtmsResachAnwer;
 
 import java.util.List;
@@ -16,6 +16,8 @@ public interface ResachAnwerService {
     //查询所有答案
     List<EtmsResachAnwer> findALL();
 
-    //新增答案
-    Integer addEtmsResachAnwerOne(List<ceshiDto> ansers, String topic);
+    EtmsResachAnwer selectAnwerById(Integer answerId);
+
+    //新增多个题目对应多个答案
+    Integer addEtmsResachAnwerOne(AnwersDto anwersDto);
 }

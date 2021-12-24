@@ -2,10 +2,7 @@ package com.group8.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.group8.dto.CourseFindByPage;
-import com.group8.dto.EtmsCourseAbility;
-import com.group8.dto.FormInLine;
-import com.group8.dto.UploadImg;
+import com.group8.dto.*;
 import com.group8.entity.EtmsCourse;
 import com.group8.entity.EtmsUser;
 import com.group8.entity.ResponseEntity;
@@ -22,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/course")
+@CrossOrigin
 public class CourseController {
     @Autowired
     CourseService courseService;
@@ -141,7 +139,16 @@ public class CourseController {
     public ResponseEntity<String> uploadPicture(UploadImg uploadImg) {
         System.out.println(uploadImg);
         String pictureUrl = courseService.uploadPicture(uploadImg);
-        return new ResponseEntity(200,"上传成功！",pictureUrl);
+        return new ResponseEntity<String>(200,"上传成功！",pictureUrl);
+    }
+
+    /**
+     * 给课程上传视频
+     */
+    @PostMapping("/uploadVideo")
+    public ResponseEntity<String> uploadVideo(UploadFile uploadFile) {
+        String videoUrl = courseService.uploadFile(uploadFile);
+        return new ResponseEntity<String>(200,"上传成功！",videoUrl);
     }
 
     /**

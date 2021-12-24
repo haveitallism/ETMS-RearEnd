@@ -16,7 +16,9 @@ public interface ResachAnwerDao {
     //查询所有答案
     List<EtmsResachAnwer> findALL();
 
+    EtmsResachAnwer selectAnwerById(Integer answerId);//这个报错
+
     //新增答案
-    Integer addEtmsResachAnwerOne(@Param("ansers") List<String> ansers, @Param("id") int id);
+    Integer addEtmsResachAnwerOne(@Param("ansers") List<EtmsResachAnwer> ansers, @Param("id") int id);
 
 }

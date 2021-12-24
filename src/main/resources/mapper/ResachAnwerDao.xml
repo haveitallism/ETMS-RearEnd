@@ -4,12 +4,39 @@
 <mapper namespace="com.group8.dao.ResachAnwerDao">
     <insert id="addEtmsResachAnwerOne">
         insert into etms_resach_answer(answer_content,topic_id) values
+        <!--        <foreach collection="id" item="ids" separator=",">-->
+        <!--            #{id}-->
+        <!--        </foreach>-->
         <foreach collection="ansers" item="anwer" separator=",">
-            (#{anwer},#{id})
+            (#{anwer.answerContent},#{id})
         </foreach>
     </insert>
-    <select id="findALL" resultType="com.group8.entity.EtmsResachAnwer">
+    <!--    <select id="findALL" resultType="com.group8.entity.EtmsResachAnwer">-->
+    <!--        SELECT *-->
+    <!--        FROM etms_resach_answer;-->
+    <!--    </select>-->
+
+
+    <select id="selectAnwerById" resultMap="anwserMapper">
         SELECT *
-        FROM etms_resach_answer;
+        FROM etms_reseach_topic t,
+             etms_resach_answer a
+        WHERE a.topic_id = t.topic_id
+          AND a.topic_id = #{topicId}
+    </select>
+    <resultMap id="anwserMapper" type="com.group8.entity.EtmsResachAnwer">
+        <id column="answer_id" property="answerId"/>
+        <result column="answer_content" property="answerContent"/>
+        <collection property="etmsResachTopics" ofType="com.group8.entity.EtmsResachTopic">
+            <id column="topic_id" property="topicId"/>
+            <result column="topic_name" property="topicName"/>
+        </collection>
+    </resultMap>
+
+    <select id="findALL" resultMap="anwserMapper">
+        SELECT *
+        FROM etms_reseach_topic t,
+             etms_resach_answer a
+        WHERE a.topic_id = t.topic_id;
     </select>
 </mapper>

@@ -25,15 +25,50 @@
           and research_id = #{research_id}
     </select>
 
-    <select id="findALLTopic" resultType="com.group8.entity.EtmsResachTopic">
-        select *
-        from etms_reseach_topic
-    </select>
 
+    <!--    我写的-->
+
+    <!--    新增一道题目-->
     <insert id="EtmsResachTopicaddOne" useGeneratedKeys="true" keyProperty="topicId">
         INSERT INTO etms_reseach_topic(topic_id, topic_name)
         VALUES (NULL, #{topicName})
     </insert>
 
 
+    <!--    一对多,查询指定题目下的所有答案-->
+    <select id="selectTopicById" resultMap="topicMapper">
+        SELECT *
+        FROM etms_reseach_topic t,
+             etms_resach_answer a
+        WHERE a.topic_id = t.topic_id
+          AND a.topic_id = #{topicId}
+    </select>
+    <resultMap id="topicMapper" type="com.group8.entity.EtmsResachTopic">
+        <id column="topic_id" property="topicId"/>
+        <result column="topic_name" property="topicName"/>
+        <result column="creatorid" property="creatorid"/>
+        <result column="createtime" property="createtime"/>
+        <result column="updated" property="updated"/>
+        <result column="updatetime" property="updatetime"/>
+        <collection property="etmsResachAnwers" ofType="com.group8.entity.EtmsResachAnwer">
+            <id column="answer_id" property="answerId"/>
+            <result column="answer_content" property="answerContent"/>
+        </collection>
+    </resultMap>
+
+    <!--    查询所有答案-->
+    <select id="findALLTopic" resultMap="topicMapper">
+        SELECT *
+        FROM etms_reseach_topic t,
+             etms_resach_answer a
+        WHERE a.topic_id = t.topic_id
+    </select>
+
+
+    <!--  <insert id="addTopices" useGeneratedKeys="true" keyProperty="topicId">-->
+    <!--      insert into etms_reseach_topic(topic_id,topic_name)values-->
+    <!--      <foreach collection="topices" item="Topice" separator=",">-->
+    <!--          (null ,#{Topice.topicName})-->
+    <!--      </foreach>-->
+    <!--  </insert>-->
 </mapper>

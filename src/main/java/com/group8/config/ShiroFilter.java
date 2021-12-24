@@ -81,17 +81,6 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
 
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
-        /*HttpServletRequest request1 = (HttpServletRequest) request;
-        //第一套方法：从请求头中获取，userdata，对象 有这个对象则表示可以认证
-        String userdata = request1.getHeader("userdata");
-        ObjectMapper objectMapper = new ObjectMapper();
-        //json转对象 获取的rbacManager对象
-        RbacManager rbacManager = objectMapper.readValue(userdata, RbacManager.class);
-        //getSubject(request,response) 这个方法 和下面SecurityUtils.getSubject()是一样的
-        Subject subject = SecurityUtils.getSubject();
-        subject.login(new UsernamePasswordToken(rbacManager.getAccount(), rbacManager.getPassword()));
-        return true;*/
-
         HttpServletRequest request1 = (HttpServletRequest) request;
         //第2套方法：从请求头中获取，token，对象 有这个对象则表示可以认证
         String token = request1.getHeader("Authorization");
@@ -99,6 +88,8 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
         subject.login(new JsonWebToken(token));
         return true;
     }
+
+
 
     public void response401(ServletRequest request, ServletResponse response){
         HttpServletRequest request1 = (HttpServletRequest) request;
