@@ -3,17 +3,13 @@ package com.group8.service.impl;
 import com.group8.dao.AbilityModelDao;
 import com.group8.dao.ItemDao;
 import com.group8.dao.OutlineDao;
-import com.group8.dto.AbilityModelSubject;
-import com.group8.dto.CatalogSchedule;
-import com.group8.dto.EtmsItemAbilityOutline;
-import com.group8.dto.TrainAndCatalogSchedule;
+import com.group8.dto.*;
 import com.group8.entity.*;
 import com.group8.service.ItemService;
 import com.group8.utils.TidyAbilityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -68,48 +64,48 @@ public class ItemServiceImpl implements ItemService {
     /*
     添加培训项目 从DTO从取得3个对象
      */
-        @Override
-        public int addItem (EtmsItemAbilityOutline iao){
+    @Override
+    public int addItem (EtmsItemAbilityOutline iao){
 
-            int i2 = 0;
-            int i3 = 0;
+        int i2 = 0;
+        int i3 = 0;
 
-            //添加培训项目
-            EtmsItem etmsItem = iao.getEtmsItem();
-            LocalDateTime now = LocalDateTime.now();
-            etmsItem.setCreatedTime(now);
-            int i1 = itemDao.addOne(etmsItem);
-            long itemId = etmsItem.getItemId();
+        //添加培训项目
+        EtmsItem etmsItem = iao.getEtmsItem();
+        LocalDateTime now = LocalDateTime.now();
+        etmsItem.setCreatedTime(now);
+        int i1 = itemDao.addOne(etmsItem);
+        long itemId = etmsItem.getItemId();
 
-            //添加大纲集合
-            List<EtmsOutline> etmsOutlines = iao.getEtmsOutlines();
-            for (int i = 0; i < etmsOutlines.size(); i++) {
-                etmsOutlines.get(i).setCatalog("目录" +1+ i);
-                etmsOutlines.get(i).setItemId(itemId);
-            }
-            i2 = outlineDao.addOne(iao.getEtmsOutlines());
+        //添加大纲集合
+        List<EtmsCatalog> catalogs = iao.getOutline().getCatalogs();
+//        for (int i = 0; i < catalogs.size(); i++) {
+//            etmsOutlines.get(i).setCatalog("目录" +1+ i);
+//            etmsOutlines.get(i).setItemId(itemId);
+//        }
+        i2 = outlineDao.addOne(catalogs, itemId);
 
-            //添加能力模型
-            List<AbilityModelSubject> list = iao.getAmSubjectLists();
-            for (AbilityModelSubject ability:list
-                 ) {
-                ability.setSubjectId(itemId);
-            }
-            list.get(0).setSubject("item");
-            i3 = abilityModelDao.addOne(list);
-            //如果其中一项不大于0 则添加失败
-            if (i1 > 0 && i2 > 0 && i3 > 0) {
-                return 1;
-            } else {
-                return 0;
-            }
+        //添加能力模型
+        List<AbilityModelSubject> list = iao.getAmSubjectLists();
+        for (AbilityModelSubject ability:list
+             ) {
+            ability.setSubjectId(itemId);
         }
-        @Override
-        public List<EtmsItem> findItem (EtmsItem etmsItem){
-            List<EtmsItem> list = itemDao.findItem(etmsItem);
-            System.out.println("获取的集合:"+list);
-            return list;
+        list.get(0).setSubject("item");
+        i3 = abilityModelDao.addOne(list);
+        //如果其中一项不大于0 则添加失败
+        if (i1 > 0 && i2 > 0 && i3 > 0) {
+            return 1;
+        } else {
+            return 0;
         }
+    }
+    @Override
+    public List<EtmsItem> findItem (EtmsItem etmsItem){
+        List<EtmsItem> list = itemDao.findItem(etmsItem);
+        System.out.println("获取的集合:"+list);
+        return list;
+    }
 
     @Override
     public int findMyItemSum(int uid) {

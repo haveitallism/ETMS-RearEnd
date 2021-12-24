@@ -55,6 +55,7 @@
         <id property="classTitle" column="train_class_title"></id>
         <result property="classFile" column="train_class_file"></result>
     </resultMap>
+
     <select id="findClassFileByCid" resultMap="ClassFiles">
         select * from etms_outline where catalog = #{catalogName} and item_id = #{id}
     </select>
