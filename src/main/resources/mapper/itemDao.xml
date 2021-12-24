@@ -139,7 +139,7 @@
     </select>
 
     <select id="findTrainSchedele" resultType="int">
-        SELECT COUNT(*) FROM etms_outline_schedele WHERE outline_id IN (SELECT outline_id FROM etms_outline WHERE item_id = #{itemId}) AND user_id = #{userId}
+        SELECT COUNT(*) FROM etms_outline_schedele WHERE outline_id IN (SELECT outline_id FROM etms_outline WHERE item_id = #{itemId}) AND user_id = #{userId} AND train_status = 1
     </select>
 
     <select id="findTrainNumByCatalog" resultType="int">

@@ -14,7 +14,7 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
-import it.sauronsoftware.jave.EncoderException;
+//import it.sauronsoftware.jave.EncoderException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,7 +70,8 @@ public class OutlineServiceImpl implements OutlineService {
             File file = FileUtils.multipartFileToFile(uploadFile.getFile());
             System.out.println(file.getName());
             //计算视频时长
-            long trainHour = FileUtils.getDuration(file);
+            long trainHour = FileUtils.getVideoDuration(file);
+//            long trainHour = FileUtils.getDuration(file);
             flag = outlineDao.uploadFile(responseUrl,uploadFile.getId(),trainHour);
             //删除我们用于计算时间生成的临时File
             FileUtils.delteTempFile(file);
