@@ -3,6 +3,11 @@ package com.group8.service.impl;
 import com.group8.dao.AbilityModelDao;
 import com.group8.dao.ItemDao;
 import com.group8.dao.OutlineDao;
+import com.group8.dao.StudentDao;
+import com.group8.dto.AbilityModelSubject;
+import com.group8.dto.CatalogSchedule;
+import com.group8.dto.EtmsItemAbilityOutline;
+import com.group8.dto.TrainAndCatalogSchedule;
 import com.group8.dto.*;
 import com.group8.entity.*;
 import com.group8.service.ItemService;
@@ -25,6 +30,8 @@ public class ItemServiceImpl implements ItemService {
     AbilityModelDao abilityModelDao;
     @Autowired(required = false)
     OutlineDao outlineDao;
+    @Autowired(required = false)
+    StudentDao studentDao;
 
     @Override
     public EtmsItem findById(int id) {
@@ -137,8 +144,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<EtmsOutline> findItemInfo(int itemId, String catalog) {
-        List<EtmsOutline> itemInfo = itemDao.findItemInfo(itemId, catalog);
+    public List<EtmsOutline> findItemInfo(int userId,int itemId, String catalog) {
+        List<EtmsOutline> itemInfo = itemDao.findItemInfo(userId,itemId, catalog);
         return itemInfo;
     }
 
@@ -204,12 +211,12 @@ public class ItemServiceImpl implements ItemService {
             catalogSchedules.add(catalogSchedule);
         }
 
-        System.out.println(catalogAndHourMap);
-        System.out.println(catalogSchedules);
         //计算培训项目完成的进度
         int count = itemDao.findTrainSchedele(userId,itemId);
         int trainSchedule = ((count*100)/outlines.size());
         schedule.setItemSchedule(trainSchedule);
+
+        studentDao.updateSchedule(itemId,userId,trainSchedule);
 
         //计算每个目录完成的进度
         for(int i = 0;i < list.size();i++){

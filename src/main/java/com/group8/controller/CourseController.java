@@ -25,6 +25,17 @@ public class CourseController {
     CourseService courseService;
 
     /*
+    * 学生详情页中通过uid查找课程
+    * */
+    @RequestMapping("/findAllCourse")
+    public ResponseEntity<PageInfo<EtmsCourse>> findAllCourse(@RequestBody FormInLine formInLine){
+        PageHelper.startPage(formInLine.getPage(),formInLine.getLimit());
+        List<EtmsCourse> list = courseService.findAllCourse(formInLine.getId());
+        PageInfo<EtmsCourse> pageInfo = new PageInfo(list);
+        return new ResponseEntity<>(200,"查询成功",pageInfo);
+    }
+
+    /*
      * 我的必修中参加的培训总数
      * */
     @RequestMapping("/findMyRequiredSum/{uid}")
@@ -169,5 +180,20 @@ public class CourseController {
     public ResponseEntity<EtmsCourse> companyRecommend(){
         List<EtmsCourse> list = courseService.findCompanyRecommend();
         return new ResponseEntity(200,"查询成功！",list);
+    }
+
+    /**
+     * 打开具体课程页面
+     * @param id
+     * @return
+     */
+    @RequestMapping("/openCourse/{id}")
+    public ResponseEntity<EtmsCourse> openCourse(@PathVariable int id){
+        EtmsCourse etmsCourses = courseService.openCourse(id);
+        if (etmsCourses!=null){
+            return new ResponseEntity(200, "查询成功！",etmsCourses);
+        }else {
+            return new ResponseEntity(500, "查询失败！");
+        }
     }
 }

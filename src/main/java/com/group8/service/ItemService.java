@@ -34,7 +34,7 @@ public interface ItemService {
 
     int updateAbilityModel(AbilityModelSubject abilityModelSubject);
 
-    List<EtmsOutline> findItemInfo(int itemId,String catalog);
+    List<EtmsOutline> findItemInfo(int userId,int itemId,String catalog);
 
     String findClassVideo(long itemId, String catalog, String trainClassTitle);
 
