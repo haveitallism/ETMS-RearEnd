@@ -7,7 +7,6 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,9 @@ public class MyRealm extends AuthorizingRealm {
     @Autowired(required = false)
     RbacRoleService rbacRoleService;
     @Autowired
-    RbacPermService rbacPermService;
+    RbacPermService rbacPermService;*/
     @Autowired(required = false)
-    RedisTemplate redisTemplate;*/
+    RedisTemplate redisTemplate;
 
     /**
      * 授权 逻辑代码
@@ -59,28 +58,15 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        /*//第一类，基于UsernamePasswordToken认证
-        UsernamePasswordToken token1 = (UsernamePasswordToken) token;
-        String username = token1.getUsername();
-        String password = new String(token1.getPassword()); //加密后的密码
-        RbacManager login = loginService.loginAuth(username, password);
-        if (login == null) {
-            throw new AuthenticationException("账号密码错误，认证失败！");
-        }else {
-            return new SimpleAuthenticationInfo(username, password, "MyRealm");
-        }*/
-
-        //第2类，基于JsonWebToken认证
-        /*String jwt = ((JsonWebToken) token).getToken();
-        String userName = JWTUtils.getUserName(jwt);
+        //基于JsonWebToken认证
+        String jwt = ((JsonWebToken) token).getToken();
+        String username = JWTUtils.getUserName(jwt);
         //与redis数据库中的token对比
-        String redisToken = (String)redisTemplate.opsForValue().get(userName);
-//        boolean verify = JWTUtils.verify(jwt, userName, "123");
+        String redisToken = (String)redisTemplate.opsForValue().get(username);
         if (!jwt.equals(redisToken)) {
-            throw new AuthenticationException("账号密码错误，认证失败！");
+            throw new AuthenticationException("认证失败！请重新登录");
         }else {
             return new SimpleAuthenticationInfo(jwt, jwt, "MyRealm");
-        }*/
-        return null;
+        }
     }
 }

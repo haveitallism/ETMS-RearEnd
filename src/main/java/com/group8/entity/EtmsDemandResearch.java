@@ -11,21 +11,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EtmsDemandResearch {
-
-  private long researchId;
-  private Date startTime;
-  private Date endTime;
-  private long demandId;
-  private String problemOne;
-  private String problemTwo;
-  private String problemThree;
-  private String problemFour;
-  private long userId;
-  private String status;
-  private String createdBy;
-  private Date createdTime;
-  private String updatedBy;
-  private Date updatedTime;
-  private int peoplenums;
+  private long researchId; //调研表id
+  private Date startTime;  //开始时间
+  private Date endTime;    //结束时间
+  private long demandId;   //需求表的id
+  private long userId;    //普通用户填写用户的id
+  private String status;   //状态
+  private String createdBy; //创建人
+  private Date createdTime; //创建人的时间
+  private String updatedBy; //更新人
+  private Date updatedTime; //更新人时间
   private List<EtmsResachTopic> etmsResachTopicList;
 }

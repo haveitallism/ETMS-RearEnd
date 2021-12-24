@@ -4,10 +4,15 @@ import com.google.gson.Gson;
 import com.group8.dao.AbilityModelDao;
 import com.group8.dao.CourseDao;
 import com.group8.dto.AbilityModelSubject;
+import com.group8.dto.CourseFindByPage;
 import com.group8.dto.EtmsCourseAbility;
+import com.group8.dto.UploadFile;
 import com.group8.dto.UploadImg;
 import com.group8.entity.EtmsCourse;
+import com.group8.entity.EtmsUser;
+import com.group8.entity.ResponseEntity;
 import com.group8.service.CourseService;
+import com.group8.utils.FileUtils;
 import com.group8.utils.QiniuUtil;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
@@ -20,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,12 +42,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public int findMyCourseSum(int uid) {
-        return courseDao.findMyCourseSum(uid);
+        return courseDao.findMyRequiredSum(uid);
     }
 
     @Override
-    public List<EtmsCourse> findAllCourse(int user_id) {
-        return courseDao.findAllCourse(user_id);
+    public List<EtmsCourse> findAllRequired(int uid, EtmsCourse etmsCourse) {
+        return courseDao.findAllRequired(uid,etmsCourse);
     }
 
     /**
@@ -143,9 +149,68 @@ public class CourseServiceImpl implements CourseService {
         return courseDao.findCompanyRecommend();
     }
 
+    /**
+     * 给课程上传视频
+     * @param uploadFile
+     * @return
+     */
+    @Override
+    public String uploadFile(UploadFile uploadFile) {
+        String qiniuUrl = "r4f66awjt.hn-bkt.clouddn.com";
+        Configuration configuration = new Configuration(Zone.zone2());
+        UploadManager uploadManager = new UploadManager(configuration);
+        String accessKey = "GMucqD1bf4zKiZSoHafMWR6nf9h0R1us1BxFRBxn";
+        String secretKey = "9olNhZCBABDA9fl5WmPjeniPkdCZ-gnTK439CKCl";
+        String bucket = "acoffee";
+        String key = QiniuUtil.getRandomCharacterAndNumber(10) + ".mp4";//生成随机文件名
+        Auth auth = Auth.create(accessKey,secretKey);
+        String uptoken = auth.uploadToken(bucket);
+        String responseUrl = "";
+        try{
+            byte[] localFile = uploadFile.getFile().getBytes();
+            Response response = uploadManager.put(localFile,key,uptoken);
+            DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
+            responseUrl = "http://"+responseUrl + qiniuUrl +"/"+ putRet.key;
+            System.out.println(responseUrl);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return responseUrl;
+    }
+
+    @Override
+    public List<EtmsCourse> findAllCourse(int id) {
+        return courseDao.findAllCourse(id);
+    }
+
+    @Override
+    public int findMyElectiveSum(int uid) {
+        return courseDao.findMyElectiveSum(uid);
+    }
+
     @Override
     public EtmsCourse openCourse(int id) {
         EtmsCourse etmsCourse = courseDao.openCourse(id);
         return etmsCourse;
     }
+
+
+    @Override
+    public List<EtmsCourse> findAllElective(int uid, EtmsCourse etmsCourse) {
+        return courseDao.findAllElective(uid,etmsCourse);
+    }
+
+    @Override
+    public EtmsCourse findCourseById(int courseId) {
+        EtmsCourse course = courseDao.findCourseById(courseId);
+        return course;
+    }
+
+    @Override
+    public List<EtmsUser> findStudentByCid(int id) {
+        List<EtmsUser> list = courseDao.findStudentByCid(id);
+        return list;
+    }
+
 }
+

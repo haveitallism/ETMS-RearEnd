@@ -2,11 +2,13 @@ package com.group8.service.impl;
 
 import com.google.gson.Gson;
 import com.group8.dao.AbilityModelDao;
+import com.group8.dao.RoleDao;
 import com.group8.dao.UserDao;
 import com.group8.dto.AbilityModelSubject;
 import com.group8.dto.UploadImg;
 import com.group8.entity.*;
 import com.group8.service.UserService;
+import com.group8.utils.JWTUtils;
 import com.group8.utils.QiniuUtil;
 import com.group8.utils.TidyAbilityModel;
 import com.qiniu.common.QiniuException;
@@ -18,14 +20,12 @@ import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import com.group8.entity.EtmsUser;
-import com.group8.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,6 +33,10 @@ public class UserServiceImpl implements UserService {
     UserDao userDao;
     @Autowired(required = false)
     AbilityModelDao abilityModelDao;
+    @Autowired(required = false)
+    RedisTemplate redisTemplate;
+    @Autowired(required = false)
+    RoleDao roleDao;
 
     @Override
     public List<EtmsUser> findAllUser() {
@@ -43,7 +47,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public EtmsUser findUserById(int id) {
         EtmsUser user = userDao.findUserById(id);
-
+        String userRole = user.getUserRole();
+        if(userRole.equals("1")){
+            user.setUserRole("普通学员");
+        }else if(userRole.equals("2")){
+            user.setUserRole("经理");
+        }else if(userRole.equals("3")){
+            user.setUserRole("管理员");
+        }
         return user;
     }
 
@@ -111,7 +122,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public EtmsUser login(EtmsUser etmsUser) {
-        return userDao.findByUsernamAndPassword(etmsUser.getUserName(), etmsUser.getUserPassword());
+        //MD5加盐加密
+        SimpleHash simpleHash = new SimpleHash("MD5", etmsUser.getUserPassword(), etmsUser.getUserName() + "etms");
+        String hexPassword = simpleHash.toHex();
+        EtmsUser user = userDao.findByUsernamAndPassword(etmsUser.getUserName(), hexPassword);
+        if (user == null){
+            return null;
+        }else {
+            //在这个RbacManager对象中封装token
+            String jwt = JWTUtils.sign(user.getUserName(), hexPassword);
+            user.setToken(jwt);
+
+            //将token存入redis数据库中，并设置过期时间
+            redisTemplate.opsForValue().set(user.getUserName(), user.getToken());
+            redisTemplate.expire(user.getUserName(), 60, TimeUnit.MINUTES);
+
+            return user;
+        }
     }
 
 
@@ -144,11 +171,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<EtmsUser> findAllStudent(EtmsUser etmsUser) {
-        return userDao.findAllStudent(etmsUser);
+        List<EtmsUser> list = userDao.findAllStudent(etmsUser);
+        for (EtmsUser eu: list) {
+            String userRole = eu.getUserRole();
+            System.out.println(userRole);
+            if(userRole.equals("1")){
+                eu.setUserRole("普通学员");
+            }else if(userRole.equals("2")){
+                eu.setUserRole("经理");
+            }else if(userRole.equals("3")){
+                eu.setUserRole("管理员");
+            }
+        }
+        return list;
     }
 
     @Override
     public int addStudent(EtmsUser etmsUser) {
+        String oldpassword = etmsUser.getUserPassword();
+        //MD5加盐加密
+        SimpleHash simpleHash = new SimpleHash("MD5", oldpassword, etmsUser.getUserName() + "etms");
+        //16进制后的密码
+        String hex = simpleHash.toHex();
+        etmsUser.setUserPassword(hex);
         List<EtmsUser> list = userDao.checkUser(etmsUser);
         if(list.isEmpty()){
             int i = userDao.addStudent(etmsUser);
@@ -183,10 +228,6 @@ public class UserServiceImpl implements UserService {
         modelSubject.setSubjectId(userId);
         modelSubject.setSubject("user");
         List<EtmsAbilityModel> abilityModelList = abilityModelDao.findAll(modelSubject);
-        for (EtmsAbilityModel am:
-             abilityModelList) {
-            System.out.println(am);
-        }
         return TidyAbilityModel.tidy(abilityModelList);
     }
 
@@ -202,5 +243,25 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public EtmsUser getInfo(String token) {
+        EtmsUser etmsUser = userDao.findByUsernamAndPassword(JWTUtils.getUserName(token), JWTUtils.getPassword(token));
+        EtmsRole etmsRole = roleDao.findById(Integer.parseInt(etmsUser.getUserRole()));
+        String[] roles = {etmsRole.getRoleRemark()};
+        etmsUser.setRoles(roles);
+        return etmsUser;
+    }
 
+    /**
+     * 根据token删除redis中的数据
+     * @param token
+     * @return
+     */
+    @Override
+    public boolean logout(String token) {
+        //通过token获取用户名
+        String username = JWTUtils.getUserName(token);
+        //根据用户名删除数据
+        return redisTemplate.delete(username);
+    }
 }

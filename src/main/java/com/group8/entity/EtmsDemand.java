@@ -16,7 +16,7 @@ public class EtmsDemand {
   private String demandInstructions;
   private Date startTime;
   private Date endTime;
-  private String demandDept;
+  private Integer demandDept;
   private String peopleNumber;
   private String trainingMethods;
   private String demandReason;
@@ -28,5 +28,4 @@ public class EtmsDemand {
   private String updatedBy;
   private Date updatedTime;
   private EtmsDemandResearch etmsDemandResearch;
-
 }

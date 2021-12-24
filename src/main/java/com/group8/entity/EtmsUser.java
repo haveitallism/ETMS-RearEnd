@@ -34,6 +34,8 @@ public class EtmsUser {
   private List<EtmsItem> itemList;
   //该能力模型集合
   private List<EtmsUserAm> userAmList;
-
-
+  //用户token
+  private String token;
+  //用户角色集合
+  private String[] roles;
 }

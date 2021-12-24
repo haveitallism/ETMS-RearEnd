@@ -30,6 +30,11 @@ public class ResachTopicServiceImpl implements ResachTopicService {
     }
 
     @Override
+    public List<EtmsResachTopic> selectTopicById(Integer topicId) {
+        return researchTopicDao.selectTopicById(topicId);
+    }
+
+    @Override
     public List<EtmsResachTopic> findALLTopic() {
         return researchTopicDao.findALLTopic();
     }
