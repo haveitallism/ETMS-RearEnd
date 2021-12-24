@@ -50,4 +50,8 @@
         select * from etms_course where course_required = '必修' order by created_time desc limit 2
     </select>
 
+    <select id="openCourse" resultType="com.group8.entity.EtmsCourse">
+        SELECT * FROM etms_course where course_id = #{id}
+    </select>
+
 </mapper>

@@ -142,4 +142,10 @@ public class CourseServiceImpl implements CourseService {
     public List<EtmsCourse> findCompanyRecommend() {
         return courseDao.findCompanyRecommend();
     }
+
+    @Override
+    public EtmsCourse openCourse(int id) {
+        EtmsCourse etmsCourse = courseDao.openCourse(id);
+        return etmsCourse;
+    }
 }

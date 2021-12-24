@@ -31,7 +31,7 @@ public interface ItemDao {
 
     int deleteOne(int itemId);
 
-    List<EtmsOutline> findItemInfo(@Param("itemId") int itemId,@Param("catalog") String catalog);
+    List<EtmsOutline> findItemInfo(@Param("userId")int userId,@Param("itemId") int itemId,@Param("catalog") String catalog);
 
     String findClassVideo(@Param("itemId") int itemId,@Param("catalog") String catalog,@Param("trainClassTitle") String trainClassTitle);
 

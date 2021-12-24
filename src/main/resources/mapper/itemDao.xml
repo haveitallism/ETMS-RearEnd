@@ -115,7 +115,14 @@
 
 
     <select id="findItemInfo" resultType="com.group8.entity.EtmsOutline">
-        select * from etms_outline where item_id = #{itemId} and catalog = #{catalog}
+
+        SELECT * FROM etms_outline o RIGHT JOIN (
+            SELECT outline_id AS oid,train_schedele,train_status FROM etms_outline_schedele WHERE outline_id
+            IN (SELECT outline_id FROM etms_outline WHERE item_id = #{itemId} AND catalog = #{catalog})
+            AND user_id = #{userId}
+            AND item_id = #{itemId}
+        ) s ON o.outline_id = s.oid;
+
     </select>
 
 
@@ -145,5 +152,6 @@
         IN (SELECT outline_id FROM etms_outline WHERE item_id = #{itemId} AND catalog = #{catalog})
         AND user_id = #{userId}
         AND item_id = #{itemId}
+        AND train_status = 1
     </select>
 </mapper>

@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 public class UserAndItemid {
     private int userId;
     private int itemId;
-    int page;
-    int limit;
+    private String catalog;
 }

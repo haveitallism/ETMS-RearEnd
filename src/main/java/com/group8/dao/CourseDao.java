@@ -18,4 +18,7 @@ public interface CourseDao {
     List<EtmsCourse> findHotCourses();
 
     List<EtmsCourse> findCompanyRecommend();
+
+    //打开指定id的课程
+    EtmsCourse openCourse(int id);
 }
