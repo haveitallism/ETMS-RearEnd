@@ -4,6 +4,7 @@ import com.group8.dto.AbilityModelSubject;
 import com.group8.dto.EtmsItemAbilityOutline;
 import com.group8.dto.TrainAndCatalogSchedule;
 import com.group8.dto.UseridAndItemid;
+import com.group8.dto.UserAndItemid;
 import com.group8.entity.*;
 
 import java.util.List;
@@ -40,6 +41,8 @@ public interface ItemService {
     String findClassVideo(long itemId, String catalog, String trainClassTitle);
 
     TrainAndCatalogSchedule findScheduleAndHour(int userId, int itemId);
+
+    boolean recordVideoProgress(UserAndItemid userAndItemid);
 
     boolean DeleteItemByUid(int uid, int tid);
 

@@ -1,5 +1,6 @@
 package com.group8.dao;
 
+import com.group8.dto.UserAndItemid;
 import com.group8.entity.EtmsCatalog;
 import com.group8.entity.EtmsClassFile;
 import com.group8.entity.EtmsItem;
@@ -51,4 +52,6 @@ public interface ItemDao {
     int findTrainNumByCatalog(@Param("catalog")String catalog,  @Param("itemId")int itemId);
 
     boolean DeleteItemByUid(@Param("uid") int uid,@Param("tid") int tid);
+
+    boolean recordVideoProgress(UserAndItemid userAndItemid);
 }

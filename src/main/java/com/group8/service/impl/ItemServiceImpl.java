@@ -234,6 +234,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public boolean recordVideoProgress(UserAndItemid userAndItemid) {
+        boolean flag = itemDao.recordVideoProgress(userAndItemid);
+        return flag;
+    }
+
+    @Override
     public boolean DeleteItemByUid(int uid, int tid) {
         return itemDao.DeleteItemByUid(uid,tid);
     }

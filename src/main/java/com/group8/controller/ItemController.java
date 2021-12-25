@@ -177,7 +177,7 @@ public class ItemController {
         if(!list.isEmpty()){
             return new ResponseEntity(200,"查询成功",etmsItemPageInfo);
         }else{
-            return new ResponseEntity(400,"没有参加的培训","");
+            return new ResponseEntity(400,"查询失败","");
         }
     }
 
@@ -252,6 +252,21 @@ public class ItemController {
             return new ResponseEntity<>(200,"删除成功","删除成功");
         }else{
             return new ResponseEntity<>(400,"删除失败","");
+        }
+    }
+
+    /**
+     * 记录视频播放时长
+     * @param userAndItemid
+     * @return
+     */
+    @RequestMapping("/recordVideoProgress")
+    public ResponseEntity<Boolean> recordVideoProgress(@RequestBody UserAndItemid userAndItemid){
+        boolean flag = itemService.recordVideoProgress(userAndItemid);
+        if(flag){
+            return new ResponseEntity(200,"记录成功",flag);
+        }else{
+            return new ResponseEntity(500,"记录失败",flag);
         }
     }
 }
