@@ -155,4 +155,15 @@
         AND item_id = #{itemId}
         AND train_status = 1
     </select>
+    <select id="findAll" resultType="com.group8.entity.EtmsItem">
+        select * from etms_item
+        <where>
+            <if test="!itemName.equals('')">
+                and train_title = #{itemName}
+            </if>
+            <if test="!deptName.equals('')">
+                and train_type = #{deptName}
+            </if>
+        </where>
+    </select>
 </mapper>

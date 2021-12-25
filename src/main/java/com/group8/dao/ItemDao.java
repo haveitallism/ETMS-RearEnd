@@ -1,5 +1,6 @@
 package com.group8.dao;
 
+import com.group8.dto.NoJoinItemDto;
 import com.group8.entity.EtmsCatalog;
 import com.group8.entity.EtmsClassFile;
 import com.group8.entity.EtmsItem;
@@ -49,4 +50,6 @@ public interface ItemDao {
 
     //查询培训具体的目录的总数量
     int findTrainNumByCatalog(@Param("catalog")String catalog,  @Param("itemId")int itemId);
+
+    List<EtmsItem> findAll(NoJoinItemDto noJoinItemDto);
 }
