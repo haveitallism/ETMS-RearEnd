@@ -154,4 +154,10 @@
         AND item_id = #{itemId}
         AND train_status = 1
     </select>
+
+    <update id="recordVideoProgress" parameterType="com.group8.dto.UserAndItemid">
+        UPDATE etms_outline_schedele SET train_schedele = #{durations},train_status = #{trainStatus} WHERE user_id = #{userId} AND item_id = #{itemId} AND outline_id = (
+            SELECT outline_id FROM etms_outline WHERE item_id = item_id = #{itemId} AND catalog=#{catalog} AND train_class_title = #{trainClassTitle}
+        )
+    </update>
 </mapper>

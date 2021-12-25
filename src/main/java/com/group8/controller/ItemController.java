@@ -168,9 +168,11 @@ public class ItemController {
      * */
     @PostMapping("/findAllItem")
     public ResponseEntity<List<EtmsItem>> findAllItem(@RequestBody FormInLine formInLine){
+        System.out.println(formInLine);
         PageHelper.startPage(formInLine.getPage(),formInLine.getLimit());
         int id = formInLine.getId();
         List<EtmsItem> list = itemService.findAllItem(id);
+        System.out.println(list);
         PageInfo<EtmsItem> etmsItemPageInfo = new PageInfo<>(list);
         if(!list.isEmpty()){
             return new ResponseEntity(200,"查询成功",etmsItemPageInfo);
@@ -234,6 +236,21 @@ public class ItemController {
             return new ResponseEntity(200,"查询成功",scheduleAndHour);
         }else{
             return new ResponseEntity(400,"查询失败","");
+        }
+    }
+
+    /**
+     * 记录视频播放时长
+     * @param userAndItemid
+     * @return
+     */
+    @RequestMapping("/recordVideoProgress")
+    public ResponseEntity<Boolean> recordVideoProgress(@RequestBody UserAndItemid userAndItemid){
+        boolean flag = itemService.recordVideoProgress(userAndItemid);
+        if(flag){
+            return new ResponseEntity(200,"记录成功",flag);
+        }else{
+            return new ResponseEntity(500,"记录失败",flag);
         }
     }
 }

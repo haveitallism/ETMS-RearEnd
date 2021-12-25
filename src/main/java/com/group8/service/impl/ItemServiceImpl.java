@@ -4,10 +4,7 @@ import com.group8.dao.AbilityModelDao;
 import com.group8.dao.ItemDao;
 import com.group8.dao.OutlineDao;
 import com.group8.dao.StudentDao;
-import com.group8.dto.AbilityModelSubject;
-import com.group8.dto.CatalogSchedule;
-import com.group8.dto.EtmsItemAbilityOutline;
-import com.group8.dto.TrainAndCatalogSchedule;
+import com.group8.dto.*;
 import com.group8.entity.*;
 import com.group8.service.ItemService;
 import com.group8.utils.TidyAbilityModel;
@@ -231,6 +228,12 @@ public class ItemServiceImpl implements ItemService {
         }
         schedule.setCatalogSchedules(catalogSchedules);
         return schedule;
+    }
+
+    @Override
+    public boolean recordVideoProgress(UserAndItemid userAndItemid) {
+        boolean flag = itemDao.recordVideoProgress(userAndItemid);
+        return flag;
     }
 }
 
