@@ -155,4 +155,8 @@
         AND item_id = #{itemId}
         AND train_status = 1
     </select>
+
+    <delete id="DeleteItemByUid">
+        delete from etms_item_student where user_id = #{uid} and item_id = #{tid}
+    </delete>
 </mapper>

@@ -7,6 +7,7 @@ import com.group8.entity.EtmsCourse;
 import com.group8.entity.EtmsUser;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.CourseService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -193,6 +194,21 @@ public class CourseController {
             return new ResponseEntity(200, "查询成功！",etmsCourses);
         }else {
             return new ResponseEntity(500, "查询失败！");
+        }
+    }
+
+    /*
+    * 我的选修和必修中根据cid和uid删除课程
+    * */
+    @RequestMapping("/DeleteCourseByUid")
+    public ResponseEntity<String> DeleteCourseByUid(@RequestBody UseridAndCourseid useridAndCourseid){
+        int uid = useridAndCourseid.getUid();
+        int cid = useridAndCourseid.getCid();
+        boolean b = courseService.DeleteCourseByUid(uid,cid);
+        if(b){
+            return new ResponseEntity(200,"删除成功","删除成功");
+        }else{
+            return new ResponseEntity(400,"删除失败","");
         }
     }
 }

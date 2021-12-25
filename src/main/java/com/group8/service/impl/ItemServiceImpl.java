@@ -232,5 +232,10 @@ public class ItemServiceImpl implements ItemService {
         schedule.setCatalogSchedules(catalogSchedules);
         return schedule;
     }
+
+    @Override
+    public boolean DeleteItemByUid(int uid, int tid) {
+        return itemDao.DeleteItemByUid(uid,tid);
+    }
 }
 

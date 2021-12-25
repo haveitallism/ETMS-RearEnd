@@ -39,4 +39,6 @@ public interface CourseService {
     List<EtmsCourse> findAllCourse(int id);
 
     String uploadFile(UploadFile uploadFile);
+
+    boolean DeleteCourseByUid(int uid, int cid);
 }

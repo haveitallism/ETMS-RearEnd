@@ -34,4 +34,6 @@ public interface CourseDao {
     EtmsCourse openCourse(int id);
 
     List<EtmsCourse> findAllCourse(int id);
+
+    boolean DeleteCourseByUid(@Param("uid") int uid,@Param("cid") int cid);
 }

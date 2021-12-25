@@ -49,4 +49,6 @@ public interface ItemDao {
 
     //查询培训具体的目录的总数量
     int findTrainNumByCatalog(@Param("catalog")String catalog,  @Param("itemId")int itemId);
+
+    boolean DeleteItemByUid(@Param("uid") int uid,@Param("tid") int tid);
 }
