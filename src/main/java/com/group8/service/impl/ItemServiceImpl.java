@@ -8,7 +8,6 @@ import com.group8.dto.AbilityModelSubject;
 import com.group8.dto.CatalogSchedule;
 import com.group8.dto.EtmsItemAbilityOutline;
 import com.group8.dto.TrainAndCatalogSchedule;
-import com.group8.dto.*;
 import com.group8.entity.*;
 import com.group8.service.ItemService;
 import com.group8.utils.TidyAbilityModel;

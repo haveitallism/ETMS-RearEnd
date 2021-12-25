@@ -165,4 +165,15 @@
             SELECT outline_id FROM etms_outline WHERE item_id = item_id = #{itemId} AND catalog=#{catalog} AND train_class_title = #{trainClassTitle}
         )
     </update>
+    <select id="findAll" resultType="com.group8.entity.EtmsItem">
+        select * from etms_item
+        <where>
+            <if test="!itemName.equals('')">
+                and train_title = #{itemName}
+            </if>
+            <if test="!deptName.equals('')">
+                and train_type = #{deptName}
+            </if>
+        </where>
+    </select>
 </mapper>

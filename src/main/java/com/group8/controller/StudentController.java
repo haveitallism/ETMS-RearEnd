@@ -5,11 +5,13 @@ import com.github.pagehelper.PageInfo;
 import com.group8.dto.FormInLine;
 import com.group8.dto.ScheduleQueryCondition;
 import com.group8.entity.EtmsItemStudent;
-import com.group8.entity.EtmsUser;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -64,17 +66,16 @@ public class StudentController {
 
     /**
      * 根据项目id和用户id新增学员
-     * @param itemId
-     * @param userId
+     * @param etmsItemStudent 学员对象
      * @return
      */
-    @RequestMapping("/add/{itemId}/{userId}")
-    public ResponseEntity<String> add(@PathVariable int itemId, @PathVariable int userId){
+    @RequestMapping("/add")
+    public ResponseEntity<String> add(@RequestBody EtmsItemStudent etmsItemStudent){
         //新增前需要判断记录是否存在
-        EtmsItemStudent student = studentService.findByItemIdAndUserId(itemId, userId);
+        EtmsItemStudent student = studentService.findByItemIdAndUserId(etmsItemStudent.getItemId(), etmsItemStudent.getUserId());
         if(student == null){
             //学员不存在  可以新增
-            int i = studentService.add(itemId, userId);
+            int i = studentService.add(etmsItemStudent.getItemId(), etmsItemStudent.getUserId());
             if (i > 0) {
                 return new ResponseEntity<>(200, "添加成功");
             }else {
