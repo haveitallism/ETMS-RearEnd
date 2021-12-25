@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 public class UserAndItemid {
     private int userId;
     private int itemId;
-    int page;
-    int limit;
+    private String trainClassTitle;
+    private String catalog;
+    private long durations;
+    private int trainStatus;
 }

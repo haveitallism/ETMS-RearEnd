@@ -87,4 +87,11 @@
         select * from etms_course where course_required = '必修' order by created_time desc limit 2
     </select>
 
+    <select id="openCourse" resultType="com.group8.entity.EtmsCourse">
+        SELECT * FROM etms_course where course_id = #{id}
+    </select>
+
+    <select id="findAllCourse" resultType="com.group8.entity.EtmsCourse">
+        select c.* from etms_course c,etms_user_course uc where uc.user_id = #{id} and uc.course_id = c.course_id order by c.course_id desc
+    </select>
 </mapper>

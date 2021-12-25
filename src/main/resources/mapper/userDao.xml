@@ -39,6 +39,10 @@
         updated_time = #{updatedTime} where user_id = #{userId}
     </update>
 
+    <select id="findByUsernamAndPassword" resultType="com.group8.entity.EtmsUser">
+        select * from etms_user where user_name = #{username} and user_password = #{password}
+    </select>
+
     <update id="uploadPicture">
         update etms_user set user_head_img = #{headImg} where user_id = #{userId}
     </update>
@@ -70,9 +74,6 @@
 
     <select id="findByDeptId" parameterType="int" resultType="com.group8.entity.EtmsUser">
         select * from etms_user where dept_id = #{deptId}
-    </select>
-    <select id="findByUsernamAndPassword" resultType="com.group8.entity.EtmsUser">
-        select * from etms_user where user_name = #{username} and user_password = #{password}
     </select>
 
     <select id="findAllStudent" resultType="com.group8.entity.EtmsUser" parameterType="com.group8.entity.EtmsUser">

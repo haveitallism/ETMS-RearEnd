@@ -1,5 +1,6 @@
 package com.group8.dto;
 
+import com.group8.entity.EtmsCourse;
 import com.group8.entity.EtmsItem;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,14 +10,13 @@ import java.util.List;
 
 /**
  * @author QY
- * @create 2021-12-14 20:12
+ * @create 2021-12-24 14:26
  */
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EtmsItemAbilityOutline {
-    EtmsItem etmsItem;
-    Outline outline;
-    List<AbilityModelSubject> amSubjectLists;
+public class CourseAndItem {
+    List<EtmsCourse> etmsCourseList;
+    List<EtmsItem> etmsItemList;
 }

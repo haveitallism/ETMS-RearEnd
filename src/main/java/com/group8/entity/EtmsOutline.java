@@ -17,11 +17,11 @@ public class EtmsOutline {
   private String trainClassTitle;
   private String trainClassFile;
   private long trainHour;
-  private int trainStatus;
   private String createdBy;
   private Date createdTime;
   private String updatedBy;
   private Date updatedTime;
-
+  private int trainStatus;
+  private long trainSchedele;
 
 }

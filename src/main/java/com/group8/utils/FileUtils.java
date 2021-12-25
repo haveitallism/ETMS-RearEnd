@@ -1,9 +1,12 @@
 package com.group8.utils;
 
-import it.sauronsoftware.jave.Encoder;
-import it.sauronsoftware.jave.EncoderException;
-import it.sauronsoftware.jave.MultimediaInfo;
+//import it.sauronsoftware.jave.Encoder;
+//import it.sauronsoftware.jave.EncoderException;
+//import it.sauronsoftware.jave.MultimediaInfo;
+
 import org.springframework.web.multipart.MultipartFile;
+import ws.schild.jave.MultimediaInfo;
+import ws.schild.jave.MultimediaObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,22 +18,58 @@ import java.io.OutputStream;
  * @create 2021-12-21 21:13
  */
 public class FileUtils {
+//    /**
+//     * 获取视频文件的播放长度
+//     * @param source
+//     * @return 单位为毫秒
+//     * @throws EncoderException
+//     */
+//    public static long getDuration(File source) throws EncoderException {
+//        Encoder encoder = new Encoder();
+//        MultimediaInfo m = encoder.getInfo(source);
+//        return m.getDuration();
+//    }
+
+//    //根据文件路径去获取视频时长
+//    public static long getDuration(String videoPath) throws EncoderException {
+//        File source = new File(videoPath);
+//        return getDuration(source);
+//    }
+
+
+//    private static ImmutableList<String> videoSuffixList = ImmutableList.of("mp4", "mov", "avi", "mkv", "m4v", "wmv",
+//            "asf", "asx", "rm", "rmvb", "3gp", "dat", "flv", "vob");
     /**
      * 获取视频文件的播放长度
      * @param source
      * @return 单位为毫秒
      * @throws EncoderException
-     */
+     *//*
     public static long getDuration(File source) throws EncoderException {
         Encoder encoder = new Encoder();
         MultimediaInfo m = encoder.getInfo(source);
         return m.getDuration();
-    }
+    }*/
 
-    //根据文件路径去获取视频时长
-    public static long getDuration(String videoPath) throws EncoderException {
-        File source = new File(videoPath);
-        return getDuration(source);
+//    //根据文件路径去获取视频时长
+//    public static long getDuration(String videoPath) throws EncoderException {
+//        File source = new File(videoPath);
+//        return getDuration(source);
+//    }
+    /**
+     * 获取视频时长 * @param file 视频文件
+     * @return 时长（秒）
+     */
+    public static long getVideoDuration(File file){
+        long duration = 0;
+        try{
+            MultimediaObject multimediaObject = new MultimediaObject(file);
+            MultimediaInfo info = multimediaObject.getInfo();
+            duration =  info.getDuration();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return duration;
     }
 
     /**

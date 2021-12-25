@@ -18,5 +18,4 @@ import java.util.List;
 public class TrainAndCatalogSchedule {
     int itemSchedule;
     List<CatalogSchedule> catalogSchedules;
-    PageInfo<CatalogSchedule> pageInfo;
 }

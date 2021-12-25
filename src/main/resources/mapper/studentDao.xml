@@ -61,4 +61,8 @@
             and student_id = #{stuId}
         </if>
     </update>
+
+    <update id="updateSchedule">
+        update etms_item_student set train_schedule = #{trainSchedule} where user_id = #{userId} and item_id = #{itemId}
+    </update>
 </mapper>

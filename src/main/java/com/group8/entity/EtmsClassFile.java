@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EtmsClassFile {
+  private long outlineId;
   private String classTitle;
   private String classFile;
 }

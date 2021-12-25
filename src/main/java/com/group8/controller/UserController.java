@@ -2,7 +2,7 @@ package com.group8.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.group8.dto.FormInLine;
+import com.group8.dto.CourseAndItem;
 import com.group8.dto.StudentFindByPage;
 import com.group8.dto.UpdatePass;
 import com.group8.dto.UploadImg;
@@ -10,17 +10,12 @@ import com.group8.entity.EtmsAbilityModel;
 import com.group8.entity.EtmsUser;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.UserService;
-import org.apache.coyote.Response;
 import com.group8.utils.QiniuUtil;
-import com.qiniu.storage.model.DefaultPutRet;
-import org.assertj.core.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
 
 /**
  * @author acoffee
@@ -37,14 +32,43 @@ public class UserController {
     @Autowired
     private QiniuUtil qiniuUtil;
 
-
+    /**
+     * 仅登录获取token
+     * @param etmsUser
+     * @return
+     */
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody EtmsUser etmsUser){
         EtmsUser user = userService.login(etmsUser);
         if (user != null){
-            return new ResponseEntity<>(200, "登录成功");
+            return new ResponseEntity<>(200, "登录成功", user.getToken());
         }else {
-            return new ResponseEntity<>(500, "登录失败");
+            return new ResponseEntity<>(500, "登录失败", null);
+        }
+    }
+
+    /**
+     * 根据token获取用户角色信息
+     * @param token
+     * @return
+     */
+    @PostMapping("/getInfo/{token}")
+    public ResponseEntity<EtmsUser> getInfo(@PathVariable String token){
+        EtmsUser user = userService.getInfo(token);
+        if (user != null){
+            return new ResponseEntity<>(200, "获取成功", user);
+        }else {
+            return new ResponseEntity<>(500, "获取失败", null);
+        }
+    }
+
+    @PostMapping("/logout/{token}")
+    public ResponseEntity<String> logout(@PathVariable String token){
+        boolean flag = userService.logout(token);
+        if (flag){
+            return new ResponseEntity<>(200, "登出成功");
+        }else {
+            return new ResponseEntity<>(500, "登出失败");
         }
     }
 
@@ -247,4 +271,14 @@ public class UserController {
         }
     }
 
+    /**
+     * 查找该用户所有的培训项目及课程信息
+     */
+
+    @PostMapping("/findCourseAndItem/{userId}")
+    public ResponseEntity<CourseAndItem> findCourseAndItem(@PathVariable int userId){
+        CourseAndItem courseAndItems = userService.findCourseAndItem(userId);
+        System.out.println(courseAndItems);
+        return new ResponseEntity<CourseAndItem>(200,"查询该用户课程和培训项目成功！",courseAndItems);
+    }
 }

@@ -1,12 +1,13 @@
 package com.group8.service.impl;
 
 import com.google.gson.Gson;
-import com.group8.dao.AbilityModelDao;
-import com.group8.dao.UserDao;
+import com.group8.dao.*;
 import com.group8.dto.AbilityModelSubject;
+import com.group8.dto.CourseAndItem;
 import com.group8.dto.UploadImg;
 import com.group8.entity.*;
 import com.group8.service.UserService;
+import com.group8.utils.JWTUtils;
 import com.group8.utils.QiniuUtil;
 import com.group8.utils.TidyAbilityModel;
 import com.qiniu.common.QiniuException;
@@ -18,14 +19,12 @@ import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import com.group8.entity.EtmsUser;
-import com.group8.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,6 +32,15 @@ public class UserServiceImpl implements UserService {
     UserDao userDao;
     @Autowired(required = false)
     AbilityModelDao abilityModelDao;
+    @Autowired(required = false)
+    RedisTemplate redisTemplate;
+    @Autowired(required = false)
+    RoleDao roleDao;
+    @Autowired(required = false)
+    CourseDao courseDao;
+    @Autowired(required = false)
+    ItemDao itemDao;
+
 
     @Override
     public List<EtmsUser> findAllUser() {
@@ -118,7 +126,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public EtmsUser login(EtmsUser etmsUser) {
-        return userDao.findByUsernamAndPassword(etmsUser.getUserName(), etmsUser.getUserPassword());
+        //MD5加盐加密
+        SimpleHash simpleHash = new SimpleHash("MD5", etmsUser.getUserPassword(), etmsUser.getUserName() + "etms");
+        String hexPassword = simpleHash.toHex();
+        EtmsUser user = userDao.findByUsernamAndPassword(etmsUser.getUserName(), hexPassword);
+        if (user == null){
+            return null;
+        }else {
+            //在这个RbacManager对象中封装token
+            String jwt = JWTUtils.sign(user.getUserName(), hexPassword);
+            user.setToken(jwt);
+
+            //将token存入redis数据库中，并设置过期时间
+            redisTemplate.opsForValue().set(user.getUserName(), user.getToken());
+            redisTemplate.expire(user.getUserName(), 60, TimeUnit.MINUTES);
+
+            return user;
+        }
     }
 
 
@@ -208,10 +232,6 @@ public class UserServiceImpl implements UserService {
         modelSubject.setSubjectId(userId);
         modelSubject.setSubject("user");
         List<EtmsAbilityModel> abilityModelList = abilityModelDao.findAll(modelSubject);
-        for (EtmsAbilityModel am:
-             abilityModelList) {
-            System.out.println(am);
-        }
         return TidyAbilityModel.tidy(abilityModelList);
     }
 
@@ -227,5 +247,41 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public EtmsUser getInfo(String token) {
+        EtmsUser etmsUser = userDao.findByUsernamAndPassword(JWTUtils.getUserName(token), JWTUtils.getPassword(token));
+        EtmsRole etmsRole = roleDao.findById(Integer.parseInt(etmsUser.getUserRole()));
+        String[] roles = {etmsRole.getRoleRemark()};
+        etmsUser.setRoles(roles);
+        return etmsUser;
+    }
 
+    /**
+     * 根据token删除redis中的数据
+     * @param token
+     * @return
+     */
+    @Override
+    public boolean logout(String token) {
+        //通过token获取用户名
+        String username = JWTUtils.getUserName(token);
+        //根据用户名删除数据
+        return redisTemplate.delete(username);
+    }
+
+    /**
+     * 首页展示：查找该用户所有的培训项目以及课程项目
+     * @return
+     */
+    @Override
+    public CourseAndItem findCourseAndItem(int userId) {
+
+        List<EtmsCourse> allCourse = courseDao.findAllCourse(userId);
+        List<EtmsItem> allItem = itemDao.findAllItem(userId);
+
+        CourseAndItem courseAndItem = new CourseAndItem();
+        courseAndItem.setEtmsCourseList(allCourse);
+        courseAndItem.setEtmsItemList(allItem);
+        return courseAndItem;
+    }
 }
