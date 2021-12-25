@@ -21,5 +21,7 @@ public class EtmsApproveRecord {
   private Date createdTime;
   private String updatedBy;
   private Date updatedTime;
-  private Date approveEndTime;
+  private Date approveEndtime;
+  private String approver;
+  private long planId;
 }

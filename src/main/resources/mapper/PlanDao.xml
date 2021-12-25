@@ -33,16 +33,16 @@
     <!-- 添加培训计划   -->
     <insert id="addPlan" parameterType="com.group8.entity.EtmsPlan" keyProperty="planId" useGeneratedKeys="true">
         insert into etms_plan values (null,#{planUid},#{planTitle},#{planCollect},#{planFor},#{planMoney}
-        ,#{planContent},#{planStatus},#{planPass},#{planStarttime},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime})
+        ,#{planContent},'n','',#{planStarttime},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime})
     </insert>
     <insert id="addApproveRecord" parameterType="com.group8.entity.EtmsApproveRecord">
-        insert into etms_approve_record(approve_user_id,plan_id,approve_number,approve_end_time,approve_result) values
+        insert into etms_approve_record(approve_user_id,plan_id,approve_number,approve_endtime,approve_result) values
         <foreach collection="list" item="approve" separator="," index="index">
             <if test="index == 0">
-                (#{approve.approveUserId},#{planId},#{index},#{approve.approveEndTime},'now')
+                (#{approve.approveUserId},#{planId},#{index},#{approve.approveEndtime},'now')
             </if>
             <if test="index != 0">
-                (#{approve.approveUserId},#{planId},#{index},#{approve.approveEndTime},'')
+                (#{approve.approveUserId},#{planId},#{index},#{approve.approveEndtime},'')
             </if>
         </foreach>
     </insert>
@@ -76,19 +76,57 @@
     </select>
     <!-- 查询我的待审批-->
     <select id="findMyApprove" resultType="com.group8.entity.EtmsPlan">
-        select * from etms_plan p,etms_approve_record a,etms_plan_record pr where a.approve_user_id = #{uid} and pr.plan_id = p.plan_id
-        and pr.record_id = a.record_id and a.approve_result = 'now'
+        select * from etms_plan p,etms_approve_record a
+        <where>
+            a.approve_user_id = #{uid} and a.plan_id = p.plan_id
+            and a.approve_result = 'now'
+            <if test="title != null and title != ''">
+                and plan_title like concat('%',#{title},'%')
+            </if>
+        </where>
     </select>
     <!-- 查询我的已审批   -->
     <select id="findMyApproved" resultType="com.group8.entity.EtmsPlan">
-        select * from etms_plan p,etms_approve_record a where a.approve_user_id = #{uid} and a.plan_id = p.plan_id
-        and a.approve_result in('pass','nopass')
+        select * from etms_plan p,etms_approve_record a
+        <where>
+            a.approve_user_id = #{uid} and a.plan_id = p.plan_id
+            and a.approve_result in('pass','nopass')
+            <if test="title != null and title != ''">
+                and plan_title like concat('%',#{title},'%')
+            </if>
+        </where>
+
     </select>
 
     <!-- 根据plan_id查询计划详情   -->
-    <select id="findPlanById" resultType="com.group8.entity.EtmsPlan">
-        select * from etms_plan where plan_id = #{pid}
+    <resultMap id="findPlanByIdMap" type="com.group8.entity.EtmsPlan">
+        <id property="planId" column="plan_id"></id>
+        <result property="pubulisher" column="user_name"></result>
+        <result property="planTitle" column="plan_title"></result>
+        <result column="plan_for" property="planFor"></result>
+        <result column="plan_collect" property="planCollect"></result>
+        <result column="plan_money" property="planMoney"></result>
+        <result column="plan_content" property="planContent"></result>
+        <result column="plan_status" property="planStatus"></result>
+        <result column="plan_pass" property="planPass"></result>
+        <result column="plan_starttime" property="planStarttime"></result>
+        <result column="user_name" property="pubulisher"></result>
+        <association column="plan_id" property="etmsApproveRecord" javaType="com.group8.entity.EtmsApproveRecord"  select="findApproveRecord"></association>
+    </resultMap>
+    <select id="findPlanById" resultMap="findPlanByIdMap">
+        select p.plan_id,p.plan_title,p.plan_for,p.plan_collect,p.plan_money,p.plan_content,p.plan_status,
+        p.plan_pass, p.plan_starttime,u.user_name from etms_plan p,etms_user u where p.plan_id = #{pid}
+        and p.plan_uid = u.user_id
     </select>
+    <resultMap id="findApproveUser" type="com.group8.entity.EtmsApproveRecord">
+        <result column="approve_endtime" property="approveEndtime"></result>
+        <result column="user_name" property="approver"></result>
+    </resultMap>
+    <select id="findApproveRecord" resultMap="findApproveUser" >
+        select * from etms_user u , etms_approve_record a where user_id = a.approve_user_id and a.approve_result = 'now'
+        and plan_id = #{plan_id}
+    </select>
+    <!-- 查找审核人   -->
     <select id="findUser" parameterType="com.group8.entity.EtmsApproveRecord" resultType="com.group8.entity.EtmsUser">
         select * from etms_user eu
         <where>
@@ -99,4 +137,22 @@
         </where>
 
     </select>
+    <update id="updateApprovePass" parameterType="com.group8.entity.EtmsApproveRecord"  keyProperty="recordId" useGeneratedKeys="true">
+        update etms_approve_record set approve_result = 'pass' where plan_id = #{planId} and approve_result = 'now'
+    </update>
+    <select id="findApproveNow" resultType="com.group8.entity.EtmsApproveRecord" >
+        select * from etms_approve_record where plan_id = #{pid} and approve_result = 'now'
+    </select>
+    <update id="updateNextApprove" >
+        update etms_approve_record set approve_result = 'now' where plan_id = #{pid} and approve_number = #{anum}
+    </update>
+    <update id="updatePlanPass">
+        update etms_plan set plan_status = 'y',plan_pass = 'y' where plan_id = #{pid}
+    </update>
+    <update id="updateApproveNopass">
+        update etms_approve_record set approve_result = 'nopass' where plan_id = #{planId} and approve_result = 'now'
+    </update>
+    <update id="updatePlanNopass">
+        update etms_plan set plan_status = 'y',plan_pass = 'n' where plan_id = #{pid}
+    </update>
 </mapper>

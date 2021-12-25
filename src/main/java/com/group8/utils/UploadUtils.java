@@ -14,6 +14,7 @@ import java.io.IOException;
 
 /**
  * 文件上传工具类
+ * 穿后缀为docx的文件
  */
 public class UploadUtils{
     /**
@@ -28,8 +29,7 @@ public class UploadUtils{
         String accessKey = "GMucqD1bf4zKiZSoHafMWR6nf9h0R1us1BxFRBxn";
         String secretKey = "9olNhZCBABDA9fl5WmPjeniPkdCZ-gnTK439CKCl";
         String bucket = "acoffee";
-        String key = multipartFile.getName();//获取文件名
-        //String key = QiniuUtil.getRandomCharacterAndNumber(10) + ".jpg";//生成随机文件名
+        String key = QiniuUtil.getRandomCharacterAndNumber(10) + ".docx";//生成随机文件名
         Auth auth = Auth.create(accessKey,secretKey);
         String uptoken = auth.uploadToken(bucket);
         String responseUrl = "";

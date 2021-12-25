@@ -2,7 +2,8 @@ package com.group8.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.group8.dto.AddPlan;
+import com.group8.dto.PlanApprove;
+import com.group8.dto.PlanDto;
 import com.group8.dto.PlanSelect;
 import com.group8.entity.EtmsApproveRecord;
 import com.group8.entity.EtmsPlan;
@@ -76,14 +77,14 @@ public class PlanController {
 
     /**
      * 添加计划
-     * @param addPlan
+     * @param planDto
      * @return
      */
     @RequestMapping("/addPlan")
-    public ResponseEntity<EtmsPlan> addPlan(@RequestBody AddPlan addPlan){
-        System.out.println(addPlan);
-        int i =  planService.addPlan(addPlan);
-        if(i != 3){
+    public ResponseEntity<EtmsPlan> addPlan(@RequestBody PlanDto planDto){
+        System.out.println(planDto);
+        int i =  planService.addPlan(planDto);
+        if(i >= 3){
             return new ResponseEntity(200,"新增成功",i);
         }else {
               return new ResponseEntity(400, "查询失败", "服务器维护中");
@@ -107,14 +108,16 @@ public class PlanController {
 
     /**
      * 查询我的待审批计划
-     * @param uid
+     * @param planApprove
      * @return
      */
-    @RequestMapping("/findMyApproveNow/{uid}")
-    public ResponseEntity<EtmsPlan> findMyApprove(@PathVariable Integer uid){
-        List<EtmsPlan> etmsPlanList =  planService.findMyApprove(uid);
+    @RequestMapping("/findMyApproveNow")
+    public ResponseEntity<EtmsPlan> findMyApprove(@RequestBody PlanApprove planApprove){
+        PageHelper.startPage(planApprove.getStartPage(),5);
+        List<EtmsPlan> etmsPlanList =  planService.findMyApprove(planApprove);
+        PageInfo pageInfo = new PageInfo(etmsPlanList);
         if(etmsPlanList != null){
-            return new ResponseEntity(200,"查询成功",etmsPlanList);
+            return new ResponseEntity(200,"查询成功",pageInfo);
         }else {
             return new ResponseEntity(400, "查询失败", "服务器维护中");
         }
@@ -122,14 +125,16 @@ public class PlanController {
 
     /**
      * 查询我已经审核的计划
-     * @param uid
+     * @param planApprove
      * @return
      */
-    @RequestMapping("/findMyApproved/{uid}")
-    public ResponseEntity<EtmsPlan> findMyApproved(@PathVariable Integer uid){
-        List<EtmsPlan> etmsPlanList =  planService.findMyApproved(uid);
+    @RequestMapping("/findMyApproved")
+    public ResponseEntity<EtmsPlan> findMyApproved(@RequestBody PlanApprove planApprove){
+        PageHelper.startPage(planApprove.getStartPage(),5);
+        List<EtmsPlan> etmsPlanList =  planService.findMyApproved(planApprove);
+        PageInfo pageInfo = new PageInfo(etmsPlanList);
         if(etmsPlanList != null){
-            return new ResponseEntity(200,"查询成功",etmsPlanList);
+            return new ResponseEntity(200,"查询成功",pageInfo);
         }else {
             return new ResponseEntity(400, "查询失败", "服务器维护中");
         }
@@ -141,18 +146,25 @@ public class PlanController {
      * @return
      */
     @RequestMapping("/findPlanById/{pid}")
-    public ResponseEntity<EtmsPlan> findPlanById(@PathVariable Integer pid){
+    public ResponseEntity<PlanDto> findPlanById(@PathVariable Integer pid){
         EtmsPlan etmsPlan =  planService.findPlanById(pid);
+        System.out.println(etmsPlan);
         if(etmsPlan != null){
-            return new ResponseEntity(200,"查询成功",etmsPlan);
+            return new ResponseEntity(200,"查询成功", etmsPlan);
         }else {
             return new ResponseEntity(400, "查询失败", "服务器维护中");
         }
     }
 
+    /**
+     * 上传文件
+     * @param file
+     * @return
+     */
     @RequestMapping("/upload")
     public ResponseEntity<String> upload(@RequestBody MultipartFile file){
         String url = UploadUtils.uploadUtils(file);
+        System.out.println(url);
         if(url != null){
             return new ResponseEntity(200,"查询成功",url);
         }else {
@@ -160,11 +172,45 @@ public class PlanController {
         }
     }
 
+    /**
+     * 找审核人
+     * @param etmsApproveRecordList
+     * @return
+     */
     @RequestMapping("/findUser")
     public ResponseEntity<EtmsUser> findUser(@RequestBody List<EtmsApproveRecord> etmsApproveRecordList) {
         List<EtmsUser> etmsUsers = planService.findUser(etmsApproveRecordList);
         if (etmsUsers != null) {
             return new ResponseEntity(200, "查询成功", etmsUsers);
+        } else {
+            return new ResponseEntity(400, "查询失败", "服务器维护中");
+        }
+    }
+
+    /**
+     * 审核通过
+     * @param pid
+     * @return
+     */
+    @RequestMapping("/approvePass/{pid}")
+    public ResponseEntity<EtmsUser> approvePass(@PathVariable Integer pid) {
+        int i = planService.updateApprovePass(pid);
+        if (i == 1) {
+            return new ResponseEntity(200, "查询成功", i);
+        } else {
+            return new ResponseEntity(400, "查询失败", "服务器维护中");
+        }
+    }
+    /**
+     * 审核未通过
+     * @param pid
+     * @return
+     */
+    @RequestMapping("/approveNopass/{pid}")
+    public ResponseEntity<EtmsUser> approveNopass(@PathVariable Integer pid) {
+        int i = planService.updateApproveNopass(pid);
+        if (i == 1) {
+            return new ResponseEntity(200, "查询成功", i);
         } else {
             return new ResponseEntity(400, "查询失败", "服务器维护中");
         }

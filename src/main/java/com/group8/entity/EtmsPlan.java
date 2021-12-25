@@ -26,5 +26,7 @@ public class EtmsPlan {
   private String updatedBy;
   private Date updatedTime;
   private String approver; //当前审批人
-  private Date approveEndTime;
+  private Date approveEndtime;
+  private String pubulisher;//计划发布人
+  private EtmsApproveRecord etmsApproveRecord;
 }
