@@ -19,6 +19,5 @@ public interface StudentDao {
 
     EtmsItemStudent findByItemIdAndUserId(int itemId, int userId);
 
-
     int updateSchedule(@Param("itemId") int itemId, @Param("userId")int userId, @Param("trainSchedule")int trainSchedule);
 }

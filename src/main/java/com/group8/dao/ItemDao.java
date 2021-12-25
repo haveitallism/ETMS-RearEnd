@@ -52,4 +52,10 @@ public interface ItemDao {
     int findTrainNumByCatalog(@Param("catalog")String catalog,  @Param("itemId")int itemId);
 
     boolean recordVideoProgress(UserAndItemid userAndItemid);
+
+    boolean addAbility(@Param("userId")int userId, @Param("itemId")int itemId);
+
+//    boolean updateItemSchedule(UserAndItemid userAndItemid);
+
+    int findItemSchedule(UserAndItemid userAndItemid);
 }

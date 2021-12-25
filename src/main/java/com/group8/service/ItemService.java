@@ -42,4 +42,6 @@ public interface ItemService {
     TrainAndCatalogSchedule findScheduleAndHour(int userId, int itemId);
 
     boolean recordVideoProgress(UserAndItemid userAndItemid);
+
+    boolean updateItemSchedule(UserAndItemid userAndItemid);
 }

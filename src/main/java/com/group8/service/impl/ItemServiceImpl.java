@@ -239,5 +239,33 @@ public class ItemServiceImpl implements ItemService {
         boolean flag = itemDao.recordVideoProgress(userAndItemid);
         return flag;
     }
+
+    /**
+     * 当一个培训视频放完的时候去更新培训的总进度，以及为这个人加上对应的能力分数
+     * @param userAndItemid
+     * @return
+     */
+    @Override
+    public boolean updateItemSchedule(UserAndItemid userAndItemid) {
+
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        int itemSchedule = itemDao.findItemSchedule(userAndItemid);
+//        boolean flag = itemDao.updateItemSchedule(userAndItemid);
+        int i = studentDao.updateSchedule(userAndItemid.getItemId(), userAndItemid.getUserId(), itemSchedule);
+
+        boolean flag = false;
+        if(i > 0){
+            flag = true;
+        }
+        if(itemSchedule == 100){
+            boolean flag1 = itemDao.addAbility(userAndItemid.getUserId(), userAndItemid.getItemId());
+            System.out.println(flag1);
+        }
+        return flag;
+    }
 }
 

@@ -161,4 +161,22 @@
             SELECT outline_id FROM etms_outline WHERE item_id = item_id = #{itemId} AND catalog=#{catalog} AND train_class_title = #{trainClassTitle}
         )
     </update>
+
+    <select id="findItemSchedule" resultType="int">
+        SELECT FLOOR(
+            (SELECT COUNT(*) FROM etms_outline_schedele WHERE outline_id
+        IN (SELECT outline_id FROM etms_outline WHERE item_id = #{itemId}) AND user_id = #{userId} AND train_status = #{trainStatus})*100/(SELECT COUNT(*) FROM etms_outline WHERE item_id = #{itemId})
+        )
+    </select>
+
+    <update id="addAbility">
+        UPDATE etms_user_am u SET score = (
+          SELECT m.score FROM (
+            SELECT am_id, SUM(score) score
+            FROM (
+              SELECT * FROM etms_item_am WHERE item_id = #{itemId} UNION ALL SELECT * FROM etms_user_am WHERE user_id = #{userId}
+            ) AS tmp GROUP BY am_id
+          ) m WHERE m.am_id = u.am_id
+        ) WHERE u.user_id = #{userId};
+    </update>
 </mapper>

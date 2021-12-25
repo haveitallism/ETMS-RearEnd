@@ -255,4 +255,20 @@ public class ItemController {
             return new ResponseEntity(500,"记录失败",flag);
         }
     }
+
+    /**
+     * 包括视频看完就去更新总培训进度,并且为每个人增加相应的能力
+     * @param userAndItemid
+     * @return
+     */
+    @RequestMapping("/updateItemSchedule")
+    public ResponseEntity<Boolean> updateItemSchedule(@RequestBody UserAndItemid userAndItemid){
+
+        boolean flag = itemService.updateItemSchedule(userAndItemid);
+        if(flag){
+            return new ResponseEntity(200,"更新成功",flag);
+        }else{
+            return new ResponseEntity(500,"更新失败",flag);
+        }
+    }
 }
