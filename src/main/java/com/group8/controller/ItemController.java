@@ -48,6 +48,7 @@ public class ItemController {
      */
     @PostMapping("/update")
     public ResponseEntity<String> update(@RequestBody EtmsItem etmsItem){
+        System.out.println(etmsItem);
         int i = itemService.update(etmsItem);
         if (i > 0) {
             return new ResponseEntity<>(200, "修改成功");
@@ -125,12 +126,13 @@ public class ItemController {
 
     //添加培训项目 返回一个包含item outline ability 的DTO
     @RequestMapping("/addItem")
-    public ResponseEntity addItem(@RequestBody EtmsItemAbilityOutline etmsItemAbilityOutline){
+    public ResponseEntity<String> addItem(@RequestBody EtmsItemAbilityOutline etmsItemAbilityOutline){
+        System.out.println(etmsItemAbilityOutline);
         int i = itemService.addItem(etmsItemAbilityOutline);
         if (i > 0 ){
-                return  new ResponseEntity(200,"添加成功");
+                return  new ResponseEntity<>(200,"添加成功");
             }else{
-                return  new ResponseEntity(200,"添加失败");
+                return  new ResponseEntity<>(200,"添加失败");
         }
     }
 

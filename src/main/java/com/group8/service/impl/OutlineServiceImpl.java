@@ -5,9 +5,8 @@ import com.group8.dao.OutlineDao;
 import com.group8.dto.UploadFile;
 import com.group8.entity.EtmsCatalog;
 import com.group8.service.OutlineService;
-import com.group8.utils.QiniuUtil;
 import com.group8.utils.FileUtils;
-import com.qiniu.common.QiniuException;
+import com.group8.utils.QiniuUtil;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
@@ -71,7 +70,6 @@ public class OutlineServiceImpl implements OutlineService {
             System.out.println(file.getName());
             //计算视频时长
             long trainHour = FileUtils.getVideoDuration(file);
-//            long trainHour = FileUtils.getDuration(file);
             flag = outlineDao.uploadFile(responseUrl,uploadFile.getId(),trainHour);
             //删除我们用于计算时间生成的临时File
             FileUtils.delteTempFile(file);

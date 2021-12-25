@@ -1,7 +1,6 @@
 package com.group8.dto;
 
 import com.group8.entity.EtmsItem;
-import com.group8.entity.EtmsOutline;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 public class EtmsItemAbilityOutline {
     EtmsItem etmsItem;
-    List<EtmsOutline> etmsOutlines;
+    Outline outline;
     List<AbilityModelSubject> amSubjectLists;
 }
