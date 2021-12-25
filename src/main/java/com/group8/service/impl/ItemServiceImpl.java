@@ -4,6 +4,10 @@ import com.group8.dao.AbilityModelDao;
 import com.group8.dao.ItemDao;
 import com.group8.dao.OutlineDao;
 import com.group8.dao.StudentDao;
+import com.group8.dto.AbilityModelSubject;
+import com.group8.dto.CatalogSchedule;
+import com.group8.dto.EtmsItemAbilityOutline;
+import com.group8.dto.TrainAndCatalogSchedule;
 import com.group8.dto.*;
 import com.group8.entity.*;
 import com.group8.service.ItemService;
@@ -82,12 +86,12 @@ public class ItemServiceImpl implements ItemService {
         long itemId = etmsItem.getItemId();
 
         //添加大纲集合
-        List<EtmsOutline> etmsOutlines = iao.getEtmsOutlines();
-        for (int i = 0; i < etmsOutlines.size(); i++) {
-            etmsOutlines.get(i).setCatalog("目录" +1+ i);
-            etmsOutlines.get(i).setItemId(itemId);
-        }
-        i2 = outlineDao.addOne(iao.getEtmsOutlines());
+        List<EtmsCatalog> catalogs = iao.getOutline().getCatalogs();
+//        for (int i = 0; i < catalogs.size(); i++) {
+//            etmsOutlines.get(i).setCatalog("目录" +1+ i);
+//            etmsOutlines.get(i).setItemId(itemId);
+//        }
+        i2 = outlineDao.addOne(catalogs, itemId);
 
         //添加能力模型
         List<AbilityModelSubject> list = iao.getAmSubjectLists();
