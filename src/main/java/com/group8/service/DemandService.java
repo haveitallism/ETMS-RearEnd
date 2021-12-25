@@ -14,4 +14,6 @@ public interface DemandService {
     EtmsDemand findDemandByid(Integer did);
 
     List<EtmsDemand> findDemandByName(String title, Integer uid);
+
+    int deleDemandById(int demandTableId);
 }

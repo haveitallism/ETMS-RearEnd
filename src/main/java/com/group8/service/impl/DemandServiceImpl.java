@@ -31,14 +31,21 @@ public class DemandServiceImpl implements DemandService {
     public int addDemand(EtmsDemand etmsDemand) {
         return etmsDemandDao.addOne(etmsDemand);
     }
+
     //查询具体需求
     @Override
     public EtmsDemand findDemandByid(Integer did) {
         return etmsDemandDao.findByid(did);
     }
+
     //搜索需求
     @Override
     public List<EtmsDemand> findDemandByName(String title, Integer uid) {
-        return etmsDemandDao.findByName(title,uid);
+        return etmsDemandDao.findByName(title, uid);
+    }
+
+    @Override
+    public int deleDemandById(int demandTableId) {
+        return etmsDemandDao.deleDemandById(demandTableId);
     }
 }

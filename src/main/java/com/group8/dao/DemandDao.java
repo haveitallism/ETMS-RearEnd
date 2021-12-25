@@ -14,5 +14,7 @@ public interface DemandDao {
 
     EtmsDemand findByid(Integer id);
 
-    List<EtmsDemand> findByName(@Param("title") String title,@Param("uid") Integer uid);
+    List<EtmsDemand> findByName(@Param("title") String title, @Param("uid") Integer uid);
+
+    int deleDemandById(int demandTableId);
 }
