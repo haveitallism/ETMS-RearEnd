@@ -3,6 +3,8 @@ package com.group8.service;
 import com.group8.dto.AbilityModelSubject;
 import com.group8.dto.EtmsItemAbilityOutline;
 import com.group8.dto.TrainAndCatalogSchedule;
+import com.group8.dto.UseridAndItemid;
+import com.group8.dto.UserAndItemid;
 import com.group8.entity.*;
 
 import java.util.List;
@@ -34,9 +36,16 @@ public interface ItemService {
 
     int updateAbilityModel(AbilityModelSubject abilityModelSubject);
 
-    List<EtmsOutline> findItemInfo(int itemId,String catalog);
+    List<EtmsOutline> findItemInfo(int userId,int itemId,String catalog);
 
     String findClassVideo(long itemId, String catalog, String trainClassTitle);
 
     TrainAndCatalogSchedule findScheduleAndHour(int userId, int itemId);
+
+    boolean recordVideoProgress(UserAndItemid userAndItemid);
+
+    boolean DeleteItemByUid(int uid, int tid);
+
+
+    boolean updateItemSchedule(UserAndItemid userAndItemid);
 }

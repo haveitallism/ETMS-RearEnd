@@ -5,26 +5,30 @@
     <resultMap id="outlineCatalog" type="com.group8.entity.EtmsCatalog">
         <result property="catalogName" column="catalog"/>
         <collection property="classFileList" column="train_class_title" ofType="com.group8.entity.EtmsClassFile">
+            <id property="outlineId" column="outline_id"/>
             <result property="classTitle" column="train_class_title"/>
             <result property="classFile" column="train_class_file"/>
         </collection>
     </resultMap>
 
+    <select id="findCatalog" parameterType="int" resultMap="outlineCatalog">
+        select distinct catalog, train_class_title, train_class_file, outline_id from etms_outline where catalog in
+        (select distinct catalog from etms_outline where item_id = #{id})
+    </select>
+
     <insert id="addOne" >
         insert into  etms_outline(item_id,catalog,train_class_title)
         values
-        <foreach collection="outlines" item="outline" separator=",">
-            (#{outline.itemId},#{outline.catalog},#{outline.trainClassTitle})
+        <foreach collection="catalogs" item="catalog" separator=",">
+            <foreach collection="catalog.classFileList" item="classFile" separator=",">
+                (#{itemId}, #{catalog.catalogName}, #{classFile.classTitle})
+            </foreach>
         </foreach>
     </insert>
     <update id="deleteClassFile">
         update etms_outline set train_class_file = '' where outline_id = #{id}
     </update>
 
-    <select id="findCatalog" parameterType="int" resultMap="outlineCatalog">
-        select distinct catalog, train_class_title, train_class_file from etms_outline where catalog in
-        (select distinct catalog from etms_outline where item_id = #{id})
-    </select>
     <update id="uploadClassFile">
         update etms_outline set train_class_file = #{filePath} where outline_id = #{id}
     </update>

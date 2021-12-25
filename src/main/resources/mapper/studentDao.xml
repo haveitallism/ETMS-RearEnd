@@ -33,7 +33,7 @@
     </select>
 
     <select id="finApplied" resultMap="studentUserMap" parameterType="com.group8.dto.ScheduleQueryCondition">
-        select u.user_id, u.user_head_img, u.user_name, u.user_company, d.dept_id, d.dept_name, u.user_position,u.user_email, s.train_schedule
+        select s.student_id, u.user_id, u.user_head_img, u.user_name, u.user_company, d.dept_id, d.dept_name, u.user_position,u.user_email, s.train_schedule
         from etms_dept d left join etms_user u on d.dept_id = u.dept_id left join etms_item_student s on u.user_id = s.user_id where s.apply_status = '1' and s.item_id = #{itemId}
         <if test="!username.equals('')">
             and u.user_name = #{username}
@@ -45,6 +45,9 @@
 
     <select id="findByItemIdAndUserId" resultType="com.group8.entity.EtmsItemStudent">
         select * from etms_item_student where item_id = #{itemId} and user_id = #{userId}
+    </select>
+    <select id="findAllByUserId" resultType="com.group8.entity.EtmsItem">
+        select * from etms_item_student where user_id = #{userId}
     </select>
 
     <delete id="deleteById">
@@ -60,5 +63,9 @@
         <if test="stuId != 0">
             and student_id = #{stuId}
         </if>
+    </update>
+
+    <update id="updateSchedule">
+        update etms_item_student set train_schedule = #{trainSchedule} where user_id = #{userId} and item_id = #{itemId}
     </update>
 </mapper>

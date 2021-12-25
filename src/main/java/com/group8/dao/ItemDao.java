@@ -1,5 +1,7 @@
 package com.group8.dao;
 
+import com.group8.dto.NoJoinItemDto;
+import com.group8.dto.UserAndItemid;
 import com.group8.entity.EtmsCatalog;
 import com.group8.entity.EtmsClassFile;
 import com.group8.entity.EtmsItem;
@@ -31,7 +33,7 @@ public interface ItemDao {
 
     int deleteOne(int itemId);
 
-    List<EtmsOutline> findItemInfo(@Param("itemId") int itemId,@Param("catalog") String catalog);
+    List<EtmsOutline> findItemInfo(@Param("userId")int userId,@Param("itemId") int itemId,@Param("catalog") String catalog);
 
     String findClassVideo(@Param("itemId") int itemId,@Param("catalog") String catalog,@Param("trainClassTitle") String trainClassTitle);
 
@@ -49,4 +51,16 @@ public interface ItemDao {
 
     //查询培训具体的目录的总数量
     int findTrainNumByCatalog(@Param("catalog")String catalog,  @Param("itemId")int itemId);
+
+    List<EtmsItem> findAll(NoJoinItemDto noJoinItemDto);
+
+    boolean DeleteItemByUid(@Param("uid") int uid,@Param("tid") int tid);
+
+    boolean recordVideoProgress(UserAndItemid userAndItemid);
+
+    boolean addAbility(@Param("userId")int userId, @Param("itemId")int itemId);
+
+//    boolean updateItemSchedule(UserAndItemid userAndItemid);
+
+    int findItemSchedule(UserAndItemid userAndItemid);
 }

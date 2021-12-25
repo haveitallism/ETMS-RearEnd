@@ -179,9 +179,26 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public boolean DeleteCourseByUid(int uid, int cid) {
+        return courseDao.DeleteCourseByUid(uid,cid);
+    }
+
+    @Override
+    public List<EtmsCourse> findAllCourse(int id) {
+        return courseDao.findAllCourse(id);
+    }
+
+    @Override
     public int findMyElectiveSum(int uid) {
         return courseDao.findMyElectiveSum(uid);
     }
+
+    @Override
+    public EtmsCourse openCourse(int id) {
+        EtmsCourse etmsCourse = courseDao.openCourse(id);
+        return etmsCourse;
+    }
+
 
     @Override
     public List<EtmsCourse> findAllElective(int uid, EtmsCourse etmsCourse) {
@@ -199,7 +216,6 @@ public class CourseServiceImpl implements CourseService {
         List<EtmsUser> list = courseDao.findStudentByCid(id);
         return list;
     }
-
 
 }
 

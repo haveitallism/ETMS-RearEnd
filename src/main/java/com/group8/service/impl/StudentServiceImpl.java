@@ -3,14 +3,15 @@ package com.group8.service.impl;
 import com.group8.dao.StudentDao;
 import com.group8.dto.ScheduleQueryCondition;
 import com.group8.entity.EtmsItemStudent;
-import com.group8.entity.EtmsUser;
 import com.group8.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class StudentServiceImpl implements StudentService {
 
     @Autowired(required = false)
@@ -32,7 +33,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public int add(int itemId, int userId) {
+    public int add(long itemId, long userId) {
         return studentDao.add(itemId, userId);
     }
 
@@ -42,7 +43,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public EtmsItemStudent findByItemIdAndUserId(int itemId, int userId) {
+    public EtmsItemStudent findByItemIdAndUserId(long itemId, long userId) {
         return studentDao.findByItemIdAndUserId(itemId, userId);
     }
 

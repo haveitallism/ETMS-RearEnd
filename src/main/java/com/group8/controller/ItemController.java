@@ -48,6 +48,7 @@ public class ItemController {
      */
     @PostMapping("/update")
     public ResponseEntity<String> update(@RequestBody EtmsItem etmsItem){
+        System.out.println(etmsItem);
         int i = itemService.update(etmsItem);
         if (i > 0) {
             return new ResponseEntity<>(200, "修改成功");
@@ -125,12 +126,13 @@ public class ItemController {
 
     //添加培训项目 返回一个包含item outline ability 的DTO
     @RequestMapping("/addItem")
-    public ResponseEntity addItem(@RequestBody EtmsItemAbilityOutline etmsItemAbilityOutline){
+    public ResponseEntity<String> addItem(@RequestBody EtmsItemAbilityOutline etmsItemAbilityOutline){
+        System.out.println(etmsItemAbilityOutline);
         int i = itemService.addItem(etmsItemAbilityOutline);
         if (i > 0 ){
-                return  new ResponseEntity(200,"添加成功");
+                return  new ResponseEntity<>(200,"添加成功");
             }else{
-                return  new ResponseEntity(200,"添加失败");
+                return  new ResponseEntity<>(200,"添加失败");
         }
     }
 
@@ -171,9 +173,6 @@ public class ItemController {
         PageHelper.startPage(formInLine.getPage(),formInLine.getLimit());
         int id = formInLine.getId();
         List<EtmsItem> list = itemService.findAllItem(id);
-        for (EtmsItem l : list) {
-            System.out.println(l);
-        }
         PageInfo<EtmsItem> etmsItemPageInfo = new PageInfo<>(list);
         if(!list.isEmpty()){
             return new ResponseEntity(200,"查询成功",etmsItemPageInfo);
@@ -198,8 +197,8 @@ public class ItemController {
      * @return
      */
     @RequestMapping("/findCatalogInfo")
-    public ResponseEntity<List<EtmsOutline>> findOutlineInfo(@RequestBody EtmsOutline etmsOutline){
-        List<EtmsOutline> itemInfo = itemService.findItemInfo((int) etmsOutline.getItemId(),etmsOutline.getCatalog());
+    public ResponseEntity<List<EtmsOutline>> findOutlineInfo(@RequestBody UserAndItemid userAndItemid){
+        List<EtmsOutline> itemInfo = itemService.findItemInfo(userAndItemid.getUserId(),userAndItemid.getItemId(),userAndItemid.getCatalog());
         if(itemInfo != null){
             return new ResponseEntity(200,"查询成功",itemInfo);
         }else{
@@ -229,13 +228,9 @@ public class ItemController {
      */
     @PostMapping("/findScheduleAndHour")
     public ResponseEntity<TrainAndCatalogSchedule> findScheduleAndHour(@RequestBody UserAndItemid userAndItemid){
+
         System.out.println(userAndItemid);
         TrainAndCatalogSchedule scheduleAndHour = itemService.findScheduleAndHour(userAndItemid.getUserId(), userAndItemid.getItemId());
-
-        PageHelper.startPage(userAndItemid.getPage(),userAndItemid.getLimit());
-        PageInfo<CatalogSchedule> catalogSchedulePageInfo = new PageInfo<>(scheduleAndHour.getCatalogSchedules());
-
-        scheduleAndHour.setPageInfo(catalogSchedulePageInfo);
 
         if(scheduleAndHour != null){
             return new ResponseEntity(200,"查询成功",scheduleAndHour);
@@ -243,4 +238,52 @@ public class ItemController {
             return new ResponseEntity(400,"查询失败","");
         }
     }
+
+    /*
+    * 我的培训中删除学员参与的培训
+    * */
+    @RequestMapping("/DeleteItemByUid")
+    public ResponseEntity<String> DeleteItemByUid(@RequestBody UseridAndItemid useridAndItemid){
+        int uid = useridAndItemid.getUid();
+        int tid = useridAndItemid.getTid();
+        System.out.println(uid+tid);
+        boolean b = itemService.DeleteItemByUid(uid,tid);
+        if(b){
+            return new ResponseEntity<>(200,"删除成功","删除成功");
+        }else{
+            return new ResponseEntity<>(400,"删除失败","");
+        }
+    }
+
+    /**
+     * 记录视频播放时长
+     * @param userAndItemid
+     * @return
+     */
+    @RequestMapping("/recordVideoProgress")
+    public ResponseEntity<Boolean> recordVideoProgress(@RequestBody UserAndItemid userAndItemid){
+        boolean flag = itemService.recordVideoProgress(userAndItemid);
+        if(flag){
+            return new ResponseEntity(200,"记录成功",flag);
+        }else{
+            return new ResponseEntity(500,"记录失败",flag);
+        }
+    }
+
+    /**
+     * 包括视频看完就去更新总培训进度,并且为每个人增加相应的能力
+     * @param userAndItemid
+     * @return
+     */
+    @RequestMapping("/updateItemSchedule")
+    public ResponseEntity<Boolean> updateItemSchedule(@RequestBody UserAndItemid userAndItemid){
+
+        boolean flag = itemService.updateItemSchedule(userAndItemid);
+        if(flag){
+            return new ResponseEntity(200,"更新成功",flag);
+        }else{
+            return new ResponseEntity(500,"更新失败",flag);
+        }
+    }
+
 }

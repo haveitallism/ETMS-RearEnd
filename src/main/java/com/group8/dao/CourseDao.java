@@ -29,4 +29,11 @@ public interface CourseDao {
     List<EtmsCourse> findHotCourses();
 
     List<EtmsCourse> findCompanyRecommend();
+
+    //打开指定id的课程
+    EtmsCourse openCourse(int id);
+
+    List<EtmsCourse> findAllCourse(int id);
+
+    boolean DeleteCourseByUid(@Param("uid") int uid,@Param("cid") int cid);
 }

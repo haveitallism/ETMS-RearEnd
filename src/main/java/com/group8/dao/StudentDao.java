@@ -1,6 +1,7 @@
 package com.group8.dao;
 
 import com.group8.dto.ScheduleQueryCondition;
+import com.group8.entity.EtmsItem;
 import com.group8.entity.EtmsItemStudent;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,11 +14,13 @@ public interface StudentDao {
 
     int deleteById(int stuId);
 
-    int add(@Param("itemId") int itemId, @Param("userId") int userId);
+    int add(@Param("itemId") long itemId, @Param("userId") long userId);
 
     int updateApplyStatus(@Param("status") String status, @Param("stuId") int stuId);
 
-    EtmsItemStudent findByItemIdAndUserId(int itemId, int userId);
+    EtmsItemStudent findByItemIdAndUserId(@Param("itemId") long itemId, @Param("userId") long userId);
 
+    int updateSchedule(@Param("itemId") int itemId, @Param("userId")int userId, @Param("trainSchedule")int trainSchedule);
 
+    List<EtmsItem> findAllByUserId(int userId);
 }

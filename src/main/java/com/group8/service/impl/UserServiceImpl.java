@@ -1,10 +1,10 @@
 package com.group8.service.impl;
 
 import com.google.gson.Gson;
-import com.group8.dao.AbilityModelDao;
-import com.group8.dao.RoleDao;
-import com.group8.dao.UserDao;
+import com.group8.dao.*;
 import com.group8.dto.AbilityModelSubject;
+import com.group8.dto.CourseAndItem;
+import com.group8.dto.NoJoinItemDto;
 import com.group8.dto.UploadImg;
 import com.group8.entity.*;
 import com.group8.service.UserService;
@@ -22,12 +22,14 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
     @Autowired(required = false)
     UserDao userDao;
@@ -37,6 +39,13 @@ public class UserServiceImpl implements UserService {
     RedisTemplate redisTemplate;
     @Autowired(required = false)
     RoleDao roleDao;
+    @Autowired(required = false)
+    CourseDao courseDao;
+    @Autowired(required = false)
+    ItemDao itemDao;
+    @Autowired(required = false)
+    StudentDao studentDao;
+
 
     @Override
     public List<EtmsUser> findAllUser() {
@@ -49,11 +58,13 @@ public class UserServiceImpl implements UserService {
         EtmsUser user = userDao.findUserById(id);
         String userRole = user.getUserRole();
         if(userRole.equals("1")){
-            user.setUserRole("普通学员");
+            user.setUserRole("普通用户");
         }else if(userRole.equals("2")){
-            user.setUserRole("经理");
+            user.setUserRole("部门经理");
         }else if(userRole.equals("3")){
             user.setUserRole("管理员");
+        }else if(userRole.equals("4")){
+            user.setUserRole("超级管理员");
         }
         return user;
     }
@@ -263,5 +274,27 @@ public class UserServiceImpl implements UserService {
         String username = JWTUtils.getUserName(token);
         //根据用户名删除数据
         return redisTemplate.delete(username);
+    }
+
+    /**
+     * 首页展示：查找该用户所有的培训项目以及课程项目
+     * @return
+     */
+    @Override
+    public CourseAndItem findCourseAndItem(int userId) {
+
+        List<EtmsCourse> allCourse = courseDao.findAllCourse(userId);
+        List<EtmsItem> allItem = itemDao.findAllItem(userId);
+
+        CourseAndItem courseAndItem = new CourseAndItem();
+        courseAndItem.setEtmsCourseList(allCourse);
+        courseAndItem.setEtmsItemList(allItem);
+        return courseAndItem;
+    }
+
+    @Override
+    public List<EtmsItem> findNoJoinItem(NoJoinItemDto noJoinItemDto) {
+        //查询所有的项目
+        return itemDao.findAll(noJoinItemDto);
     }
 }

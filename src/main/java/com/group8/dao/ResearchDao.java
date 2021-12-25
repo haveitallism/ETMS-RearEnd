@@ -6,6 +6,6 @@ package com.group8.dao;
  * author: shesaifei <br>
  * version: 1.0 <br>
  */
-public class ResearchDao {
+public interface ResearchDao {
 
 }

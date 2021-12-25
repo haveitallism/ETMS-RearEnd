@@ -5,24 +5,24 @@ import com.group8.dao.OutlineDao;
 import com.group8.dto.UploadFile;
 import com.group8.entity.EtmsCatalog;
 import com.group8.service.OutlineService;
-import com.group8.utils.QiniuUtil;
 import com.group8.utils.FileUtils;
-import com.qiniu.common.QiniuException;
+import com.group8.utils.QiniuUtil;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
-import it.sauronsoftware.jave.EncoderException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 @Service
+@Transactional
 public class OutlineServiceImpl implements OutlineService {
 
     @Autowired(required = false)
@@ -70,7 +70,7 @@ public class OutlineServiceImpl implements OutlineService {
             File file = FileUtils.multipartFileToFile(uploadFile.getFile());
             System.out.println(file.getName());
             //计算视频时长
-            long trainHour = FileUtils.getDuration(file);
+            long trainHour = FileUtils.getVideoDuration(file);
             flag = outlineDao.uploadFile(responseUrl,uploadFile.getId(),trainHour);
             //删除我们用于计算时间生成的临时File
             FileUtils.delteTempFile(file);
