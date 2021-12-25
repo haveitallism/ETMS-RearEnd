@@ -7,7 +7,6 @@ import com.group8.entity.*;
 import com.group8.service.StudentService;
 import com.group8.service.UserService;
 import com.group8.utils.QiniuUtil;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
