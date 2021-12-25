@@ -10,14 +10,16 @@ import java.util.List;
 
 @Service
 public class DemandServiceImpl implements DemandService {
-    @Autowired
+    @Autowired(required = false)
     DemandDao etmsDemandDao;
     //查找所有的需求
+
+
     @Override
-    public List<EtmsDemand> findAllDemand() {
-        List<EtmsDemand> etmsDemandList = etmsDemandDao.findAll();
-        return etmsDemandList;
+    public List<EtmsDemand> findAllDemand(EtmsDemand etmsDemand) {
+        return etmsDemandDao.findAll(etmsDemand);
     }
+
     //查找个人发布的需求
     @Override
     public List<EtmsDemand> findMyDemand(int uid) {
