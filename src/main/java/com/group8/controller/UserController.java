@@ -2,13 +2,9 @@ package com.group8.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.group8.dto.CourseAndItem;
-import com.group8.dto.StudentFindByPage;
-import com.group8.dto.UpdatePass;
-import com.group8.dto.UploadImg;
-import com.group8.entity.EtmsAbilityModel;
-import com.group8.entity.EtmsUser;
-import com.group8.entity.ResponseEntity;
+import com.group8.dto.*;
+import com.group8.entity.*;
+import com.group8.service.StudentService;
 import com.group8.service.UserService;
 import com.group8.utils.QiniuUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +27,9 @@ public class UserController {
 
     @Autowired
     private QiniuUtil qiniuUtil;
+
+    @Autowired
+    StudentService studentService;
 
     /**
      * 仅登录获取token
@@ -76,7 +75,6 @@ public class UserController {
     public ResponseEntity<List<EtmsUser>> findAllUser(){
         List<EtmsUser> allUser = userService.findAllUser();
         ResponseEntity<List<EtmsUser>> entity;
-        System.out.println(allUser);
         if(allUser != null){
             entity = new ResponseEntity<>(200,"查询成功！", allUser);
         }else{
@@ -280,5 +278,36 @@ public class UserController {
         CourseAndItem courseAndItems = userService.findCourseAndItem(userId);
         System.out.println(courseAndItems);
         return new ResponseEntity<CourseAndItem>(200,"查询该用户课程和培训项目成功！",courseAndItems);
+    }
+
+    /**
+     * 根据条件查询所有的项目
+     * @param noJoinItemDto
+     * @return
+     */
+    @RequestMapping("/findNoJoinItem")
+    public ResponseEntity<PageInfo<EtmsItem>> findNoJoinItem(@RequestBody NoJoinItemDto noJoinItemDto){
+        PageHelper.startPage(noJoinItemDto.getPage(),noJoinItemDto.getLimit());
+        List<EtmsItem> itemList = userService.findNoJoinItem(noJoinItemDto);
+        PageInfo<EtmsItem> itemPageInfo = new PageInfo<>(itemList);
+        return new ResponseEntity<>(200,"查询成功！",itemPageInfo);
+    }
+
+    @RequestMapping("/applyItem")
+    public ResponseEntity<String> applyItem(@RequestBody EtmsItemStudent etmsItemStudent){
+        //新增前需要判断记录是否存在
+        EtmsItemStudent student = studentService.findByItemIdAndUserId(etmsItemStudent.getItemId(), etmsItemStudent.getUserId());
+        if(student == null){
+            //学员不存在  可以报名
+            int i = studentService.add(etmsItemStudent.getItemId(), etmsItemStudent.getUserId());
+            if (i > 0) {
+                return new ResponseEntity<>(200, "报名成功");
+            }else {
+                return new ResponseEntity<>(500, "报名失败");
+            }
+        }else{
+            //学员已存在  不能报名
+            return new ResponseEntity<>(200, "你已经报名了");
+        }
     }
 }

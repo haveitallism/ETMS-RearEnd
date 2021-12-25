@@ -4,10 +4,6 @@ import com.group8.dao.AbilityModelDao;
 import com.group8.dao.ItemDao;
 import com.group8.dao.OutlineDao;
 import com.group8.dao.StudentDao;
-import com.group8.dto.AbilityModelSubject;
-import com.group8.dto.CatalogSchedule;
-import com.group8.dto.EtmsItemAbilityOutline;
-import com.group8.dto.TrainAndCatalogSchedule;
 import com.group8.dto.*;
 import com.group8.entity.*;
 import com.group8.service.ItemService;
@@ -15,7 +11,6 @@ import com.group8.utils.TidyAbilityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -238,6 +233,11 @@ public class ItemServiceImpl implements ItemService {
     public boolean recordVideoProgress(UserAndItemid userAndItemid) {
         boolean flag = itemDao.recordVideoProgress(userAndItemid);
         return flag;
+    }
+
+    @Override
+    public boolean DeleteItemByUid(int uid, int tid) {
+        return itemDao.DeleteItemByUid(uid,tid);
     }
 
     /**

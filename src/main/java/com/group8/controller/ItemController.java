@@ -170,11 +170,9 @@ public class ItemController {
      * */
     @PostMapping("/findAllItem")
     public ResponseEntity<List<EtmsItem>> findAllItem(@RequestBody FormInLine formInLine){
-        System.out.println(formInLine);
         PageHelper.startPage(formInLine.getPage(),formInLine.getLimit());
         int id = formInLine.getId();
         List<EtmsItem> list = itemService.findAllItem(id);
-        System.out.println(list);
         PageInfo<EtmsItem> etmsItemPageInfo = new PageInfo<>(list);
         if(!list.isEmpty()){
             return new ResponseEntity(200,"查询成功",etmsItemPageInfo);
@@ -241,6 +239,22 @@ public class ItemController {
         }
     }
 
+    /*
+    * 我的培训中删除学员参与的培训
+    * */
+    @RequestMapping("/DeleteItemByUid")
+    public ResponseEntity<String> DeleteItemByUid(@RequestBody UseridAndItemid useridAndItemid){
+        int uid = useridAndItemid.getUid();
+        int tid = useridAndItemid.getTid();
+        System.out.println(uid+tid);
+        boolean b = itemService.DeleteItemByUid(uid,tid);
+        if(b){
+            return new ResponseEntity<>(200,"删除成功","删除成功");
+        }else{
+            return new ResponseEntity<>(400,"删除失败","");
+        }
+    }
+
     /**
      * 记录视频播放时长
      * @param userAndItemid
@@ -271,4 +285,5 @@ public class ItemController {
             return new ResponseEntity(500,"更新失败",flag);
         }
     }
+
 }
