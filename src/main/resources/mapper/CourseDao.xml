@@ -94,4 +94,8 @@
     <select id="findAllCourse" resultType="com.group8.entity.EtmsCourse">
         select c.* from etms_course c,etms_user_course uc where uc.user_id = #{id} and uc.course_id = c.course_id order by c.course_id desc
     </select>
+
+    <delete id="DeleteCourseByUid">
+        delete from etms_user_course where user_id = #{uid} and course_id = #{cid}
+    </delete>
 </mapper>

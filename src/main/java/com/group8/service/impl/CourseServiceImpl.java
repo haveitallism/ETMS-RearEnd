@@ -179,6 +179,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public boolean DeleteCourseByUid(int uid, int cid) {
+        return courseDao.DeleteCourseByUid(uid,cid);
+    }
+
+    @Override
     public List<EtmsCourse> findAllCourse(int id) {
         return courseDao.findAllCourse(id);
     }

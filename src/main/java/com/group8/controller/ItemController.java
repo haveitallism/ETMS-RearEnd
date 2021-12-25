@@ -238,4 +238,35 @@ public class ItemController {
             return new ResponseEntity(400,"查询失败","");
         }
     }
+
+    /*
+    * 我的培训中删除学员参与的培训
+    * */
+    @RequestMapping("/DeleteItemByUid")
+    public ResponseEntity<String> DeleteItemByUid(@RequestBody UseridAndItemid useridAndItemid){
+        int uid = useridAndItemid.getUid();
+        int tid = useridAndItemid.getTid();
+        System.out.println(uid+tid);
+        boolean b = itemService.DeleteItemByUid(uid,tid);
+        if(b){
+            return new ResponseEntity<>(200,"删除成功","删除成功");
+        }else{
+            return new ResponseEntity<>(400,"删除失败","");
+        }
+    }
+
+    /**
+     * 记录视频播放时长
+     * @param userAndItemid
+     * @return
+     */
+    @RequestMapping("/recordVideoProgress")
+    public ResponseEntity<Boolean> recordVideoProgress(@RequestBody UserAndItemid userAndItemid){
+        boolean flag = itemService.recordVideoProgress(userAndItemid);
+        if(flag){
+            return new ResponseEntity(200,"记录成功",flag);
+        }else{
+            return new ResponseEntity(500,"记录失败",flag);
+        }
+    }
 }
