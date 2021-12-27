@@ -39,6 +39,13 @@ class EtmsRearEndApplicationTests {
     }
 
     @Test
+    void test10() {
+//        EtmsDemand etmsDemand = new EtmsDemand();
+//        etmsDemand.setDemandTableId(1);
+        demandDao.deleDemandById(1);
+    }
+
+    @Test
     void test22() {
 //        EtmsDept etmsDept = new EtmsDept();
 //        etmsDept.setDeptId(1);

@@ -1,5 +1,6 @@
 package com.group8.service.impl;
 
+import com.group8.dao.DemandDao;
 import com.group8.dao.ResachAnwerDao;
 import com.group8.dao.ResearchTopicDao;
 import com.group8.dto.AnwersDto;
@@ -24,6 +25,8 @@ public class ResachAnwerServiceImpl implements ResachAnwerService {
 
     @Autowired(required = false)
     ResearchTopicDao researchTopicDao;
+    @Autowired(required = false)
+    DemandDao demandDao;
 
     @Override
     public List<EtmsResachAnwer> findALL() {
@@ -38,10 +41,13 @@ public class ResachAnwerServiceImpl implements ResachAnwerService {
     @Override
     public Integer addEtmsResachAnwerOne(AnwersDto anwersDto) {
         for (EtmsResachTopic topic : anwersDto.getTopics()) {
+            System.out.println(topic);
             researchTopicDao.EtmsResachTopicaddOne(topic);
             Integer topicId = topic.getTopicId();
+            System.out.println("DemandTableId=" + topic.getDemandTableId());
             etmsResachAnwerDao.addEtmsResachAnwerOne(topic.getEtmsResachAnwers(), topicId);
         }
+
         return 1;
     }
 }

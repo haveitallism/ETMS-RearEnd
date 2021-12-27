@@ -7,10 +7,7 @@ import com.group8.entity.EtmsDemand;
 import com.group8.entity.ResponseEntity;
 import com.group8.service.DemandService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,17 +32,6 @@ public class DemandController {
     }
 
 
-//    @RequestMapping("/findAllDemand")
-//    public ResponseEntity<EtmsDemand> findAllDemand(){
-//        List<EtmsDemand> etmsDemandList = etmsDemandService.findAllDemand();
-//        if(etmsDemandList!=null){
-//            return  new ResponseEntity(200,"查询成功",etmsDemandList);
-//        }else {
-//            return  new ResponseEntity(500,"系统维护中");
-//        }
-//
-//    }
-
 
     //查找个人发布的需求
     @RequestMapping("/findMyDemand/{uid}")
@@ -56,28 +42,40 @@ public class DemandController {
     }
 
     //查询具体发布需求
-    @RequestMapping ("/findDemandById/{did}")
-    public ResponseEntity findDemandByid(@PathVariable Integer did){
-        EtmsDemand etmsDemand = etmsDemandService.findDemandByid(did);
-        return  new ResponseEntity(200,"查询成功",etmsDemand);
+    @RequestMapping("/findDemandById/{demandTableId}")
+    public ResponseEntity findDemandByid(@PathVariable int demandTableId) {
+        EtmsDemand etmsDemand = etmsDemandService.findDemandByid(demandTableId);
+        System.out.println(etmsDemand);
+        return new ResponseEntity(200, "查询成功", etmsDemand);
     }
+
     //搜索发布需求
-    @RequestMapping ("/findDemandByName")
-    public ResponseEntity findDemandByName(@RequestBody EtmsDemand etmsDemand){
+    @RequestMapping("/findDemandByName")
+    public ResponseEntity findDemandByName(@RequestBody EtmsDemand etmsDemand) {
 
         List<EtmsDemand> etmsDemandlist = etmsDemandService.findDemandByName(etmsDemand.getDemandTitle(), etmsDemand.getUserId());
-        return  new ResponseEntity(200,"查询成功",etmsDemandlist);
+        return new ResponseEntity(200, "查询成功", etmsDemandlist);
     }
+
     //新增需求发布
     @RequestMapping("/addDemand")
-    public ResponseEntity addDemand(@RequestBody EtmsDemand etmsDemand ){
+    public ResponseEntity addDemand(@RequestBody EtmsDemand etmsDemand) {
         int i = etmsDemandService.addDemand(etmsDemand);
-        if(i == 1){
-            return  new ResponseEntity(200,"查询成功",i);
+        if (i == 1) {
+            return new ResponseEntity(200, "查询成功", i);
         } else {
-            return  new ResponseEntity(401,"查询失败",i);
+            return new ResponseEntity(401, "查询失败", i);
         }
     }
 
-
+    //根据id删除一个需求
+    @DeleteMapping("/deleteDemandByid/{demandTableId}")
+    public ResponseEntity<EtmsDemand> deleteDemandByid(@PathVariable int demandTableId) {
+        int i = etmsDemandService.deleDemandById(demandTableId);
+        if (i > 0) {
+            return new ResponseEntity(200, "删除成功", i);
+        } else {
+            return new ResponseEntity(200, "删除成功", i);
+        }
+    }
 }

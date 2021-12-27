@@ -30,8 +30,8 @@
 
     <!--    新增一道题目-->
     <insert id="EtmsResachTopicaddOne" useGeneratedKeys="true" keyProperty="topicId">
-        INSERT INTO etms_reseach_topic(topic_id, topic_name)
-        VALUES (NULL, #{topicName})
+        INSERT INTO etms_reseach_topic(topic_id, topic_name, demand_table_id)
+        VALUES (NULL, #{topicName}, #{demandTableId})
     </insert>
 
 
