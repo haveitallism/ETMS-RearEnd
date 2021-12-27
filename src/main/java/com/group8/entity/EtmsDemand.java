@@ -5,13 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EtmsDemand {
+public class EtmsDemand extends EtmsResachTopic {
 
-  private int demandTableId;
+  private Integer demandTableId;
   private String demandTitle;
   private String demandInstructions;
   private Date startTime;
@@ -28,4 +29,5 @@ public class EtmsDemand {
   private String updatedBy;
   private Date updatedTime;
   private EtmsDemandResearch etmsDemandResearch;
+  private List<EtmsResachTopic> etmsResachTopics;
 }

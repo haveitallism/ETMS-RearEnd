@@ -42,17 +42,19 @@ public class DemandController {
     }
 
     //查询具体发布需求
-    @RequestMapping ("/findDemandById/{did}")
-    public ResponseEntity findDemandByid(@PathVariable Integer did){
-        EtmsDemand etmsDemand = etmsDemandService.findDemandByid(did);
-        return  new ResponseEntity(200,"查询成功",etmsDemand);
+    @RequestMapping("/findDemandById/{demandTableId}")
+    public ResponseEntity findDemandByid(@PathVariable int demandTableId) {
+        EtmsDemand etmsDemand = etmsDemandService.findDemandByid(demandTableId);
+        System.out.println(etmsDemand);
+        return new ResponseEntity(200, "查询成功", etmsDemand);
     }
+
     //搜索发布需求
-    @RequestMapping ("/findDemandByName")
-    public ResponseEntity findDemandByName(@RequestBody EtmsDemand etmsDemand){
+    @RequestMapping("/findDemandByName")
+    public ResponseEntity findDemandByName(@RequestBody EtmsDemand etmsDemand) {
 
         List<EtmsDemand> etmsDemandlist = etmsDemandService.findDemandByName(etmsDemand.getDemandTitle(), etmsDemand.getUserId());
-        return  new ResponseEntity(200,"查询成功",etmsDemandlist);
+        return new ResponseEntity(200, "查询成功", etmsDemandlist);
     }
 
     //新增需求发布

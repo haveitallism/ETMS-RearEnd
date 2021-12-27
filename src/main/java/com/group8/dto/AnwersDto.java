@@ -1,5 +1,6 @@
 package com.group8.dto;
 
+import com.group8.entity.EtmsDemand;
 import com.group8.entity.EtmsResachTopic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,5 +20,5 @@ import java.util.List;
 public class AnwersDto {
     //private List<ceshiDto> answers;
     private List<EtmsResachTopic> topics;
-//    private String topic;
+    private List<EtmsDemand> etmsDemands;
 }
