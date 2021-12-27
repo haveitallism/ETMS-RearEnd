@@ -12,6 +12,7 @@ import com.group8.entity.ResponseEntity;
 import com.group8.service.PlanService;
 import com.group8.utils.UploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,7 +83,8 @@ public class PlanController {
      */
     @RequestMapping("/addPlan")
     public ResponseEntity<EtmsPlan> addPlan(@RequestBody PlanDto planDto){
-        System.out.println(planDto);
+
+        System.out.println(planDto.getApproveRecords().get(0).getApproveEndtime());
         int i =  planService.addPlan(planDto);
         if(i >= 3){
             return new ResponseEntity(200,"新增成功",i);

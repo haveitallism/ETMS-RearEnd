@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 @Service
 @Transactional
@@ -36,6 +38,11 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public int addPlan(PlanDto planDto) {
         EtmsPlan etmsPlan = planDto.getEtmsPlan();
+//        SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间
+//        sdf.applyPattern("yyyy-MM-dd'T'HH:mm:ss");// a为am/pm的标记
+        Date date = new Date();// 获取当前时间
+        //String data=sdf.format(date);
+        etmsPlan.setPlanStarttime(date);
         int i1 = planDao.addPlan(etmsPlan);
         long planId = etmsPlan.getPlanId();
 

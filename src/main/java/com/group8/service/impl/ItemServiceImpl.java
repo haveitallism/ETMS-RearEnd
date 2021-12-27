@@ -90,6 +90,13 @@ public class ItemServiceImpl implements ItemService {
 
         //添加能力模型
         List<AbilityModelSubject> list = iao.getAmSubjectLists();
+        //添加3个父级目录
+        AbilityModelSubject ams1 = new AbilityModelSubject("item",itemId,1,0);
+        AbilityModelSubject ams2 = new AbilityModelSubject("item",itemId,6,0);
+        AbilityModelSubject ams3 = new AbilityModelSubject("item",itemId,11,0);
+        list.add(ams1);
+        list.add(ams2);
+        list.add(ams3);
         for (AbilityModelSubject ability:list
              ) {
             ability.setSubjectId(itemId);
@@ -209,7 +216,10 @@ public class ItemServiceImpl implements ItemService {
 
         //计算培训项目完成的进度
         int count = itemDao.findTrainSchedele(userId,itemId);
-        int trainSchedule = ((count*100)/outlines.size());
+        int trainSchedule = 0;
+        if(outlines.size() != 0){
+            trainSchedule = ((count*100)/outlines.size());
+        }
         schedule.setItemSchedule(trainSchedule);
 
         studentDao.updateSchedule(itemId,userId,trainSchedule);
