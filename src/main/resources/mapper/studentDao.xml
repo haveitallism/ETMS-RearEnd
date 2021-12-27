@@ -57,6 +57,12 @@
     <insert id="add">
         insert into etms_item_student values(null, #{userId}, #{itemId}, 0, 0, null, null, null, null, null, null)
     </insert>
+    <insert id="addStuSchedele">
+        insert into etms_outline_schedele values
+        <foreach collection="outlineList" item="outline" separator=",">
+            (null, #{userId}, #{itemId}, #{outline.outlineId}, 0, 0)
+        </foreach>
+    </insert>
 
     <update id="updateApplyStatus">
         update etms_item_student set apply_status = #{status} where apply_status = '0'

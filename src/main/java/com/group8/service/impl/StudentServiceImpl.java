@@ -1,8 +1,10 @@
 package com.group8.service.impl;
 
+import com.group8.dao.OutlineDao;
 import com.group8.dao.StudentDao;
 import com.group8.dto.ScheduleQueryCondition;
 import com.group8.entity.EtmsItemStudent;
+import com.group8.entity.EtmsOutline;
 import com.group8.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired(required = false)
     StudentDao studentDao;
+    @Autowired(required = false)
+    OutlineDao outlineDao;
+
 
     @Override
     public List<EtmsItemStudent> findAll(int id) {
@@ -34,6 +39,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public int add(long itemId, long userId) {
+        List<EtmsOutline> outlineList = outlineDao.findAll(itemId);
+        studentDao.addStuSchedele(userId, itemId, outlineList);
         return studentDao.add(itemId, userId);
     }
 

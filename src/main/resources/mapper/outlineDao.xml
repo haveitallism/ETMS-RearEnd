@@ -15,6 +15,9 @@
         select distinct catalog, train_class_title, train_class_file, outline_id from etms_outline where catalog in
         (select distinct catalog from etms_outline where item_id = #{id})
     </select>
+    <select id="findAll" resultType="com.group8.entity.EtmsOutline">
+        select * from etms_outline where item_id = #{itemId}
+    </select>
 
     <insert id="addOne" >
         insert into  etms_outline(item_id,catalog,train_class_title)
