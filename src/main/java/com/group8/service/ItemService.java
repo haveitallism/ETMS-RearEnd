@@ -3,6 +3,7 @@ package com.group8.service;
 import com.group8.dto.AbilityModelSubject;
 import com.group8.dto.EtmsItemAbilityOutline;
 import com.group8.dto.TrainAndCatalogSchedule;
+import com.group8.dto.UseridAndItemid;
 import com.group8.dto.UserAndItemid;
 import com.group8.entity.*;
 
@@ -42,4 +43,9 @@ public interface ItemService {
     TrainAndCatalogSchedule findScheduleAndHour(int userId, int itemId);
 
     boolean recordVideoProgress(UserAndItemid userAndItemid);
+
+    boolean DeleteItemByUid(int uid, int tid);
+
+
+    boolean updateItemSchedule(UserAndItemid userAndItemid);
 }

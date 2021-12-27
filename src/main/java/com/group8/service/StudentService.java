@@ -12,9 +12,9 @@ public interface StudentService {
 
     int deleteById(int stuId);
 
-    int add(int itemId, int userId);
+    int add(long itemId, long userId);
 
     int updateApplyStatus(String status, int stuId);
 
-    EtmsItemStudent findByItemIdAndUserId(int itemId, int userId);
+    EtmsItemStudent findByItemIdAndUserId(long itemId, long userId);
 }

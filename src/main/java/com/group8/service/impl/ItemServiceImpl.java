@@ -4,10 +4,6 @@ import com.group8.dao.AbilityModelDao;
 import com.group8.dao.ItemDao;
 import com.group8.dao.OutlineDao;
 import com.group8.dao.StudentDao;
-import com.group8.dto.AbilityModelSubject;
-import com.group8.dto.CatalogSchedule;
-import com.group8.dto.EtmsItemAbilityOutline;
-import com.group8.dto.TrainAndCatalogSchedule;
 import com.group8.dto.*;
 import com.group8.entity.*;
 import com.group8.service.ItemService;
@@ -15,7 +11,6 @@ import com.group8.utils.TidyAbilityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -237,6 +232,39 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public boolean recordVideoProgress(UserAndItemid userAndItemid) {
         boolean flag = itemDao.recordVideoProgress(userAndItemid);
+        return flag;
+    }
+
+    @Override
+    public boolean DeleteItemByUid(int uid, int tid) {
+        return itemDao.DeleteItemByUid(uid,tid);
+    }
+
+    /**
+     * 当一个培训视频放完的时候去更新培训的总进度，以及为这个人加上对应的能力分数
+     * @param userAndItemid
+     * @return
+     */
+    @Override
+    public boolean updateItemSchedule(UserAndItemid userAndItemid) {
+
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        int itemSchedule = itemDao.findItemSchedule(userAndItemid);
+//        boolean flag = itemDao.updateItemSchedule(userAndItemid);
+        int i = studentDao.updateSchedule(userAndItemid.getItemId(), userAndItemid.getUserId(), itemSchedule);
+
+        boolean flag = false;
+        if(i > 0){
+            flag = true;
+        }
+        if(itemSchedule == 100){
+            boolean flag1 = itemDao.addAbility(userAndItemid.getUserId(), userAndItemid.getItemId());
+            System.out.println(flag1);
+        }
         return flag;
     }
 }

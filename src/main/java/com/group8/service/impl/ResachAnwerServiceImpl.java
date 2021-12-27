@@ -9,6 +9,7 @@ import com.group8.entity.EtmsResachTopic;
 import com.group8.service.ResachAnwerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ import java.util.List;
  * version: 1.0 <br>
  */
 @Service
+@Transactional
 public class ResachAnwerServiceImpl implements ResachAnwerService {
     @Autowired(required = false)
     ResachAnwerDao etmsResachAnwerDao;
