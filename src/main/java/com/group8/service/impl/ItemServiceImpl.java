@@ -90,6 +90,13 @@ public class ItemServiceImpl implements ItemService {
 
         //添加能力模型
         List<AbilityModelSubject> list = iao.getAmSubjectLists();
+        //添加3个父级目录
+        AbilityModelSubject ams1 = new AbilityModelSubject("item",itemId,1,0);
+        AbilityModelSubject ams2 = new AbilityModelSubject("item",itemId,6,0);
+        AbilityModelSubject ams3 = new AbilityModelSubject("item",itemId,11,0);
+        list.add(ams1);
+        list.add(ams2);
+        list.add(ams3);
         for (AbilityModelSubject ability:list
              ) {
             ability.setSubjectId(itemId);

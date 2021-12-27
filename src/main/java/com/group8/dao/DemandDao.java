@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface DemandDao {
-    List<EtmsDemand> findAll();
+    List<EtmsDemand> findAll(@Param("etmsDemand") EtmsDemand etmsDemand);
 
     List<EtmsDemand> findByuid(int uid);
 
@@ -14,5 +14,7 @@ public interface DemandDao {
 
     EtmsDemand findByid(Integer id);
 
-    List<EtmsDemand> findByName(@Param("title") String title,@Param("uid") Integer uid);
+    List<EtmsDemand> findByName(@Param("title") String title, @Param("uid") Integer uid);
+
+    int deleDemandById(int demandTableId);
 }

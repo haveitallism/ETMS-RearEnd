@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddPlan {
+public class PlanDto {
     private EtmsPlan etmsPlan;
     private List<EtmsPlanBudget> budgets;
     private List<EtmsApproveRecord> approveRecords;

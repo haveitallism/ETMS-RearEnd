@@ -1,6 +1,7 @@
 package com.group8.service;
 
-import com.group8.dto.AddPlan;
+import com.group8.dto.PlanApprove;
+import com.group8.dto.PlanDto;
 import com.group8.entity.EtmsApproveRecord;
 import com.group8.entity.EtmsPlan;
 import com.group8.entity.EtmsUser;
@@ -15,15 +16,19 @@ public interface PlanService {
 
     List<EtmsPlan> findBySelect(EtmsPlan etmsPlan);
 
-    int addPlan(AddPlan addPlan);
+    int addPlan(PlanDto planDto);
 
     List<EtmsPlan> findPlanSchedule(EtmsPlan etmsPlan);
 
-    List<EtmsPlan> findMyApprove(Integer uid);
+    List<EtmsPlan> findMyApprove(PlanApprove planApprove);
 
-    List<EtmsPlan> findMyApproved(Integer uid);
+    List<EtmsPlan> findMyApproved(PlanApprove planApprove);
 
     EtmsPlan findPlanById(Integer pid);
 
     List<EtmsUser> findUser(List<EtmsApproveRecord> etmsApproveRecordList);
+
+    int updateApprovePass(Integer pid);
+
+    int updateApproveNopass(Integer pid);
 }

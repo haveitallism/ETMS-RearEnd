@@ -3,6 +3,49 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.group8.dao.DeptDao">
     <select id="findAll" resultType="com.group8.entity.EtmsDept">
-        select * from etms_dept
+        select *
+        from etms_dept
+    </select>
+
+
+    <select id="selectEtmsDeptById" resultMap="depMapper">
+        SELECT *
+        FROM etms_dept et,
+             etms_demand ed
+        WHERE et.dept_id = ed.demand_dept
+          AND et.dept_id = #{deptId}
+    </select>
+
+    <resultMap id="depMapper" type="com.group8.entity.EtmsDept">
+        <id column="dept_id" property="deptId"/>
+        <result column="dept_name" property="deptName"/>
+        <collection property="etmsDemands" ofType="com.group8.entity.EtmsDemand">
+            <id column="demand_table_id" property="demandTableId"/>
+            <result column="demand_title" property="demandTitle"/>
+            <result column="demand_instructions" property="demandInstructions"/>
+            <result column="end_time" property="endTime"/>
+            <result column="demand_dept" property="demandDept"/>
+            <result column="people_number" property="peopleNumber"/>
+            <result column="training_methods" property="trainingMethods"/>
+            <result column="demand_reason" property="demandReason"/>
+            <result column="other_requirements" property="otherRequirements"/>
+        </collection>
+    </resultMap>
+    <select id="findAlls" resultType="com.group8.entity.EtmsDept">
+        SELECT * FROM etms_dept et, etms_demand ed
+        <where>
+            <if test="etmsDept.deptId!=null and etmsDept.deptId!=''">
+                and et.dept_id=#{etmsDept.deptId}
+            </if>
+            <if test="etmsDept.deptName!=null and etmsDept.deptName!=''">
+                and et.dept_name=#{etmsDept.deptName}
+            </if>
+            <!--            <if test="demandTableId!=null and demandTableId!=''">-->
+            <!--                and ed.demand_table_id=#{demand_table_id}-->
+            <!--            </if>-->
+            <!--            <if test="demandTitle!=null and demandTitle!=''">-->
+            <!--               and ed.demand_title=#{demandTitle}-->
+            <!--            </if>-->
+        </where>
     </select>
 </mapper>

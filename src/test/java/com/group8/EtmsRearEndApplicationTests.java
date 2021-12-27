@@ -1,10 +1,13 @@
 package com.group8;
 
 import com.group8.dao.DemandDao;
+import com.group8.dao.DeptDao;
 import com.group8.dao.ResachAnwerDao;
 import com.group8.dao.ResearchTopicDao;
 import com.group8.entity.EtmsDemand;
+import com.group8.entity.EtmsDept;
 import com.group8.entity.EtmsResachTopic;
+import com.group8.service.DemandService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +24,10 @@ class EtmsRearEndApplicationTests {
     ResachAnwerDao resachAnwerDao;
     @Autowired
     DemandDao demandDao;
+    @Autowired
+    DemandService demandService;
+    @Autowired
+    DeptDao deptDao;
 
     @Test
     void contextLoads() {
@@ -32,9 +39,36 @@ class EtmsRearEndApplicationTests {
     }
 
     @Test
+    void test10() {
+//        EtmsDemand etmsDemand = new EtmsDemand();
+//        etmsDemand.setDemandTableId(1);
+        demandDao.deleDemandById(1);
+    }
+
+    @Test
+    void test22() {
+//        EtmsDept etmsDept = new EtmsDept();
+//        etmsDept.setDeptId(1);
+        //System.out.println(deptDao.selectEtmsDeptById(1));
+        EtmsDept etmsDept = new EtmsDept();
+        etmsDept.setDeptId(1);
+        etmsDept.getEtmsDemands();
+        System.out.println(deptDao.findAlls(etmsDept));
+    }
+
+    @Test
     void contextLoads1() {
         EtmsDemand byid = demandDao.findByid(1);
         System.out.println(byid);
+    }
+
+    @Test
+    void contextLoads2() {
+        EtmsDemand etmsDemand = new EtmsDemand();
+        etmsDemand.setDemandDept(1);
+        etmsDemand.setDemandTitle("ui啊撒骨灰对哇给我");
+        List<EtmsDemand> all = demandService.findAllDemand(etmsDemand);
+        System.out.println(all);
     }
 
     @Test

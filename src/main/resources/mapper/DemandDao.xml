@@ -2,9 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.group8.dao.DemandDao">
+    <delete id="deleDemandById">
+        delete
+        from etms_demand
+        where demand_table_id = #{demandTableId}
+    </delete>
     <!--  查询所有发布的需求   -->
     <select id="findAll" resultType="com.group8.entity.EtmsDemand">
-        select * from etms_demand order by demand_table_id desc
+        select * from etms_demand
+        <where>
+            <if test="etmsDemand.demandTitle!=null and etmsDemand.demandTitle!=''">
+                and demand_title like '%' #{etmsDemand.demandTitle} '%'
+            </if>
+
+            <if test="etmsDemand.demandInstructions!=null and etmsDemand.demandInstructions!=''">
+                and demand_instructions like '%' #{etmsDemand.demandInstructions} '%'
+            </if>
+            <if test="etmsDemand.userId!=null and etmsDemand.userId!=''">
+                and user_id like concat('%', #{etmsDemand.userId} ,'%')
+            </if>
+            <if test="etmsDemand.endTime!=null and etmsDemand.endTime!=''">
+                and end_time like concat('%', #{etmsDemand.endTime}, '%')
+            </if>
+            <if test="etmsDemand.demandDept!=null and etmsDemand.demandDept!=''">
+                and demand_dept like concat('%', #{etmsDemand.demandDept}, '%')
+            </if>
+        </where>
+        order by demand_table_id desc
     </select>
 
     <resultMap id="demand"   type="com.group8.entity.EtmsDemand">
