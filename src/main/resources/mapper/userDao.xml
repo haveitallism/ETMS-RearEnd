@@ -34,7 +34,7 @@
     <update id="updateUser" parameterType="com.group8.entity.EtmsUser">
         update etms_user set user_name = #{userName},
         dept_id = #{deptId},user_position = #{userPosition},user_telephone = #{userTelephone},
-        user_email = #{userEmail},user_manager = #{userManager},user_role = #{userRole},
+        user_email = #{userEmail},user_manager = #{userManager},
         user_company = #{userCompany},updated_by = #{updatedBy},
         updated_time = #{updatedTime} where user_id = #{userId}
     </update>

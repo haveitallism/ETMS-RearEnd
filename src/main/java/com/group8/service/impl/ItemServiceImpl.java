@@ -209,7 +209,10 @@ public class ItemServiceImpl implements ItemService {
 
         //计算培训项目完成的进度
         int count = itemDao.findTrainSchedele(userId,itemId);
-        int trainSchedule = ((count*100)/outlines.size());
+        int trainSchedule = 0;
+        if(outlines.size() != 0){
+            trainSchedule = ((count*100)/outlines.size());
+        }
         schedule.setItemSchedule(trainSchedule);
 
         studentDao.updateSchedule(itemId,userId,trainSchedule);
